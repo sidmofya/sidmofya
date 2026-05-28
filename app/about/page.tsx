@@ -16,15 +16,9 @@ const otherWork = [
     external: true,
   },
   {
-    title: "Sovereign Tea",
-    copy: "Writing on capital, culture, AI, Africa, and the maps that are wrong.",
-    href: "https://sovereigntea.substack.com",
-    external: true,
-  },
-  {
-    title: "54 Worlds / Music",
-    copy: "Creative worlds, songs, and experiments in story, sound, and participation.",
-    href: "https://54caravan.com",
+    title: "54 Worlds",
+    copy: "A lab for creative worlds, writing, music, and experiments in story, sound, and participation.",
+    href: "https://54worlds.com",
     external: true,
   },
 ];
@@ -109,7 +103,7 @@ export default function Page() {
         <div className="max-w-2xl mb-10">
           <h2 className="h-section text-[var(--color-ink)]">Other parts of the work</h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 gap-6 max-w-3xl">
           {otherWork.map((w) => (
             <a
               key={w.title}
