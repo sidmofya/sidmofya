@@ -2,7 +2,7 @@ import Link from "next/link";
 import Section from "@/components/Section";
 import CTAButton from "@/components/CTAButton";
 import OfferCard from "@/components/OfferCard";
-import { offers } from "@/lib/offers";
+import { visibleOffers } from "@/lib/offers";
 
 export default function Home() {
   return (
@@ -17,12 +17,11 @@ export default function Home() {
             <div className="eyebrow mb-6">Sid Mofya</div>
             <h1 className="h-hero text-[var(--color-ink)]">For people building across worlds.</h1>
             <p className="lede mt-7 text-[var(--color-ink)]">
-              I help founders, artists, and conveners turn complex work into clear offers, trusted
-              rooms, and revenue-ready possibilities.
+              I help founders, conveners, and mid-career professionals turn complex transitions
+              into clear offers, trusted rooms, and practical next moves.
             </p>
             <p className="mt-5 text-[var(--color-ink-muted)] max-w-2xl">
-              The work sits where culture becomes commercially active: identity, story, trust,
-              creative rights, rooms, and capital movement.
+              The work sits where identity, story, trust, rooms, and action meet.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4">
               <CTAButton href="/work-with-me">Work With Me</CTAButton>
@@ -38,16 +37,16 @@ export default function Home() {
       <Section id="offers" divider>
         <div className="max-w-2xl mb-12 md:mb-16">
           <h2 className="h-section text-[var(--color-ink)]">
-            Choose the work that matches your threshold.
+            Choose the threshold you are facing.
           </h2>
           <p className="mt-5 text-[var(--color-ink-muted)] lede">
-            Each sprint is designed for a live moment: a launch, a room, a decision, a rights
-            question, or a story that needs to become easier to trust and buy.
+            Each sprint is designed for a live moment where the old language is no longer enough
+            and the next move needs to become clear.
           </p>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
-          {offers.map((offer, i) => (
+          {visibleOffers.map((offer, i) => (
             <OfferCard key={offer.slug} offer={offer} index={i} />
           ))}
         </div>
@@ -62,10 +61,10 @@ export default function Home() {
             <p className="text-[var(--color-ink-muted)]">A founder&rsquo;s strange edge.</p>
             <p className="text-[var(--color-ink-muted)]">A room full of possibility.</p>
             <p className="text-[var(--color-ink-muted)]">
-              A song, voice, catalog, or fan relationship.
+              A career chapter that has ended before the next one has fully arrived.
             </p>
             <p className="text-[var(--color-ink-muted)]">
-              A story that people feel before they know how to buy.
+              A story people feel before they know how to trust or buy.
             </p>
             <p className="pt-4">
               My work helps make the invisible structure visible, so the right people can
@@ -91,8 +90,8 @@ export default function Home() {
             <ul className="space-y-2">
               {[
                 "founders with complex stories and unclear offers",
-                "artists and managers facing AI rights questions",
                 "conveners designing rooms where trust must become action",
+                "mid-career professionals facing a meaningful next move",
                 "advisors moving into a clearer commercial category",
                 "cultural entrepreneurs creating new forms of value",
                 "institutions that need meaning, structure, and outcomes in the same room",
@@ -113,9 +112,8 @@ export default function Home() {
                 "curiosity-only conversations",
                 "vague coaching requests",
                 "events that only need moderation",
-                "AI hype projects",
-                "creative work with no commercial question",
-                "people seeking endless exploration without a decision",
+                "career tactics with no deeper decision",
+                "endless exploration without a next move",
               ].map((f) => (
                 <li key={f} className="flex items-start gap-3 text-[var(--color-ink-muted)]">
                   <span className="mt-1">·</span>

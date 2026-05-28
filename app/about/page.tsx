@@ -22,7 +22,7 @@ const otherWork = [
     external: true,
   },
   {
-    title: "54 Worlds",
+    title: "54 Worlds / Music",
     copy: "Creative worlds, songs, and experiments in story, sound, and participation.",
     href: "https://54caravan.com",
     external: true,
@@ -44,7 +44,7 @@ export default function Page() {
             <p>Between story and structure.</p>
             <p>Between culture and capital.</p>
             <p>Between the room and the result.</p>
-            <p>Between what a person carries and what the market can understand.</p>
+            <p>Between who someone has been and what they are becoming.</p>
             <p className="mt-4">
               I help people make the invisible structure visible, so the right next move becomes
               possible.
@@ -89,7 +89,7 @@ export default function Page() {
               {[
                 "making complex founder stories commercially legible",
                 "designing rooms that produce outcomes",
-                "helping artists and music organizations navigate AI, rights, and fan revenue",
+                "helping mid-career professionals find their next true move",
                 "clarifying the capital logic inside cultural work",
                 "translating intuition into structure",
                 "helping people cross thresholds without becoming smaller",

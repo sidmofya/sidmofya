@@ -1,7 +1,15 @@
+export type OfferSlug =
+  | "market-legibility"
+  | "room-to-results"
+  | "reinvention"
+  | "ai-music-rights";
+
 export type Offer = {
-  slug: "market-legibility" | "room-to-results" | "ai-music-rights";
+  slug: OfferSlug;
   title: string;
+  hidden?: boolean;
   cardFor: string;
+  cardLabel: string;
   cardCopy: string;
   cardDeliverables: string[];
   cardCta: string;
@@ -21,6 +29,7 @@ export type Offer = {
   bestFit: string[];
   notFitIntro: string;
   notFit: string[];
+  ctaNote?: string;
   finalCta: {
     headline: string;
     copy: string;
@@ -31,6 +40,7 @@ export const offers: Offer[] = [
   {
     slug: "market-legibility",
     title: "Market Legibility Sprint",
+    cardLabel: "I need the market to understand what I do.",
     cardFor: "For founders, advisors, and operators whose real edge crosses categories.",
     cardCopy:
       "You are not unclear because you lack depth. You are unclear because the market does not yet know how to buy what you actually are. This sprint turns your non-linear story into a clear buyer, funded pain, signature offer, and outreach narrative.",
@@ -105,6 +115,7 @@ export const offers: Offer[] = [
   {
     slug: "room-to-results",
     title: "Room-to-Results Sprint",
+    cardLabel: "I need a room to produce real outcomes.",
     cardFor: "For conveners responsible for a room that needs to matter after everyone leaves.",
     cardCopy:
       "You have the event, roundtable, summit, demo day, salon, or investor room. The question is whether it will produce trust, follow-up, commitments, deals, or durable relationships. This sprint designs the room before the room happens.",
@@ -184,8 +195,91 @@ export const offers: Offer[] = [
     },
   },
   {
+    slug: "reinvention",
+    title: "ReInvention Sprint",
+    cardLabel: "I need to find my next true move.",
+    cardFor:
+      "For mid-career professionals standing between who they have been and what they are becoming.",
+    cardCopy:
+      "You may not be lost. You may be between maps. The old role, title, sector, or identity no longer holds the full truth of who you are. But the next move is not yet clear enough to explain, choose, or act on. This sprint helps you turn transition into direction.",
+    cardDeliverables: [
+      "transition diagnosis",
+      "next-chapter thesis",
+      "strengths and pattern map",
+      "opportunity territory map",
+      "positioning narrative",
+      "30-day next-move plan",
+    ],
+    cardCta: "Explore ReInvention",
+    subhead:
+      "For mid-career professionals standing between who they have been and what they are becoming.",
+    pressure: [
+      "Something is ending.",
+      "Maybe the role still works on paper, but not in your body.",
+      "Maybe you have succeeded inside a path you no longer want to continue.",
+      "Maybe your career makes sense to other people, but less and less to you.",
+      "Maybe you are carrying experience, wisdom, relationships, and capability, but cannot yet see the next form.",
+      "The question is not simply: What job should I take next?",
+      "The deeper question is: What is my next chapter asking me to become, and how do I move toward it without blowing up the life I have built?",
+    ],
+    betterQuestion: {
+      not: "How do I reinvent myself from scratch?",
+      instead:
+        "What parts of me are still true, what parts have expired, and what next move can honor both my practical life and my deeper direction?",
+    },
+    whatHappens: {
+      intro: "A focused sprint to turn transition into a clear next move.",
+      points: [
+        "what is ending",
+        "what is still alive",
+        "what you are carrying from the old chapter",
+        "what patterns have followed you across roles and seasons",
+        "what you no longer want to optimize for",
+        "what kind of work, room, role, or offer may fit the next chapter",
+        "what options are real now",
+        "what move to make in the next 30 days",
+      ],
+      note: "This is not generic career coaching. It is structured discernment for people with enough life behind them to know that the next move must be both practical and true.",
+    },
+    deliverables: [
+      "transition diagnosis — exit, expansion, return, integration, recovery, or recommitment",
+      "next-chapter thesis — what your next season is about",
+      "pattern map — recurring strengths, instincts, relationships, environments",
+      "expired identity list — titles, ambitions, narratives no longer leading",
+      "opportunity territory map — roles, projects, offers, institutions, communities, paths",
+      "positioning narrative — language for the transition without sounding confused or apologetic",
+      "30-day next-move plan — people to contact, experiments, decisions, signals",
+    ],
+    bestFitIntro: "This sprint is for:",
+    bestFit: [
+      "mid-career professionals considering a major next move",
+      "executives and operators who no longer want the obvious path",
+      "founders between ventures",
+      "professionals leaving institutions",
+      "people returning to creative, spiritual, or entrepreneurial parts of themselves",
+      "diaspora professionals carrying multiple worlds",
+      "people who have succeeded but feel summoned toward something more true",
+      "people who need a next move that supports family life, income, and inner alignment",
+    ],
+    notFitIntro: "This is not for:",
+    notFit: [
+      "people looking for generic resume help",
+      "people who only want job-search tactics",
+      "people in acute crisis who need therapeutic support",
+      "people unwilling to make choices",
+      "people who want reinvention as fantasy but not action",
+      "people who need someone else to give them permission to live",
+    ],
+    finalCta: {
+      headline: "Find the next true move.",
+      copy: "Tell me what is ending, what is calling, and what decision you are facing. I will recommend the right sprint or say plainly if there is not a fit.",
+    },
+  },
+  {
     slug: "ai-music-rights",
     title: "AI Music Rights & Fan Revenue Sprint",
+    hidden: true,
+    cardLabel: "I need to protect creative work and grow fan revenue.",
     cardFor:
       "For artists, managers, collectives, and music organizations navigating AI, rights, consent, remixing, and fan participation.",
     cardCopy:
@@ -256,6 +350,7 @@ export const offers: Offer[] = [
       "platforms seeking to bypass artist consent",
       "anyone trying to monetize creative work without permission",
     ],
+    ctaNote: "This sprint is currently available by invitation or direct referral.",
     finalCta: {
       headline: "Protect control. Create permissioned fan revenue.",
       copy: "Tell me what music, artist roster, catalog, or creative community you are trying to protect and grow.",
@@ -263,7 +358,9 @@ export const offers: Offer[] = [
   },
 ];
 
-export function getOffer(slug: Offer["slug"]): Offer {
+export const visibleOffers = offers.filter((o) => !o.hidden);
+
+export function getOffer(slug: OfferSlug): Offer {
   const offer = offers.find((o) => o.slug === slug);
   if (!offer) throw new Error(`Unknown offer: ${slug}`);
   return offer;

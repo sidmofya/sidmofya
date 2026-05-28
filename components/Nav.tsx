@@ -34,10 +34,10 @@ export default function Nav() {
                 Room-to-Results Sprint
               </Link>
               <Link
-                href="/ai-music-rights"
+                href="/reinvention"
                 className="block px-5 py-3 hover:bg-[var(--color-bg)]"
               >
-                AI Music Rights &amp; Fan Revenue Sprint
+                ReInvention Sprint
               </Link>
             </div>
           </details>
@@ -67,8 +67,8 @@ export default function Nav() {
               <Link href="/room-to-results" className="py-2 text-[var(--color-ink)]">
                 Room-to-Results Sprint
               </Link>
-              <Link href="/ai-music-rights" className="py-2 text-[var(--color-ink)]">
-                AI Music Rights &amp; Fan Revenue Sprint
+              <Link href="/reinvention" className="py-2 text-[var(--color-ink)]">
+                ReInvention Sprint
               </Link>
               <hr className="rule my-4" />
               <Link href="/about" className="py-2 text-[var(--color-ink)]">

@@ -109,7 +109,7 @@ export default function WorkWithMeForm() {
           {[
             "Market Legibility Sprint",
             "Room-to-Results Sprint",
-            "AI Music Rights & Fan Revenue Sprint",
+            "ReInvention Sprint",
             "Not sure",
           ].map((option) => (
             <label
