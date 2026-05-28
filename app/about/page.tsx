@@ -24,8 +24,8 @@ const otherWork = [
   {
     title: "54 Worlds",
     copy: "Creative worlds, songs, and experiments in story, sound, and participation.",
-    href: "#",
-    external: false,
+    href: "https://54caravan.com",
+    external: true,
   },
 ];
 

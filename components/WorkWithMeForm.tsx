@@ -7,26 +7,51 @@ const inputBase =
 
 const labelBase = "block text-[0.9375rem] font-medium text-[var(--color-ink)] mb-2";
 
-const fieldsetLabel =
-  "block text-[0.9375rem] font-medium text-[var(--color-ink)] mb-3";
+const fieldsetLabel = "block text-[0.9375rem] font-medium text-[var(--color-ink)] mb-3";
+
+const FORM_NAME = "work-with-me";
+
+function encode(data: Record<string, string>) {
+  return Object.keys(data)
+    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+    .join("&");
+}
+
+type Status = "idle" | "submitting" | "success" | "error";
 
 export default function WorkWithMeForm() {
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const body: Record<string, string> = { "form-name": FORM_NAME };
+    formData.forEach((value, key) => {
+      body[key] = value.toString();
+    });
+
+    setStatus("submitting");
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode(body),
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      setStatus("success");
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    } catch {
+      setStatus("error");
     }
   }
 
-  if (submitted) {
+  if (status === "success") {
     return (
       <div className="border-l-2 border-[var(--color-copper)] pl-6 py-2">
-        <p className="font-display text-2xl md:text-3xl text-[var(--color-ink)]">
-          Thank you.
-        </p>
+        <p className="font-display text-2xl md:text-3xl text-[var(--color-ink)]">Thank you.</p>
         <p className="mt-3 text-[var(--color-ink-muted)] lede">
           I review requests for fit and will respond if there is a clear match.
         </p>
@@ -35,7 +60,22 @@ export default function WorkWithMeForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8" name="work-with-me">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-8"
+      name={FORM_NAME}
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      method="POST"
+    >
+      {/* Netlify form metadata + honeypot (visually hidden) */}
+      <input type="hidden" name="form-name" value={FORM_NAME} />
+      <p className="hidden">
+        <label>
+          Don&rsquo;t fill this out if you&rsquo;re human: <input name="bot-field" />
+        </label>
+      </p>
+
       <div className="grid sm:grid-cols-2 gap-6">
         <div>
           <label htmlFor="name" className={labelBase}>
@@ -154,9 +194,23 @@ export default function WorkWithMeForm() {
         <textarea id="anything-else" name="anything-else" rows={3} className={inputBase} />
       </div>
 
+      {status === "error" && (
+        <div className="border-l-2 border-[var(--color-copper)] pl-4 py-2 text-[var(--color-ink)]">
+          Something went wrong sending your request. Please try again, or email{" "}
+          <a href="mailto:sid@motif54.com" className="link-copper">
+            sid@motif54.com
+          </a>{" "}
+          directly.
+        </div>
+      )}
+
       <div className="pt-2">
-        <button type="submit" className="btn btn-primary">
-          Send request
+        <button
+          type="submit"
+          className="btn btn-primary disabled:opacity-60"
+          disabled={status === "submitting"}
+        >
+          {status === "submitting" ? "Sending…" : "Send request"}
         </button>
         <p className="mt-4 text-[0.8125rem] text-[var(--color-ink-muted)]">
           By sending you agree to be contacted by Sid about your request.

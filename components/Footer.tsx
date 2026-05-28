@@ -25,7 +25,7 @@ export default function Footer() {
             <a href="https://sovereigntea.substack.com" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]" rel="noopener">
               Sovereign Tea
             </a>
-            <a href="#" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]">
+            <a href="https://54caravan.com" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]" rel="noopener">
               54 Worlds
             </a>
             <a href="https://www.linkedin.com/in/sidmofya" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]" rel="noopener">
