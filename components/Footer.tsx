@@ -22,10 +22,7 @@ export default function Footer() {
             <a href="https://motif54.com" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]" rel="noopener">
               MOTIF 54
             </a>
-            <a href="https://sovereigntea.substack.com" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]" rel="noopener">
-              Sovereign Tea
-            </a>
-            <a href="https://54caravan.com" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]" rel="noopener">
+            <a href="https://54worlds.com" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]" rel="noopener">
               54 Worlds
             </a>
             <a href="https://www.linkedin.com/in/sidmofya" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]" rel="noopener">
