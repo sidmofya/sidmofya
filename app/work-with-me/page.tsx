@@ -5,7 +5,7 @@ import WorkWithMeForm from "@/components/WorkWithMeForm";
 export const metadata: Metadata = {
   title: "Work With Sid Mofya",
   description:
-    "Request a focused sprint with Sid Mofya around market legibility, room design, or AI music rights and fan revenue.",
+    "Request a focused sprint with Sid Mofya around market legibility, room design, or mid-career reinvention.",
 };
 
 export default function Page() {

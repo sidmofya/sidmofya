@@ -132,6 +132,11 @@ export default function OfferPage({ offer }: { offer: Offer }) {
         <div className="max-w-2xl">
           <h2 className="h-section text-[var(--color-ink)]">{offer.finalCta.headline}</h2>
           <p className="mt-5 text-[var(--color-ink)] lede">{offer.finalCta.copy}</p>
+          {offer.ctaNote && (
+            <p className="mt-5 text-[0.9375rem] text-[var(--color-ink-muted)] border-l-2 border-[var(--color-copper)] pl-4">
+              {offer.ctaNote}
+            </p>
+          )}
           <div className="mt-8">
             <CTAButton href="/work-with-me">Request This Sprint</CTAButton>
           </div>
