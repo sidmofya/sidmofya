@@ -1,10 +1,28 @@
 "use client";
 
-import { useState } from "react";
-import { videos } from "@/lib/pattern-cognition";
+import { useMemo, useState } from "react";
+import {
+  videos,
+  categoryLabels,
+  categoryOrder,
+  type Category,
+  type PatternVideo,
+} from "@/lib/pattern-cognition";
 
 export default function PatternCognition() {
   const [activeId, setActiveId] = useState<string | null>(videos[0]?.id ?? null);
+
+  const byCategory = useMemo(() => {
+    const groups: Record<Category, PatternVideo[]> = {
+      africa: [],
+      ai: [],
+      inner: [],
+      strategy: [],
+      money: [],
+    };
+    for (const v of videos) groups[v.category].push(v);
+    return groups;
+  }, []);
 
   if (videos.length === 0 || !activeId) {
     return (
@@ -38,45 +56,60 @@ export default function PatternCognition() {
         </p>
       </div>
 
-      {/* List */}
+      {/* List, grouped by category */}
       <div>
-        <div className="eyebrow mb-4">All shorts</div>
-        <ul className="border-t border-[var(--color-rule)]">
-          {videos.map((video) => {
-            const isActive = video.id === activeId;
-            return (
-              <li key={video.id} className="border-b border-[var(--color-rule)]">
-                <button
-                  type="button"
-                  onClick={() => setActiveId(video.id)}
-                  aria-current={isActive ? "true" : undefined}
-                  className={`w-full text-left flex items-start gap-4 py-4 px-4 transition-colors border-l-2 ${
-                    isActive
-                      ? "border-[var(--color-copper)] bg-[var(--color-bg-elev)]"
-                      : "border-transparent hover:bg-[var(--color-bg-elev)] hover:border-[var(--color-copper)]/40"
-                  }`}
-                >
-                  <span
-                    className={`mt-1 text-[var(--color-copper)] text-[0.8125rem] tabular-nums ${
-                      isActive ? "opacity-100" : "opacity-60"
-                    }`}
-                  >
-                    {isActive ? "▶" : "·"}
-                  </span>
-                  <span
-                    className={`flex-1 text-[0.9375rem] ${
-                      isActive
-                        ? "text-[var(--color-ink)] font-medium"
-                        : "text-[var(--color-ink)]"
-                    }`}
-                  >
-                    {video.title}
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        {categoryOrder.map((cat, catIdx) => {
+          const items = byCategory[cat];
+          if (items.length === 0) return null;
+          return (
+            <section key={cat} className={catIdx > 0 ? "mt-14" : ""}>
+              <div className="flex items-baseline justify-between mb-4">
+                <h2 className="font-display text-xl md:text-2xl text-[var(--color-copper)] leading-tight">
+                  {categoryLabels[cat]}
+                </h2>
+                <span className="text-[0.75rem] tabular-nums text-[var(--color-ink-muted)]">
+                  {items.length}
+                </span>
+              </div>
+              <ul className="border-t border-[var(--color-rule)]">
+                {items.map((video) => {
+                  const isActive = video.id === activeId;
+                  return (
+                    <li key={video.id} className="border-b border-[var(--color-rule)]">
+                      <button
+                        type="button"
+                        onClick={() => setActiveId(video.id)}
+                        aria-current={isActive ? "true" : undefined}
+                        className={`w-full text-left flex items-start gap-4 py-4 px-4 transition-colors border-l-2 ${
+                          isActive
+                            ? "border-[var(--color-copper)] bg-[var(--color-bg-elev)]"
+                            : "border-transparent hover:bg-[var(--color-bg-elev)] hover:border-[var(--color-copper)]/40"
+                        }`}
+                      >
+                        <span
+                          className={`mt-1 text-[var(--color-copper)] text-[0.8125rem] tabular-nums ${
+                            isActive ? "opacity-100" : "opacity-60"
+                          }`}
+                        >
+                          {isActive ? "▶" : "·"}
+                        </span>
+                        <span
+                          className={`flex-1 text-[0.9375rem] ${
+                            isActive
+                              ? "text-[var(--color-ink)] font-medium"
+                              : "text-[var(--color-ink)]"
+                          }`}
+                        >
+                          {video.title}
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          );
+        })}
       </div>
     </div>
   );
