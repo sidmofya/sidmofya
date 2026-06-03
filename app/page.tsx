@@ -33,7 +33,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. Offers */}
+      {/* 2. Speaking bridge */}
+      <Section divider>
+        <div className="grid md:grid-cols-[18rem_1fr] gap-10 md:gap-16 items-start">
+          <div>
+            <div className="eyebrow mb-5">Speaking &amp; Executive Briefings</div>
+            <h2 className="h-section text-[var(--color-ink)]">The Sovereign Stack</h2>
+          </div>
+          <div className="prose-narrow">
+            <p className="lede text-[var(--color-ink)]">
+              I also brief boards, investors, founders, and leadership teams on how AI, energy,
+              minerals, compute, capital, culture, and coordination are reshaping power, risk, and
+              opportunity.
+            </p>
+            <p className="mt-5 text-[var(--color-ink-muted)]">
+              The next strategic cycle will not be won by leaders who understand software, energy,
+              finance, or geopolitics in isolation. It will be won by those who can see the full
+              stack.
+            </p>
+            <p className="mt-5 text-[var(--color-ink-muted)]">
+              Available for keynotes, executive briefings, boardroom sessions, investor
+              roundtables, leadership offsites, and private strategic rooms.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <CTAButton href="/speaking">Explore Speaking &amp; Briefings</CTAButton>
+              <CTAButton href="https://motif54.com" variant="secondary">
+                Visit MOTIF 54
+              </CTAButton>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* 3. Offers */}
       <Section id="offers" divider>
         <div className="max-w-2xl mb-12 md:mb-16">
           <h2 className="h-section text-[var(--color-ink)]">
@@ -52,7 +84,7 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* 3. The work is translation */}
+      {/* 4. The work is translation */}
       <Section divider className="text-center">
         <div className="max-w-3xl mx-auto">
           <h2 className="h-section text-[var(--color-ink)]">The work is translation.</h2>
@@ -74,7 +106,7 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* 4. Built for live thresholds */}
+      {/* 5. Built for live thresholds */}
       <Section divider>
         <div className="max-w-2xl mb-12">
           <h2 className="h-section text-[var(--color-ink)]">Built for live thresholds.</h2>
@@ -125,7 +157,7 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* 5. About */}
+      {/* 6. About */}
       <Section divider>
         <div className="grid md:grid-cols-[16rem_1fr] gap-10 md:gap-16">
           <div>
@@ -158,7 +190,7 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* 6. Final CTA */}
+      {/* 7. Final CTA */}
       <Section divider>
         <div className="max-w-2xl">
           <h2 className="h-section text-[var(--color-ink)]">Bring the live threshold.</h2>

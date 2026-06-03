@@ -42,6 +42,10 @@ export default function Nav() {
             </div>
           </details>
 
+          <Link href="/speaking" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]">
+            Speaking
+          </Link>
+
           <Link href="/about" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]">
             About
           </Link>
@@ -71,6 +75,9 @@ export default function Nav() {
                 ReInvention Sprint
               </Link>
               <hr className="rule my-4" />
+              <Link href="/speaking" className="py-2 text-[var(--color-ink)]">
+                Speaking
+              </Link>
               <Link href="/about" className="py-2 text-[var(--color-ink)]">
                 About
               </Link>
