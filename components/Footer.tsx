@@ -28,6 +28,9 @@ export default function Footer() {
             <a href="https://www.linkedin.com/in/sidmofya" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]" rel="noopener">
               LinkedIn
             </a>
+            <Link href="/speaking" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]">
+              Speaking
+            </Link>
             <a href="mailto:sid.mofya@gmail.com" className="text-[var(--color-ink)] hover:text-[var(--color-copper)]">
               Contact
             </a>

@@ -19,7 +19,20 @@ function encode(data: Record<string, string>) {
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export default function WorkWithMeForm() {
+const sprintOptions = [
+  "Speaking / Executive Briefing",
+  "Sovereign Stack Briefing",
+  "Market Legibility Sprint",
+  "Room-to-Results Sprint",
+  "ReInvention Sprint",
+  "Not sure",
+];
+
+type WorkWithMeFormProps = {
+  defaultSprint?: string;
+};
+
+export default function WorkWithMeForm({ defaultSprint }: WorkWithMeFormProps) {
   const [status, setStatus] = useState<Status>("idle");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -106,12 +119,7 @@ export default function WorkWithMeForm() {
       <fieldset>
         <legend className={fieldsetLabel}>Which sprint are you interested in?</legend>
         <div className="space-y-2">
-          {[
-            "Market Legibility Sprint",
-            "Room-to-Results Sprint",
-            "ReInvention Sprint",
-            "Not sure",
-          ].map((option) => (
+          {sprintOptions.map((option) => (
             <label
               key={option}
               className="flex items-center gap-3 cursor-pointer text-[var(--color-ink)]"
@@ -120,6 +128,7 @@ export default function WorkWithMeForm() {
                 type="radio"
                 name="sprint"
                 value={option}
+                defaultChecked={option === defaultSprint}
                 className="accent-[var(--color-copper)] w-4 h-4"
               />
               <span>{option}</span>

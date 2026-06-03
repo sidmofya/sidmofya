@@ -8,7 +8,17 @@ export const metadata: Metadata = {
     "Request a focused sprint with Sid Mofya around market legibility, room design, or mid-career reinvention.",
 };
 
-export default function Page() {
+type PageProps = {
+  searchParams?: Promise<{
+    interest?: string;
+  }>;
+};
+
+export default async function Page({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const defaultSprint =
+    params?.interest === "speaking" ? "Speaking / Executive Briefing" : undefined;
+
   return (
     <>
       <Section className="!pt-24 md:!pt-28 !pb-12">
@@ -24,7 +34,7 @@ export default function Page() {
 
       <Section className="!pt-4 !pb-28">
         <div className="max-w-2xl">
-          <WorkWithMeForm />
+          <WorkWithMeForm defaultSprint={defaultSprint} />
         </div>
       </Section>
     </>
