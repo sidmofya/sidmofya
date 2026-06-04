@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   videos,
   categoryLabels,
@@ -11,6 +11,8 @@ import {
 
 export default function PatternCognition() {
   const [activeId, setActiveId] = useState<string | null>(videos[0]?.id ?? null);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const playerRef = useRef<HTMLDivElement>(null);
 
   const byCategory = useMemo(() => {
     const groups: Record<Category, PatternVideo[]> = {
@@ -25,6 +27,12 @@ export default function PatternCognition() {
     return groups;
   }, []);
 
+  function handleSelect(videoId: string) {
+    setActiveId(videoId);
+    setHasInteracted(true);
+    playerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   if (videos.length === 0 || !activeId) {
     return (
       <div className="border-l-2 border-[var(--color-copper)] pl-6 py-2">
@@ -34,18 +42,24 @@ export default function PatternCognition() {
   }
 
   const activeVideo = videos.find((v) => v.id === activeId) ?? videos[0];
+  const categoryItems = byCategory[activeVideo.category];
+  const activeIdxInCat = categoryItems.findIndex((v) => v.id === activeVideo.id);
+  const nextVideo = categoryItems[(activeIdxInCat + 1) % categoryItems.length];
+  const hasNext = nextVideo && nextVideo.id !== activeVideo.id;
 
   return (
     <div className="grid gap-12 md:gap-16 md:grid-cols-[minmax(0,360px)_1fr] items-start">
       {/* Sticky left column: player + category nav */}
-      <div className="md:sticky md:top-24">
+      <div ref={playerRef} className="md:sticky md:top-24 scroll-mt-20">
         <div
           className="relative w-full overflow-hidden border border-[var(--color-rule)] bg-black"
           style={{ aspectRatio: "9 / 16" }}
         >
           <iframe
             key={activeVideo.id}
-            src={`https://www.youtube-nocookie.com/embed/${activeVideo.id}?rel=0`}
+            src={`https://www.youtube-nocookie.com/embed/${activeVideo.id}?rel=0${
+              hasInteracted ? "&autoplay=1" : ""
+            }`}
             title={activeVideo.title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
@@ -55,6 +69,27 @@ export default function PatternCognition() {
         <p className="mt-4 font-display text-lg leading-snug text-[var(--color-ink)]">
           {activeVideo.title}
         </p>
+
+        {hasNext && (
+          <button
+            type="button"
+            onClick={() => handleSelect(nextVideo.id)}
+            className="group mt-4 w-full text-left flex items-start gap-3 py-3 px-3 border border-[var(--color-rule)] hover:border-[var(--color-copper)]/60 hover:bg-[var(--color-bg-elev)] transition-colors"
+          >
+            <div className="flex-1 min-w-0">
+              <div className="eyebrow mb-1">Up next</div>
+              <div className="text-[0.9375rem] text-[var(--color-ink)] leading-snug">
+                {nextVideo.title}
+              </div>
+            </div>
+            <span
+              aria-hidden="true"
+              className="text-[var(--color-copper)] mt-1 group-hover:translate-x-0.5 transition-transform"
+            >
+              →
+            </span>
+          </button>
+        )}
 
         <nav className="mt-7 pt-5 border-t border-[var(--color-rule)]" aria-label="Categories">
           <div className="eyebrow mb-3">Categories</div>
@@ -109,7 +144,7 @@ export default function PatternCognition() {
                     <li key={video.id} className="border-b border-[var(--color-rule)]">
                       <button
                         type="button"
-                        onClick={() => setActiveId(video.id)}
+                        onClick={() => handleSelect(video.id)}
                         aria-current={isActive ? "true" : undefined}
                         className={`w-full text-left flex items-start gap-4 py-4 px-4 transition-colors border-l-2 ${
                           isActive
