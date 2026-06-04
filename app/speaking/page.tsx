@@ -226,15 +226,22 @@ export default function Page() {
           </div>
           <div className="prose-narrow text-[var(--color-ink)]">
             <p>
-              Sid Mofya works at the edge of capital and culture. He is the Founder of MOTIF 54,
-              former CEO and Director of Draper Venture Network, and a Kauffman Fellow. His work
-              spans venture networks, African capital formation, energy, minerals, compute,
-              cultural strategy, and strategic convening.
+              Sid Mofya is a capital and strategy operator working at the intersection of venture,
+              energy, resources, technology, and emerging markets. He is the Founder of MOTIF 54,
+              former CEO of Draper Venture Network, and a Kauffman Fellow. His work focuses on
+              capital formation, investment strategy, critical minerals, energy, compute
+              infrastructure, and building bridges between global investors and frontier markets.
             </p>
             <p>
-              He is especially useful in rooms where the terrain is unclear, the stakes are live,
-              and leaders need a better map before they allocate capital, choose partners, or
-              commit to a strategic direction.
+              He has spoken, hosted, and facilitated conversations for investors, founders,
+              policymakers, and technology leaders at events including Mobile World Congress (4YFN),
+              MIT, VeChain Summit, LA Blockchain Summit, the African Diaspora Investment Symposium,
+              Draper Venture Network LP Day, and investment forums in Zambia and the DRC.
+            </p>
+            <p>
+              His work helps leaders understand how shifts in AI, energy, minerals, capital, and
+              geopolitics interact, and what those shifts mean for investment strategy, risk,
+              opportunity, and long-term positioning.
             </p>
           </div>
         </div>
