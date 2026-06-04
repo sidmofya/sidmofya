@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Section from "@/components/Section";
 import CTAButton from "@/components/CTAButton";
+import SpeakingPlaylist from "@/components/SpeakingPlaylist";
 import { videos as patternVideos } from "@/lib/pattern-cognition";
 
 export const metadata: Metadata = {
@@ -206,37 +207,7 @@ export default function Page() {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          {resolvedPlaylist.map((entry) => (
-            <article
-              key={entry.id}
-              className="flex flex-col bg-[var(--color-bg-elev)] border border-[var(--color-rule)] overflow-hidden"
-            >
-              <div
-                className="relative w-full bg-black"
-                style={{ aspectRatio: "16 / 9" }}
-              >
-                <iframe
-                  loading="lazy"
-                  src={`https://www.youtube-nocookie.com/embed/${entry.id}?rel=0`}
-                  title={entry.title}
-                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="absolute inset-0 h-full w-full"
-                />
-              </div>
-              <div className="flex flex-col gap-3 p-6 md:p-7">
-                <h3 className="font-display text-lg leading-snug text-[var(--color-ink)]">
-                  {entry.title}
-                </h3>
-                <p className="text-[0.9375rem] text-[var(--color-ink-muted)] leading-relaxed">
-                  {entry.signal}
-                </p>
-                <div className="eyebrow !text-[0.75rem] mt-1">{entry.label}</div>
-              </div>
-            </article>
-          ))}
-        </div>
+        <SpeakingPlaylist entries={resolvedPlaylist} />
       </Section>
 
       <Section divider className="!py-16 md:!py-24">
