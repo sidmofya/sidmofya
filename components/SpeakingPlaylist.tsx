@@ -34,10 +34,34 @@ export default function SpeakingPlaylist({ entries }: SpeakingPlaylistProps) {
   }
 
   return (
-    <div
-      ref={playerRef}
-      className="scroll-mt-20 grid gap-8 md:gap-12 md:grid-cols-[minmax(0,320px)_1fr] items-start"
-    >
+    <div ref={playerRef} className="scroll-mt-20">
+      {/* Jump-to chips: 1 row of arc steps, each clickable */}
+      <nav
+        aria-label="Jump to a Sovereign Stack signal"
+        className="mb-8 md:mb-10 flex flex-wrap gap-2"
+      >
+        {entries.map((entry, idx) => {
+          const isActive = entry.id === activeId;
+          return (
+            <button
+              key={entry.id}
+              type="button"
+              onClick={() => handleSelect(entry.id)}
+              aria-current={isActive ? "true" : undefined}
+              className={`inline-flex items-baseline gap-2 px-3 py-1.5 border text-[0.75rem] tracking-wider uppercase transition-colors ${
+                isActive
+                  ? "border-[var(--color-copper)] bg-[var(--color-copper)]/10 text-[var(--color-copper)]"
+                  : "border-[var(--color-rule)] text-[var(--color-ink-muted)] hover:border-[var(--color-copper)]/60 hover:text-[var(--color-ink)]"
+              }`}
+            >
+              <span className="tabular-nums">{String(idx + 1).padStart(2, "0")}</span>
+              <span>{entry.label}</span>
+            </button>
+          );
+        })}
+      </nav>
+
+      <div className="grid gap-8 md:gap-12 md:grid-cols-[minmax(0,320px)_1fr] items-start">
       {/* Player column */}
       <div className="w-full max-w-[320px] mx-auto md:mx-0">
         <div
@@ -89,6 +113,7 @@ export default function SpeakingPlaylist({ entries }: SpeakingPlaylistProps) {
             →
           </span>
         </button>
+      </div>
       </div>
     </div>
   );

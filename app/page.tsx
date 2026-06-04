@@ -39,7 +39,7 @@ export default function Home() {
             <div className="eyebrow mb-6">Sid Mofya</div>
             <h1 className="h-hero text-[var(--color-ink)]">For people building across worlds.</h1>
             <p className="lede mt-7 text-[var(--color-ink)]">
-              I help founders, conveners, and leadership teams turn complex transitions into clear
+              I help founders, investors, and leadership teams turn complex transitions into clear
               offers, trusted rooms, and practical next moves.
             </p>
             <p className="mt-5 text-[var(--color-ink-muted)] max-w-2xl">
@@ -64,7 +64,7 @@ export default function Home() {
           </div>
           <div className="prose-narrow">
             <p className="lede text-[var(--color-ink)]">
-              I also brief boards, investors, founders, and leadership teams on how AI, energy,
+              I brief boards, investors, founders, and leadership teams on how AI, energy,
               minerals, compute, capital, culture, and coordination are reshaping power, risk, and
               opportunity.
             </p>
