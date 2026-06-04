@@ -5,7 +5,7 @@ import WorkWithMeForm from "@/components/WorkWithMeForm";
 export const metadata: Metadata = {
   title: "Work With Sid Mofya",
   description:
-    "Request a focused sprint with Sid Mofya around market legibility, room design, or mid-career reinvention.",
+    "Request a focused sprint or briefing with Sid Mofya around market legibility, room design, or strategic rooms.",
 };
 
 type PageProps = {
@@ -23,7 +23,7 @@ export default async function Page({ searchParams }: PageProps) {
     <>
       <Section className="!pt-24 md:!pt-28 !pb-12">
         <div className="max-w-3xl">
-          <div className="eyebrow mb-5">Request a sprint</div>
+          <div className="eyebrow mb-5">Request a sprint or briefing</div>
           <h1 className="h-hero text-[var(--color-ink)]">Work With Me</h1>
           <p className="lede mt-6 text-[var(--color-ink-muted)]">
             Tell me what threshold you are facing. I will recommend the right sprint or say plainly

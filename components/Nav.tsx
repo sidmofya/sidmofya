@@ -25,19 +25,19 @@ export default function Nav() {
                 href="/market-legibility"
                 className="block px-5 py-3 hover:bg-[var(--color-bg)] border-b border-[var(--color-rule)]"
               >
-                Market Legibility Sprint
+                Market Legibility
               </Link>
               <Link
                 href="/room-to-results"
                 className="block px-5 py-3 hover:bg-[var(--color-bg)] border-b border-[var(--color-rule)]"
               >
-                Room-to-Results Sprint
+                Room-to-Results
               </Link>
               <Link
-                href="/reinvention"
+                href="/speaking"
                 className="block px-5 py-3 hover:bg-[var(--color-bg)]"
               >
-                ReInvention Sprint
+                Briefings
               </Link>
             </div>
           </details>
@@ -66,13 +66,13 @@ export default function Nav() {
             <div className="flex flex-col gap-1">
               <div className="eyebrow mb-2">Work</div>
               <Link href="/market-legibility" className="py-2 text-[var(--color-ink)]">
-                Market Legibility Sprint
+                Market Legibility
               </Link>
               <Link href="/room-to-results" className="py-2 text-[var(--color-ink)]">
-                Room-to-Results Sprint
+                Room-to-Results
               </Link>
-              <Link href="/reinvention" className="py-2 text-[var(--color-ink)]">
-                ReInvention Sprint
+              <Link href="/speaking" className="py-2 text-[var(--color-ink)]">
+                Briefings
               </Link>
               <hr className="rule my-4" />
               <Link href="/speaking" className="py-2 text-[var(--color-ink)]">

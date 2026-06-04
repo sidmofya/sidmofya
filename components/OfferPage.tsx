@@ -11,6 +11,11 @@ export default function OfferPage({ offer }: { offer: Offer }) {
           <div className="eyebrow mb-5">Sprint</div>
           <h1 className="h-hero text-[var(--color-ink)]">{offer.title}</h1>
           <p className="lede mt-6 text-[var(--color-ink-muted)]">{offer.subhead}</p>
+          {offer.statusNote && (
+            <p className="mt-6 text-[0.9375rem] text-[var(--color-ink-muted)] border-l-2 border-[var(--color-copper)] pl-4">
+              {offer.statusNote}
+            </p>
+          )}
           <div className="mt-10">
             <CTAButton href="/work-with-me">Request This Sprint</CTAButton>
           </div>

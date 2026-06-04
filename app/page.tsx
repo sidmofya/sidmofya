@@ -4,6 +4,28 @@ import CTAButton from "@/components/CTAButton";
 import OfferCard from "@/components/OfferCard";
 import { visibleOffers } from "@/lib/offers";
 
+const briefingOffer = {
+  title: "Sovereign Stack Briefing",
+  cardFor:
+    "For boards, investors, founders, and leadership teams trying to understand the forces reshaping power, risk, and opportunity.",
+  cardCopy:
+    "AI is no longer just a software story. It is becoming an energy, minerals, compute, capital, culture, and coordination story. This briefing helps serious rooms see the full stack before they allocate capital, choose partners, or commit to a strategic direction.",
+  cardDeliverables: [
+    "shared language",
+    "strategic map",
+    "risk lens",
+    "opportunity thesis",
+    "decision prompts",
+    "next-room recommendation",
+  ],
+  cardCta: "Explore Briefings",
+};
+
+const publicOfferTitles: Record<string, string> = {
+  "market-legibility": "Market Legibility",
+  "room-to-results": "Room-to-Results",
+};
+
 export default function Home() {
   return (
     <>
@@ -17,8 +39,8 @@ export default function Home() {
             <div className="eyebrow mb-6">Sid Mofya</div>
             <h1 className="h-hero text-[var(--color-ink)]">For people building across worlds.</h1>
             <p className="lede mt-7 text-[var(--color-ink)]">
-              I help founders, conveners, and mid-career professionals turn complex transitions
-              into clear offers, trusted rooms, and practical next moves.
+              I help founders, conveners, and leadership teams turn complex transitions into clear
+              offers, trusted rooms, and practical next moves.
             </p>
             <p className="mt-5 text-[var(--color-ink-muted)] max-w-2xl">
               The work sits where identity, story, trust, rooms, and action meet.
@@ -72,15 +94,20 @@ export default function Home() {
             Choose the threshold you are facing.
           </h2>
           <p className="mt-5 text-[var(--color-ink-muted)] lede">
-            Each sprint is designed for a live moment where the old language is no longer enough
+            Each offer is designed for a live moment where the old language is no longer enough
             and the next move needs to become clear.
           </p>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
           {visibleOffers.map((offer, i) => (
-            <OfferCard key={offer.slug} offer={offer} index={i} />
+            <OfferCard
+              key={offer.slug}
+              offer={{ ...offer, title: publicOfferTitles[offer.slug] ?? offer.title }}
+              index={i}
+            />
           ))}
+          <OfferCard offer={briefingOffer} index={2} href="/speaking" kind="Briefing" />
         </div>
       </Section>
 
@@ -123,7 +150,7 @@ export default function Home() {
               {[
                 "founders with complex stories and unclear offers",
                 "conveners designing rooms where trust must become action",
-                "mid-career professionals facing a meaningful next move",
+                "leaders and teams facing a consequential strategic decision",
                 "advisors moving into a clearer commercial category",
                 "cultural entrepreneurs creating new forms of value",
                 "institutions that need meaning, structure, and outcomes in the same room",

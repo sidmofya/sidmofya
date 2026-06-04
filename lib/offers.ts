@@ -29,6 +29,7 @@ export type Offer = {
   bestFit: string[];
   notFitIntro: string;
   notFit: string[];
+  statusNote?: string;
   ctaNote?: string;
   finalCta: {
     headline: string;
@@ -197,6 +198,7 @@ export const offers: Offer[] = [
   {
     slug: "reinvention",
     title: "ReInvention Sprint",
+    hidden: true,
     cardLabel: "I need to find my next true move.",
     cardFor:
       "For mid-career professionals standing between who they have been and what they are becoming.",
@@ -270,6 +272,7 @@ export const offers: Offer[] = [
       "people who want reinvention as fantasy but not action",
       "people who need someone else to give them permission to live",
     ],
+    statusNote: "ReInvention is currently available by referral or invitation.",
     finalCta: {
       headline: "Find the next true move.",
       copy: "Tell me what is ending, what is calling, and what decision you are facing. I will recommend the right sprint or say plainly if there is not a fit.",
