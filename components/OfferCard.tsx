@@ -1,17 +1,30 @@
 import Link from "next/link";
 import type { Offer } from "@/lib/offers";
 
-export default function OfferCard({ offer, index }: { offer: Offer; index: number }) {
+type OfferCardData = Pick<Offer, "title" | "cardFor" | "cardCopy" | "cardDeliverables" | "cardCta"> & {
+  slug?: Offer["slug"];
+};
+
+type OfferCardProps = {
+  offer: OfferCardData;
+  index: number;
+  href?: string;
+  kind?: string;
+};
+
+export default function OfferCard({ offer, index, href, kind = "Sprint" }: OfferCardProps) {
+  const resolvedHref = href ?? (offer.slug ? `/${offer.slug}` : "/");
+
   return (
     <Link
-      href={`/${offer.slug}`}
+      href={resolvedHref}
       className="group flex flex-col bg-[var(--color-bg-elev)] border border-[var(--color-rule)] p-8 md:p-10 transition-colors hover:border-[var(--color-copper)]/60"
     >
       <div className="flex items-baseline gap-3 mb-6">
         <span className="font-display text-[var(--color-copper)] text-2xl tabular-nums">
           {String(index + 1).padStart(2, "0")}
         </span>
-        <span className="eyebrow !text-[var(--color-ink-muted)]">Sprint</span>
+        <span className="eyebrow !text-[var(--color-ink-muted)]">{kind}</span>
       </div>
 
       <h3 className="h-card mb-3 text-[var(--color-ink)]">{offer.title}</h3>

@@ -24,7 +24,7 @@ const sprintOptions = [
   "Sovereign Stack Briefing",
   "Market Legibility Sprint",
   "Room-to-Results Sprint",
-  "ReInvention Sprint",
+  "ReInvention, referral only",
   "Not sure",
 ];
 
@@ -117,7 +117,7 @@ export default function WorkWithMeForm({ defaultSprint }: WorkWithMeFormProps) {
       </div>
 
       <fieldset>
-        <legend className={fieldsetLabel}>Which sprint are you interested in?</legend>
+        <legend className={fieldsetLabel}>Which option are you interested in?</legend>
         <div className="space-y-2">
           {sprintOptions.map((option) => (
             <label
