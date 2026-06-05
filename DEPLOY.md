@@ -1,6 +1,6 @@
 # sidmofya.com
 
-Personal front door for Sid Mofya — the culture register of the work. v0.1.
+Personal front door for Sid Mofya.
 
 ## Stack
 
