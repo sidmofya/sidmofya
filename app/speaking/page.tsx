@@ -37,6 +37,28 @@ const formats = [
   "Strategic moderator / conversation architect",
 ];
 
+type Testimonial = {
+  quote: string;
+  name: string;
+  title: string;
+};
+
+// Add a third quote (e.g. Almaz Negash) by appending one entry here. No markup change needed.
+const testimonials: Testimonial[] = [
+  {
+    quote:
+      "Sid spoke at our annual summit and absolutely delivered. He brought original thinking that actually shifted how people in the room see opportunities, not just the usual talking points you hear at every conference. His frameworks on sovereignty and global capital flows hit hard. We had LPs and founders coming up afterward asking for intros. What makes Sid different is he doesn't just present information, he changes how you think about entire markets. Would book him again in a heartbeat.",
+    name: "Alon Goren",
+    title: "DGH Ventures",
+  },
+  {
+    quote:
+      "Sid moderated a high-level conversation on investment in Africa for us, holding a room that included Zambia's Ambassador to the US and the Minister of Transport. He kept a demanding panel focused and made the substance land for the audience. A real asset to any serious convening.",
+    name: "Rajen Ranchhod",
+    title: "Honorary Consul of Zambia to the State of California",
+  },
+];
+
 type PlaylistEntry = {
   title: string;
   signal: string;
@@ -52,50 +74,50 @@ const sovereignStackPlaylist: PlaylistEntry[] = [
     title: "If you're still treating AI like a typing assistant, you're missing the point",
     signal:
       "AI is not just a productivity tool. It is changing the operating layer of work, strategy, and agency.",
-    label: "AI / Agency",
+    label: "AI",
   },
   {
     title: "We Can Not Have a Tech Future Without Investing into the Right Assets",
     signal:
       "The future is not built on software alone. Technology depends on physical assets, infrastructure, energy, and capital.",
-    label: "Compute / Infrastructure / Assets",
+    label: "Infrastructure",
   },
   {
     title: "Challenges like the Energy Crisis in Zambia are opportunities",
     signal:
       "Energy constraints are not only problems. They can reveal where infrastructure, capital, and industrial strategy need to move next.",
-    label: "Energy / Africa / Resilience",
+    label: "Energy",
   },
   {
     title: "Africa is Rich, But Who Exactly Owns Its Wealth?",
     signal:
       "The core question is not whether Africa has resources. It is who owns, controls, finances, and captures the value.",
-    label: "Ownership / Capital / Sovereignty",
+    label: "Ownership",
   },
   {
     title:
       "New Investment Structures are Making Investing into Mining Accessible to More Investors",
     signal:
       "Critical minerals are becoming more investable as new structures change access, ownership, and capital formation.",
-    label: "Minerals / Capital / Access",
+    label: "Minerals",
   },
   {
     title: "Who You Invest With MATTERS Most in Emerging Markets Investing",
     signal:
       "In emerging markets, partner quality, trust, governance, and execution matter as much as the asset itself.",
-    label: "Trust / Capital / Partner Risk",
+    label: "Trust",
   },
   {
     title: "Culture Can Bring More Capital",
     signal:
       "Culture is not decoration. Narrative, legitimacy, and trust can shape where capital flows and why.",
-    label: "Culture / Narrative / Capital",
+    label: "Culture",
   },
   {
     title: "The Value of Hosting a Conference is Bringing People Together",
     signal:
       "The room itself is part of the strategy. Convening creates coordination, trust, commitments, and next moves.",
-    label: "Coordination / Rooms / Action",
+    label: "Coordination",
   },
 ];
 
@@ -120,7 +142,7 @@ function SimpleList({ items }: { items: string[] }) {
     <ul className="space-y-2">
       {items.map((item) => (
         <li key={item} className="flex items-start gap-3 text-[var(--color-ink)]">
-          <span className="text-[var(--color-copper)] mt-1">-</span>
+          <span className="text-[var(--color-copper)] mt-1">·</span>
           <span>{item}</span>
         </li>
       ))}
@@ -131,49 +153,56 @@ function SimpleList({ items }: { items: string[] }) {
 export default function Page() {
   return (
     <>
+      {/* 1. Hero: title, subhead, disqualifier. Headshot drops in here once supplied. */}
       <Section className="!pt-24 md:!pt-28 !pb-16">
         <div className="max-w-3xl">
           <div className="eyebrow mb-5">Speaking &amp; Executive Briefings</div>
           <h1 className="h-hero text-[var(--color-ink)]">The Sovereign Stack</h1>
           <p className="lede mt-6 text-[var(--color-ink)]">
-            How AI, energy, minerals, compute, capital, and culture are rewriting power.
+            How AI, energy, minerals, capital, and culture are rewriting power.
           </p>
           <div className="prose-narrow mt-8 text-[var(--color-ink-muted)]">
             <p>
-              Sid Mofya helps serious rooms make sense of the new power stack: the convergence of
-              AI infrastructure, energy security, critical minerals, compute, capital allocation,
-              African resources, cultural trust, and strategic coordination.
-            </p>
-            <p>
-              This is not a generic future-of-Africa talk or a generic AI keynote. It is a
-              strategic briefing for rooms where decisions about capital, risk, partnerships,
-              infrastructure, and positioning are live.
+              Not a future-of-Africa talk or an AI keynote. A strategic briefing for rooms where
+              decisions about capital, risk, partnerships, and positioning are live.
             </p>
           </div>
         </div>
       </Section>
 
+      {/* 2. Thesis chain: stands alone, no competing header. */}
+      <Section divider className="!py-20 md:!py-28">
+        <div className="max-w-2xl">
+          <p className="h-section text-[var(--color-ink)]">
+            AI needs energy. Energy needs minerals. Minerals need capital. Capital needs trust.
+            Trust needs narrative. And none of it works without coordination and agency.
+          </p>
+          <p className="mt-6 lede text-[var(--color-ink-muted)]">
+            The Sovereign Stack helps leaders see these forces as one connected system, not
+            separate trends.
+          </p>
+        </div>
+      </Section>
+
+      {/* 3. See a talk (ADIS clip) drops in here once the URL is supplied:
+            a single swappable YouTube id rendered as a 16:9 horizontal embed,
+            captioned with the venue (African Diaspora Investment Symposium). */}
+
+      {/* 4. Audience outcomes: forwardable line, then the bullets. Before "Best for". */}
       <Section divider className="!py-16 md:!py-24">
         <div className="grid md:grid-cols-[18rem_1fr] gap-10 md:gap-16">
           <div>
-            <h2 className="h-section text-[var(--color-ink)]">
-              The Sovereign Stack: How AI, Energy, Minerals, Capital, and Culture Are Rewriting
-              Power
-            </h2>
-          </div>
-          <div className="prose-narrow text-[var(--color-ink)]">
-            <p>
-              AI needs energy. Energy needs minerals. Minerals need capital. Capital needs trust.
-              Trust needs narrative. And none of it works without coordination and agency.
-            </p>
-            <p>
-              The Sovereign Stack helps leaders see these forces as one connected system, not
-              separate trends.
+            <h2 className="h-section text-[var(--color-ink)]">Audience outcomes</h2>
+            <p className="mt-5 lede text-[var(--color-ink)]">
+              Your team leaves with a single working lens for allocation, partnership, and
+              positioning decisions.
             </p>
           </div>
+          <SimpleList items={outcomes} />
         </div>
       </Section>
 
+      {/* 5. Best for */}
       <Section divider className="!py-16 md:!py-24">
         <div className="grid md:grid-cols-[18rem_1fr] gap-10 md:gap-16">
           <div>
@@ -183,20 +212,78 @@ export default function Page() {
         </div>
       </Section>
 
+      {/* 6. Why Sid + testimonials */}
       <Section divider className="!py-16 md:!py-24">
         <div className="grid md:grid-cols-[18rem_1fr] gap-10 md:gap-16">
           <div>
-            <h2 className="h-section text-[var(--color-ink)]">Audience outcomes</h2>
-            <p className="mt-5 text-[var(--color-ink-muted)]">After the briefing, the room will be able to:</p>
+            <h2 className="h-section text-[var(--color-ink)]">Why Sid</h2>
           </div>
-          <SimpleList items={outcomes} />
+          <div className="prose-narrow text-[var(--color-ink)]">
+            <p>
+              Sid Mofya is a capital and strategy operator working at the intersection of venture,
+              energy, resources, technology, and emerging markets. He is the Founder of MOTIF 54,
+              former Executive Director of Draper Venture Network, and a Kauffman Fellow. His work
+              focuses on capital formation, investment strategy, critical minerals, energy, compute
+              infrastructure, and building bridges between global investors and frontier markets.
+            </p>
+            <p>
+              He has spoken, hosted, and facilitated conversations for investors, founders,
+              policymakers, and technology leaders at events including MIT, the African Diaspora
+              Investment Symposium, Draper Venture Network LP Day, investment forums in Zambia and
+              the DRC, and Mobile World Congress (4YFN).
+            </p>
+            <p>
+              His work helps leaders understand how shifts in AI, energy, minerals, capital, and
+              geopolitics interact, and what those shifts mean for investment strategy, risk,
+              opportunity, and long-term positioning.
+            </p>
+
+            <div className="mt-10 space-y-8">
+              {testimonials.map((t) => (
+                <figure key={t.name} className="border-l-2 border-[var(--color-copper)] pl-5">
+                  <blockquote className="text-[var(--color-ink)]">{t.quote}</blockquote>
+                  <figcaption className="mt-3 text-[0.9375rem] text-[var(--color-ink-muted)]">
+                    {t.name}, {t.title}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
         </div>
       </Section>
 
+      {/* 7. Available formats */}
+      <Section divider className="!py-16 md:!py-24">
+        <div className="grid md:grid-cols-[18rem_1fr] gap-10 md:gap-16">
+          <div>
+            <h2 className="h-section text-[var(--color-ink)]">Available formats</h2>
+          </div>
+          <SimpleList items={formats} />
+        </div>
+      </Section>
+
+      {/* 8. Call to action. Low-friction "Watch a talk" and "Download the speaker one-sheet (PDF)"
+            join here as the primary actions once the ADIS clip and one-sheet are supplied;
+            "Request a briefing" then becomes secondary. */}
+      <Section divider className="!py-20 md:!py-28">
+        <div className="max-w-2xl">
+          <h2 className="h-section text-[var(--color-ink)]">Bring the real decision.</h2>
+          <p className="mt-5 lede text-[var(--color-ink)]">
+            If you are convening a board, investor group, executive team, founder network, or
+            private room around AI infrastructure, energy security, critical minerals, Africa
+            investment, private capital, or geopolitical risk, start here.
+          </p>
+          <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <CTAButton href="/work-with-me?interest=speaking">Request a Briefing</CTAButton>
+          </div>
+        </div>
+      </Section>
+
+      {/* More from Sid: secondary archive, demoted below the booking decision. */}
       <Section divider className="!py-16 md:!py-24">
         <div className="max-w-2xl mb-12 md:mb-16">
-          <div className="eyebrow mb-3">Watch</div>
-          <h2 className="h-section text-[var(--color-ink)]">The Sovereign Stack in 8 Signals</h2>
+          <div className="eyebrow mb-3">More from Sid</div>
+          <h2 className="h-section text-[var(--color-ink)]">The Sovereign Stack, one signal at a time</h2>
           <p className="mt-5 text-[var(--color-ink-muted)]">
             A curated set from{" "}
             <Link href="/patterncognition" className="link-copper">
@@ -208,60 +295,6 @@ export default function Page() {
         </div>
 
         <SpeakingPlaylist entries={resolvedPlaylist} />
-      </Section>
-
-      <Section divider className="!py-16 md:!py-24">
-        <div className="grid md:grid-cols-[18rem_1fr] gap-10 md:gap-16">
-          <div>
-            <h2 className="h-section text-[var(--color-ink)]">Available formats</h2>
-          </div>
-          <SimpleList items={formats} />
-        </div>
-      </Section>
-
-      <Section divider className="!py-16 md:!py-24">
-        <div className="grid md:grid-cols-[18rem_1fr] gap-10 md:gap-16">
-          <div>
-            <h2 className="h-section text-[var(--color-ink)]">Why Sid</h2>
-          </div>
-          <div className="prose-narrow text-[var(--color-ink)]">
-            <p>
-              Sid Mofya is a capital and strategy operator working at the intersection of venture,
-              energy, resources, technology, and emerging markets. He is the Founder of MOTIF 54,
-              former CEO of Draper Venture Network, and a Kauffman Fellow. His work focuses on
-              capital formation, investment strategy, critical minerals, energy, compute
-              infrastructure, and building bridges between global investors and frontier markets.
-            </p>
-            <p>
-              He has spoken, hosted, and facilitated conversations for investors, founders,
-              policymakers, and technology leaders at events including Mobile World Congress (4YFN),
-              MIT, VeChain Summit, LA Blockchain Summit, the African Diaspora Investment Symposium,
-              Draper Venture Network LP Day, and investment forums in Zambia and the DRC.
-            </p>
-            <p>
-              His work helps leaders understand how shifts in AI, energy, minerals, capital, and
-              geopolitics interact, and what those shifts mean for investment strategy, risk,
-              opportunity, and long-term positioning.
-            </p>
-          </div>
-        </div>
-      </Section>
-
-      <Section divider className="!py-20 md:!py-28">
-        <div className="max-w-2xl">
-          <h2 className="h-section text-[var(--color-ink)]">Bring the real decision.</h2>
-          <p className="mt-5 lede text-[var(--color-ink)]">
-            If you are convening a board, investor group, executive team, founder network, or
-            private room around AI infrastructure, energy security, critical minerals, Africa
-            investment, private capital, or geopolitical risk, start here.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
-            <CTAButton href="/work-with-me?interest=speaking">Request a Briefing</CTAButton>
-            <CTAButton href="https://motif54.com" variant="secondary">
-              Explore MOTIF 54
-            </CTAButton>
-          </div>
-        </div>
       </Section>
     </>
   );

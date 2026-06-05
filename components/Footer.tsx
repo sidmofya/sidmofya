@@ -13,9 +13,6 @@ export default function Footer() {
               </a>
               .
             </p>
-            <p className="mt-3 text-[var(--color-ink-muted)]">
-              This site is the culture register. MOTIF 54 is the capital register.
-            </p>
           </div>
 
           <nav className="grid grid-cols-2 gap-x-10 gap-y-2 text-[0.9375rem]">
@@ -42,9 +39,8 @@ export default function Footer() {
 
         <hr className="rule mt-12" />
 
-        <div className="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-[0.8125rem] text-[var(--color-ink-muted)]">
+        <div className="mt-6 text-[0.8125rem] text-[var(--color-ink-muted)]">
           <span>&copy; {new Date().getFullYear()} Sid Mofya</span>
-          <span>Culture register, v0.1</span>
         </div>
       </div>
     </footer>
