@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Section from "@/components/Section";
 import CTAButton from "@/components/CTAButton";
-import SpeakingPlaylist from "@/components/SpeakingPlaylist";
-import { videos as patternVideos } from "@/lib/pattern-cognition";
 
 export const metadata: Metadata = {
   title: "Speaking & Executive Briefings | Sid Mofya",
@@ -58,84 +55,6 @@ const testimonials: Testimonial[] = [
     title: "Honorary Consul of Zambia to the State of California",
   },
 ];
-
-type PlaylistEntry = {
-  title: string;
-  signal: string;
-  label: string;
-};
-
-// Curated arc: AI → infrastructure → energy → ownership → capital structures → trust → culture → coordination.
-// Titles must match an entry in lib/pattern-cognition.ts exactly. If any title goes missing
-// (renamed or removed upstream), the resolver below will warn in dev and skip it; do not
-// substitute a different video without explicit direction.
-const sovereignStackPlaylist: PlaylistEntry[] = [
-  {
-    title: "If you're still treating AI like a typing assistant, you're missing the point",
-    signal:
-      "AI is not just a productivity tool. It is changing the operating layer of work, strategy, and agency.",
-    label: "AI",
-  },
-  {
-    title: "We Can Not Have a Tech Future Without Investing into the Right Assets",
-    signal:
-      "The future is not built on software alone. Technology depends on physical assets, infrastructure, energy, and capital.",
-    label: "Infrastructure",
-  },
-  {
-    title: "Challenges like the Energy Crisis in Zambia are opportunities",
-    signal:
-      "Energy constraints are not only problems. They can reveal where infrastructure, capital, and industrial strategy need to move next.",
-    label: "Energy",
-  },
-  {
-    title: "Africa is Rich, But Who Exactly Owns Its Wealth?",
-    signal:
-      "The core question is not whether Africa has resources. It is who owns, controls, finances, and captures the value.",
-    label: "Ownership",
-  },
-  {
-    title:
-      "New Investment Structures are Making Investing into Mining Accessible to More Investors",
-    signal:
-      "Critical minerals are becoming more investable as new structures change access, ownership, and capital formation.",
-    label: "Minerals",
-  },
-  {
-    title: "Who You Invest With MATTERS Most in Emerging Markets Investing",
-    signal:
-      "In emerging markets, partner quality, trust, governance, and execution matter as much as the asset itself.",
-    label: "Trust",
-  },
-  {
-    title: "Culture Can Bring More Capital",
-    signal:
-      "Culture is not decoration. Narrative, legitimacy, and trust can shape where capital flows and why.",
-    label: "Culture",
-  },
-  {
-    title: "The Value of Hosting a Conference is Bringing People Together",
-    signal:
-      "The room itself is part of the strategy. Convening creates coordination, trust, commitments, and next moves.",
-    label: "Coordination",
-  },
-];
-
-const videoIndexByTitle = new Map(patternVideos.map((v) => [v.title, v.id]));
-
-const resolvedPlaylist = sovereignStackPlaylist.flatMap((entry) => {
-  const id = videoIndexByTitle.get(entry.title);
-  if (!id) {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `[speaking] Sovereign Stack playlist: no Pattern Cognition video found for title "${entry.title}". Skipping.`,
-      );
-    }
-    return [];
-  }
-  return [{ ...entry, id }];
-});
 
 function SimpleList({ items }: { items: string[] }) {
   return (
@@ -277,24 +196,6 @@ export default function Page() {
             <CTAButton href="/work-with-me?interest=speaking">Request a Briefing</CTAButton>
           </div>
         </div>
-      </Section>
-
-      {/* More from Sid: secondary archive, demoted below the booking decision. */}
-      <Section divider className="!py-16 md:!py-24">
-        <div className="max-w-2xl mb-12 md:mb-16">
-          <div className="eyebrow mb-3">More from Sid</div>
-          <h2 className="h-section text-[var(--color-ink)]">The Sovereign Stack, one signal at a time</h2>
-          <p className="mt-5 text-[var(--color-ink-muted)]">
-            A curated set from{" "}
-            <Link href="/patterncognition" className="link-copper">
-              Pattern Cognition
-            </Link>
-            , Sid&rsquo;s short-video archive on recurring patterns across capital, culture, AI,
-            Africa, creative practice, strategy, and inner life.
-          </p>
-        </div>
-
-        <SpeakingPlaylist entries={resolvedPlaylist} />
       </Section>
     </>
   );
