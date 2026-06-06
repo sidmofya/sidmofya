@@ -18,8 +18,12 @@ const venues = [
   "MIT",
   "African Diaspora Investment Symposium",
   "Draper Venture Network LP Day",
-  "Investment forums in Zambia and the DRC",
+  "Zambia US Roadshow",
+  "DRC Investment Forum",
   "Mobile World Congress (4YFN)",
+  "TEC de Monterrey",
+  "Deutsche Bank",
+  "Telefonica",
 ];
 
 const credentials = [
@@ -84,6 +88,12 @@ const testimonials: Testimonial[] = [
     name: "Rajen Ranchhod",
     title: "Honorary Consul of Zambia to the State of California",
   },
+  {
+    quote:
+      "Sid moderated one of the most engaged sessions at ADIS. He drew real substance out of Tammy and Eva and kept the room with him from start to finish. I'd have him back without hesitation.",
+    name: "Almaz Negash",
+    title: "CEO & Founder, African Diaspora Network",
+  },
 ];
 
 export default function Page() {
@@ -128,15 +138,15 @@ export default function Page() {
       {/* Credibility strip: instant authority before the argument. */}
       <Section className="!pt-0 !pb-12 md:!pb-16">
         <div className="text-[0.8125rem] tracking-wider text-[var(--color-ink-muted)]">
-          <span className="uppercase text-[var(--color-copper)]">In the room at</span>
+          <span className="uppercase text-[var(--color-copper)]">Previous rooms</span>
           <span className="mx-3 text-[var(--color-rule)]" aria-hidden="true">
-            /
+            :
           </span>
           {venues.map((v, i) => (
             <span key={v}>
               {i > 0 && (
                 <span className="mx-2 text-[var(--color-rule)]" aria-hidden="true">
-                  ·
+                  |
                 </span>
               )}
               {v}
@@ -235,7 +245,6 @@ export default function Page() {
         <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16">
           <div>
             <h2 className="h-section text-[var(--color-ink)]">Best for</h2>
-            <p className="mt-5 text-[var(--color-ink-muted)]">A quick scan to place yourself.</p>
           </div>
           <ul className="flex flex-wrap gap-2.5 self-start">
             {bestFor.map((item) => (
