@@ -114,18 +114,13 @@ export default function Page() {
           </div>
 
           <div className="relative mx-auto w-full max-w-sm md:max-w-none">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 translate-x-3 translate-y-3 border border-[var(--color-copper)]/40"
+            {/* Background recolored to --color-bg so the subject floats on the page. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={HEADSHOT_SRC}
+              alt="Sid Mofya"
+              className="w-full aspect-[4/5] object-cover object-top"
             />
-            <div className="relative border border-[var(--color-rule)] bg-[var(--color-bg-elev)] p-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={HEADSHOT_SRC}
-                alt="Sid Mofya"
-                className="w-full aspect-[4/5] object-cover object-top"
-              />
-            </div>
           </div>
         </div>
       </Section>
