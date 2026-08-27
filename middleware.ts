@@ -1,5 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { resolvePartnerRoomRoute } from "@/lib/partner-room-routing.mjs";
+import {
+  buildPartnerRoomUrl,
+  resolvePartnerRoomRoute,
+} from "@/lib/partner-room-routing.mjs";
 
 const INTERNAL_REWRITE_HEADER = "x-partner-room-internal-rewrite";
 
@@ -16,15 +19,19 @@ export function middleware(request: NextRequest) {
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set(INTERNAL_REWRITE_HEADER, "1");
 
-    return NextResponse.rewrite(new URL(decision.pathname, request.url), {
+    return NextResponse.rewrite(buildPartnerRoomUrl({
+      requestUrl: request.url,
+      pathname: decision.pathname,
+    }), {
       request: { headers: requestHeaders },
     });
   }
 
   if (decision.type === "redirect") {
-    return NextResponse.redirect(
-      "url" in decision ? new URL(decision.url) : new URL(decision.pathname, request.url),
-    );
+    return NextResponse.redirect(buildPartnerRoomUrl({
+      requestUrl: request.url,
+      ...("url" in decision ? { url: decision.url } : { pathname: decision.pathname }),
+    }));
   }
 
   return NextResponse.next();

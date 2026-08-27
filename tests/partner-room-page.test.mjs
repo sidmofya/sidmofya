@@ -124,26 +124,37 @@ test("serves a static Netlify detection form with the complete Partner Room sche
   const html = await response.text();
 
   assert.equal(response.status, 200);
-  assert.match(html, /<form\s+name="partner-room-seat-request"/);
-  for (const field of [
+  const formNameIndex = html.indexOf('name="partner-room-seat-request"');
+  const formStart = html.lastIndexOf("<form", formNameIndex);
+  assert.notEqual(formStart, -1, "Partner Room detection form should be present");
+  const formEnd = html.indexOf("</form>", formStart);
+  const form = html.slice(formStart, formEnd);
+  const fields = [...form.matchAll(/<(?:input|select|textarea)[^>]*\sname="([^"]+)"/g)]
+    .map((match) => match[1])
+    .sort();
+
+  assert.deepEqual(fields, [
+    "bot-field",
+    "company",
     "company-website",
-    "raise-timing",
-    "investor-targets",
-    "room-concern",
     "deck-url",
-    "utm-source",
-    "utm-medium",
+    "email",
+    "investor-targets",
+    "landing-page-url",
+    "name",
+    "raise-timing",
+    "referral-url",
+    "room-concern",
+    "round",
+    "subject",
+    "submitted-at",
     "utm-campaign",
     "utm-content",
+    "utm-medium",
+    "utm-source",
     "utm-term",
-    "referral-url",
-    "landing-page-url",
-    "submitted-at",
-    "subject",
-    "bot-field",
-  ]) {
-    assert.match(html, new RegExp(`name="${field}"`));
-  }
+  ].sort());
+
 });
 
 test("keeps the launch copy within the approved content contract", async () => {

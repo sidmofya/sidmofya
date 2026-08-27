@@ -1,7 +1,29 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { resolvePartnerRoomRoute } from "../lib/partner-room-routing.mjs";
+import {
+  buildPartnerRoomUrl,
+  resolvePartnerRoomRoute,
+} from "../lib/partner-room-routing.mjs";
+
+test("preserves attribution parameters when building route destinations", () => {
+  assert.equal(
+    buildPartnerRoomUrl({
+      requestUrl:
+        "https://sidmofya.com/partner-room?utm_source=linkedin&utm_campaign=founding_room",
+      url: "https://partnerroom.sidmofya.com/",
+    }).href,
+    "https://partnerroom.sidmofya.com/?utm_source=linkedin&utm_campaign=founding_room",
+  );
+
+  assert.equal(
+    buildPartnerRoomUrl({
+      requestUrl: "https://partnerroom.sidmofya.com/?utm_source=referrer",
+      pathname: "/partner-room",
+    }).href,
+    "https://partnerroom.sidmofya.com/partner-room?utm_source=referrer",
+  );
+});
 
 test("rewrites the Partner Room site root to its internal route", () => {
   assert.deepEqual(
