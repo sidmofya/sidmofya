@@ -85,7 +85,7 @@ test("preserves the existing main-site chrome on the 404 page", async () => {
 
   assert.equal(response.status, 404);
   assert.match(html, />Sid Mofya</);
-  assert.match(html, /Culture register, v0\.1/);
+  assert.match(html, /For capital-facing work, visit/);
   assert.match(html, /Not here\./);
 });
 
