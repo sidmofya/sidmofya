@@ -51,6 +51,19 @@ test("canonicalizes the internal route to root on the dedicated site", () => {
   );
 });
 
+test("allows the internal route while fulfilling a root rewrite", () => {
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "partner-room-preview.netlify.app",
+      pathname: "/partner-room",
+      method: "GET",
+      siteVariant: "partner-room",
+      isInternalRewrite: true,
+    }),
+    { type: "next" },
+  );
+});
+
 test("allows the Partner Room social image route on the dedicated site", () => {
   assert.deepEqual(
     resolvePartnerRoomRoute({

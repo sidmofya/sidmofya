@@ -100,6 +100,12 @@
   text-decoration: none;
 }
 
+.siteHeader .brand {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+}
+
 .brand span {
   margin-inline: 0.35em;
   color: var(--pr-dim);
@@ -840,6 +846,9 @@
 }
 
 .footerLinks > a:last-child {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
   color: var(--pr-muted);
   text-underline-offset: 0.25rem;
 }
