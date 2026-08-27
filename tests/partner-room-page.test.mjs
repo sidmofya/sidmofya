@@ -76,6 +76,16 @@ test("preserves every existing public route through the main route group", async
   }
 });
 
+test("preserves the existing main-site chrome on the 404 page", async () => {
+  const response = await fetch(`${baseUrl}/this-route-does-not-exist`);
+  const html = await response.text();
+
+  assert.equal(response.status, 404);
+  assert.match(html, />Sid Mofya</);
+  assert.match(html, /Culture register, v0\.1/);
+  assert.match(html, /Not here\./);
+});
+
 test("renders the complete seat-request contract without a file upload", async () => {
   const response = await fetch(`${baseUrl}/partner-room`);
   const html = await response.text();
