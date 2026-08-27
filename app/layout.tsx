@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -31,11 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
-      <body>
-        <Nav />
-        <main>{children}</main>
-        <Footer />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
