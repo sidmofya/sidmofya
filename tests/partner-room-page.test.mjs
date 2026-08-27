@@ -109,7 +109,10 @@ test("publishes Partner Room metadata and a renderable social image", async () =
   assert.match(html, /<title>Partner Room \| Rehearse the Room That Decides Your Series A<\/title>/);
   assert.match(html, /<link rel="canonical" href="https:\/\/partnerroom\.sidmofya\.com\/?"/);
   assert.match(html, /property="og:title" content="Partner Room \| Rehearse the Room That Decides Your Series A"/);
+  assert.match(html, /property="og:image:width" content="1200"/);
+  assert.match(html, /property="og:image:height" content="630"/);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
+  assert.match(html, /name="twitter:image" content="[^"]+\/partner-room\/opengraph-image[^"]*"/);
 
   const imageMatch = html.match(/property="og:image" content="([^"]+)"/);
   assert.ok(imageMatch, "Open Graph image metadata should be present.");
