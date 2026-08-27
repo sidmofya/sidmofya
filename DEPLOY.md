@@ -79,7 +79,23 @@ Notes about how this is wired:
 
 To test the form is wired correctly: after the first deploy, submit a test entry from the live URL (not localhost — Netlify Forms only captures submissions on the deployed site). The submission should appear in the Netlify Forms UI within a few seconds and trigger the email.
 
+## Partner Room site (partnerroom.sidmofya.com)
+
+Partner Room is deployed from this repository as a second Netlify site. Its routes are selected by the `SITE_VARIANT` environment variable; do not set that variable on the main `sidmofya.com` project.
+
+1. In Netlify, choose **Add new site → Import an existing project** and select this repository's `main` branch.
+2. Keep the build command and publish directory from `netlify.toml`.
+3. Under **Site configuration → Environment variables**, add `SITE_VARIANT=partner-room` for Production, Deploy Previews, and Branch deploys.
+4. Deploy once, then confirm the generated `netlify.app` URL serves Partner Room at `/` and redirects every other public route back to `/`.
+5. Under **Domain management**, attach `partnerroom.sidmofya.com`. If DNS is managed elsewhere, add a CNAME from `partnerroom` to the new site's `netlify.app` hostname and wait for Netlify to provision SSL.
+6. Under **Forms**, confirm `partner-room-seat-request` was detected from `public/__forms.html`.
+7. Under **Site configuration → Forms → Form notifications**, add an email notification for new `partner-room-seat-request` submissions to `sid@cxbventures.com`.
+
+After the production domain and notification are active, submit one real request at `https://partnerroom.sidmofya.com`. Treat the launch as complete only after the request appears in Netlify Forms and the notification reaches `sid@cxbventures.com`.
+
+The main production site redirects `/partner-room` to the canonical Partner Room subdomain. Local development keeps `/partner-room` directly accessible.
+
 ## Outstanding
 
-- **OG image / favicon** — `public/` only contains `__forms.html`; add `og.png` and a favicon when ready.
+- **Main-site OG image / favicon** — Partner Room has its own generated social image; the main site still needs dedicated assets when ready.
 - **Analytics** — none installed; add Plausible / Fathom / Netlify Analytics when ready.

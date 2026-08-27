@@ -51,6 +51,18 @@ test("canonicalizes the internal route to root on the dedicated site", () => {
   );
 });
 
+test("allows the Partner Room social image route on the dedicated site", () => {
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "partnerroom.sidmofya.com",
+      pathname: "/partner-room/opengraph-image",
+      method: "GET",
+      siteVariant: "partner-room",
+    }),
+    { type: "next" },
+  );
+});
+
 test("redirects the internal Partner Room route to the dedicated production domain", () => {
   assert.deepEqual(
     resolvePartnerRoomRoute({

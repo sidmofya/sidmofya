@@ -7,8 +7,8 @@
   <body>
     <!--
       This file exists so Netlify's build-time form-detection bot sees the
-      "work-with-me" form (the live form is rendered client-side by React
-      and would otherwise not be present in the built HTML).
+      client-rendered forms, which would otherwise not be present in the
+      static HTML it scans.
 
       Every field on the live form MUST also appear here, with the same
       `name` attribute, or Netlify will drop it from submissions.
@@ -53,6 +53,47 @@
       <input type="text" name="bot-field" />
       <input type="text" name="name" />
       <input type="email" name="email" />
+    </form>
+
+    <form
+      name="partner-room-seat-request"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      hidden
+    >
+      <input type="text" name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="company" />
+      <input type="url" name="company-website" />
+      <select name="round">
+        <option>Seed</option>
+        <option>Series A</option>
+        <option>Other</option>
+      </select>
+      <select name="raise-timing">
+        <option>Raising now</option>
+        <option>Within 3 months</option>
+        <option>Within 3–6 months</option>
+        <option>More than 6 months away</option>
+      </select>
+      <textarea name="investor-targets"></textarea>
+      <textarea name="room-concern"></textarea>
+      <input type="url" name="deck-url" />
+      <input type="hidden" name="utm-source" />
+      <input type="hidden" name="utm-medium" />
+      <input type="hidden" name="utm-campaign" />
+      <input type="hidden" name="utm-content" />
+      <input type="hidden" name="utm-term" />
+      <input type="hidden" name="referral-url" />
+      <input type="hidden" name="landing-page-url" />
+      <input type="hidden" name="submitted-at" />
+      <input
+        type="hidden"
+        name="subject"
+        value="Partner Room seat request"
+        data-remove-prefix
+      />
     </form>
   </body>
 </html>
