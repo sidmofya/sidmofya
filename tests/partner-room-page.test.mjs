@@ -58,3 +58,19 @@ test("preserves the existing homepage through the main route group", async () =>
   assert.match(html, /For people building across worlds\./);
   assert.match(html, />Sid Mofya</);
 });
+
+test("renders the complete seat-request contract without a file upload", async () => {
+  const response = await fetch(`${baseUrl}/partner-room`);
+  const html = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.match(html, /name="partner-room-seat-request"/);
+  assert.match(html, /name="company-website"/);
+  assert.match(html, /name="raise-timing"/);
+  assert.match(html, /name="investor-targets"/);
+  assert.match(html, /name="room-concern"/);
+  assert.match(html, /name="deck-url"/);
+  assert.match(html, /Request My Seat/i);
+  assert.match(html, /6 seats · \$2,500 · Response within 48 hours/);
+  assert.doesNotMatch(html, /type="file"/);
+});

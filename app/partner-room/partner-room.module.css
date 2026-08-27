@@ -638,6 +638,183 @@
   color: var(--pr-muted);
 }
 
+.requestForm {
+  max-width: 58rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem 1.5rem;
+}
+
+.formField {
+  min-width: 0;
+}
+
+.formField label {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: var(--pr-ivory);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.formField label span {
+  color: var(--pr-copper);
+}
+
+.formField > p:not(.fieldError) {
+  margin: -0.2rem 0 0.75rem;
+  color: var(--pr-dim);
+  font-size: 0.8rem;
+}
+
+.formField input,
+.formField select,
+.formField textarea {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--pr-line-strong);
+  border-radius: 2px;
+  background: var(--pr-ink);
+  color: var(--pr-ivory);
+  font: inherit;
+  line-height: 1.45;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.formField textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.concernField textarea {
+  min-height: 13rem;
+}
+
+.formField select {
+  cursor: pointer;
+}
+
+.formField input::placeholder,
+.formField textarea::placeholder {
+  color: var(--pr-dim);
+}
+
+.formField input:hover,
+.formField select:hover,
+.formField textarea:hover {
+  border-color: rgba(208, 138, 90, 0.65);
+}
+
+.formField input:focus-visible,
+.formField select:focus-visible,
+.formField textarea:focus-visible,
+.formActions button:focus-visible,
+.successState:focus-visible {
+  outline: 2px solid var(--pr-copper);
+  outline-offset: 3px;
+  border-color: var(--pr-copper);
+}
+
+.formField [aria-invalid="true"] {
+  border-color: var(--pr-coral);
+}
+
+.fieldError {
+  margin: 0.5rem 0 0;
+  color: var(--pr-coral);
+  font-size: 0.82rem;
+}
+
+.formError {
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--pr-coral);
+  background: rgba(227, 106, 96, 0.08);
+  color: var(--pr-ivory);
+}
+
+.formActions {
+  padding-top: 0.5rem;
+}
+
+.formActions button {
+  min-height: 3rem;
+  padding: 0.9rem 1.4rem;
+  border: 1px solid var(--pr-copper);
+  border-radius: 2px;
+  background: var(--pr-copper);
+  color: var(--pr-ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.formActions button:hover:not(:disabled) {
+  border-color: var(--pr-ivory);
+  background: var(--pr-ivory);
+}
+
+.formActions button:disabled {
+  cursor: wait;
+  opacity: 0.58;
+}
+
+.formActions p {
+  margin: 0.9rem 0 0;
+  color: var(--pr-muted);
+  font-size: 0.8rem;
+}
+
+.successState {
+  max-width: 46rem;
+  padding: clamp(1.75rem, 5vw, 3rem);
+  border: 1px solid var(--pr-line-strong);
+  border-left: 3px solid var(--pr-success);
+  background: var(--pr-ink);
+}
+
+.successState h3 {
+  margin: 0 0 1.5rem;
+  color: var(--pr-ivory);
+  font-family: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.successState p {
+  margin: 0;
+}
+
+.successState p + p {
+  margin-top: 0.85rem;
+}
+
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.mobileSticky {
+  display: none;
+}
+
 .siteFooter {
   display: flex;
   align-items: flex-end;
@@ -771,6 +948,28 @@
 
   .architectureList {
     grid-template-columns: 1fr;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .mobileSticky {
+    position: fixed;
+    right: 0.85rem;
+    bottom: calc(0.85rem + env(safe-area-inset-bottom));
+    left: 0.85rem;
+    z-index: 50;
+    display: block;
+    padding: 0.4rem;
+    border: 1px solid var(--pr-line-strong);
+    background: rgba(10, 10, 12, 0.94);
+    box-shadow: 0 0.75rem 2.5rem rgba(0, 0, 0, 0.36);
+    backdrop-filter: blur(10px);
+  }
+
+  .mobileSticky .primaryCta {
+    width: 100%;
   }
 
   .outcomeList article {

@@ -1,4 +1,6 @@
 import styles from "./partner-room.module.css";
+import PartnerRoomEnhancements from "@/components/partner-room/PartnerRoomEnhancements";
+import RequestSeatForm from "@/components/partner-room/RequestSeatForm";
 
 const architectures = [
   {
@@ -120,7 +122,7 @@ export default function PartnerRoomPage() {
       </header>
 
       <main id="partner-room-main">
-        <section className={styles.hero} aria-labelledby="partner-room-title">
+        <section className={styles.hero} id="partner-room-hero" aria-labelledby="partner-room-title">
           <div className={styles.heroInner}>
             <p className={styles.heroLabel}>Partner Room</p>
             <h1 id="partner-room-title">Your Series A is decided in a room you will never be in.</h1>
@@ -407,11 +409,13 @@ export default function PartnerRoomPage() {
                 <p>Partner Room is for founders approaching an institutional Seed or Series A.</p>
                 <p>We use these answers only to determine whether the timing and room are right for you.</p>
               </div>
-              <div id="partner-room-form" />
+              <RequestSeatForm />
             </div>
           </div>
         </section>
       </main>
+
+      <PartnerRoomEnhancements />
 
       <footer className={styles.siteFooter}>
         <div>
