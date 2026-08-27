@@ -68,11 +68,14 @@ test("preserves every existing public route through the main route group", async
     "/patterncognition",
     "/reinvention",
     "/room-to-results",
+    "/sovereigngeometry",
     "/speaking",
     "/work-with-me",
   ]) {
     const response = await fetch(`${baseUrl}${route}`);
+    const html = await response.text();
     assert.equal(response.status, 200, `${route} should render successfully`);
+    assert.match(html, />Sid Mofya</, `${route} should retain the main-site navigation`);
   }
 });
 
