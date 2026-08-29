@@ -30,10 +30,10 @@ function CopySection({
   const titleId = `${id}-title`;
   return (
     <section className={className} id={id} aria-labelledby={titleId}>
-      <div className={styles.sectionGrid}>
+      <div className={`${styles.sectionGrid} ${styles.composition}`}>
         <SectionLabel number={number}>{label}</SectionLabel>
         <div className={styles.readingColumnWide}>
-          <h2 id={titleId} className={styles.sectionTitle}>{title}</h2>
+          <h2 id={titleId} className={`${styles.sectionTitle} ${styles.display}`} tabIndex={id === "request-seat" ? -1 : undefined}>{title}</h2>
           {children}
         </div>
       </div>
@@ -49,7 +49,7 @@ export default function PartnerRoomSections() {
       <section className={styles.hero} id="partner-room-hero" aria-labelledby="partner-room-title">
         <div className={styles.heroInner}>
           <p className={styles.heroLabel}>Partner Room</p>
-          <h1 id="partner-room-title">{hero.title}</h1>
+          <h1 className={styles.display} id="partner-room-title">{hero.title}</h1>
           <div className={styles.heroCopy}>
             {hero.lines.map((line, index) => <p className={index === 3 ? styles.heroTurn : undefined} key={line}>{line}</p>)}
             <p className={styles.heroPromise}>{hero.body}</p>
@@ -66,7 +66,7 @@ export default function PartnerRoomSections() {
         {failureMode.paragraphs.map((paragraph, index) => <p className={index === 4 ? styles.lead : undefined} key={paragraph}>{paragraph}</p>)}
       </CopySection>
 
-      <CopySection id="mechanism" number="02" label="The mechanism" title={mechanism.title}>
+      <CopySection id="mechanism" number="02" label="The mechanism" title={mechanism.title} className={`${styles.section} ${styles.chamber}`}>
         {mechanism.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         <ol className={styles.process} aria-label="Founder to investment decision process">
           {mechanism.process.map((step, index) => <li className={styles.processStep} key={step}><span className={styles.processNumber}>{String(index + 1).padStart(2, "0")}</span><span>{step}</span></li>)}
@@ -78,7 +78,7 @@ export default function PartnerRoomSections() {
       </CopySection>
 
       <DecisionArchitectures />
-      <div className={styles.heroAction}><SeatLink location="architectures" /></div>
+      <div className={`${styles.architectureCta} ${styles.composition}`}><SeatLink location="architectures" /></div>
       <SameCompanyDifferentRoom />
 
       <CopySection id="company-risk" number="06" label="What happens to your company" title={companyRisk.title}>
@@ -104,7 +104,7 @@ export default function PartnerRoomSections() {
         <p className={styles.lead}>{fitCopy.founding}</p>
       </CopySection>
 
-      <CopySection id="founding-room" number="09" label="The Founding Room" title="The Founding Room" className={`${styles.section} ${styles.foundingSection}`}>
+      <CopySection id="founding-room" number="09" label="The Founding Room" title="The Founding Room" className={`${styles.section} ${styles.chamber} ${styles.foundingSection}`}>
         <p className={styles.lead}>{founding.date}</p>
         <div className={styles.foundingFacts} aria-label="Founding Room facts">
           {foundingFacts.map((fact, index) => <p key={fact}><span>{String(index + 1).padStart(2, "0")}</span>{fact}</p>)}

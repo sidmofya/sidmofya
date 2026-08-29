@@ -40,6 +40,17 @@ after(() => {
   server?.kill();
 });
 
+test("uses the parent MOTIF 54 tokens without the legacy palette or mobile floating CTA", async () => {
+  const css = await readFile(path.join(process.cwd(), "app", "partner-room", "partner-room.module.css"), "utf8");
+
+  assert.match(css, /var\(--color-bg\)/);
+  assert.match(css, /var\(--color-ink\)/);
+  assert.match(css, /var\(--color-copper\)/);
+  assert.doesNotMatch(css, /--pr-(?:ink|ivory|copper|coral|bg)/);
+  assert.doesNotMatch(css, /\.mobileSticky/);
+  assert.match(css, /prefers-reduced-motion:\s*reduce/);
+});
+
 test("renders the approved Partner Room v3 commercial narrative", async () => {
   const response = await fetch(`${baseUrl}/partner-room`);
   const html = await response.text();
@@ -101,6 +112,7 @@ test("places seat-request CTAs at the approved narrative locations without a foo
   const sameCompanyStart = html.indexOf('id="same-company"');
   assert.ok(architecturesCta > architecturesStart, "The architecture CTA should follow the architectures section.");
   assert.ok(architecturesCta < sameCompanyStart, "The architecture CTA should precede the same-company section.");
+  assert.match(html, /<h2[^>]*id="request-seat-title"[^>]*tabindex="-1"/);
   assert.doesNotMatch(html, /data-cta-location="footer"/);
 });
 

@@ -4,10 +4,10 @@ import { architectures } from "./content";
 export default function DecisionArchitectures() {
   return (
     <section className={styles.section} id="architectures" aria-labelledby="architectures-title">
-      <div className={styles.sectionGrid}>
+      <div className={`${styles.sectionGrid} ${styles.composition}`}>
         <div className={styles.sectionLabel}><span>04</span><span>How rooms decide</span></div>
         <div className={styles.readingColumnWide}>
-          <h2 id="architectures-title" className={styles.sectionTitle}>Six Recurring Decision Architectures</h2>
+          <h2 id="architectures-title" className={`${styles.sectionTitle} ${styles.display}`}>Six Recurring Decision Architectures</h2>
           <p className={styles.sectionIntro}>There is no universal investment committee.</p>
           <p className={styles.sectionIntro}>Different firms organise judgment differently.</p>
           <p className={styles.sectionIntro}>Even within the same firm, the effective decision system can change with the cheque size, the sponsor, the market, the partnership and the investment itself.</p>
@@ -22,7 +22,7 @@ export default function DecisionArchitectures() {
                 key={architecture.number}
               >
                 <div className={styles.architectureHeading}>
-                  <span aria-hidden="true">{architecture.number}</span>
+                  <span className={styles.architectureRailNumber} aria-hidden="true">{architecture.number}</span>
                   <h3 id={`architecture-${architecture.number}-title`}>{architecture.name}</h3>
                 </div>
                 <p>{architecture.description}</p>

@@ -1,13 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { shouldShowMobileCta } from "@/lib/partner-room-interactions.mjs";
-import styles from "@/app/partner-room/partner-room.module.css";
+import { useEffect } from "react";
 
 export default function PartnerRoomEnhancements() {
-  const [heroVisible, setHeroVisible] = useState(true);
-  const [formVisible, setFormVisible] = useState(false);
-
   useEffect(() => {
     function handleSeatLink(event: MouseEvent) {
       const target = event.target;
@@ -30,36 +25,5 @@ export default function PartnerRoomEnhancements() {
     return () => document.removeEventListener("click", handleSeatLink);
   }, []);
 
-  useEffect(() => {
-    if (!("IntersectionObserver" in window)) return;
-    const hero = document.getElementById("partner-room-hero");
-    const form = document.getElementById("request-seat");
-    if (!hero || !form) return;
-
-    const heroObserver = new IntersectionObserver(
-      ([entry]) => setHeroVisible(entry.isIntersecting),
-      { threshold: 0.05 },
-    );
-    const formObserver = new IntersectionObserver(
-      ([entry]) => setFormVisible(entry.isIntersecting),
-      { threshold: 0.05 },
-    );
-
-    heroObserver.observe(hero);
-    formObserver.observe(form);
-    return () => {
-      heroObserver.disconnect();
-      formObserver.disconnect();
-    };
-  }, []);
-
-  if (!shouldShowMobileCta({ heroVisible, formVisible })) return null;
-
-  return (
-    <div className={styles.mobileSticky}>
-      <a className={styles.primaryCta} href="#request-seat" data-cta-location="mobile-sticky">
-        Request a Seat
-      </a>
-    </div>
-  );
+  return null;
 }

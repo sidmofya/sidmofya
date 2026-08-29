@@ -3,11 +3,11 @@ import { companyEvidence, roomJudgments } from "./content";
 
 export default function SameCompanyDifferentRoom() {
   return (
-    <section className={`${styles.section} ${styles.sameCompanySection}`} id="same-company" aria-labelledby="same-company-title">
-      <div className={styles.sectionGrid}>
+    <section className={`${styles.section} ${styles.chamber} ${styles.sameCompanySection}`} id="same-company" aria-labelledby="same-company-title">
+      <div className={`${styles.sectionGrid} ${styles.composition}`}>
         <div className={styles.sectionLabel}><span>05</span><span>The distinction</span></div>
         <div className={styles.readingColumnWide}>
-          <h2 id="same-company-title" className={styles.sectionTitle}>Same Company. Different Room.</h2>
+          <h2 id="same-company-title" className={`${styles.sectionTitle} ${styles.display}`}>Same Company. Different Room.</h2>
           <p className={styles.lead}>Imagine this company:</p>
           <div className={styles.companyRoomGrid}>
             <div>
