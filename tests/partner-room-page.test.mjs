@@ -166,7 +166,15 @@ test("renders the complete seat-request contract without a file upload", async (
   assert.match(html, /name="room-concern"/);
   assert.match(html, /name="deck-url"/);
   assert.match(html, /Request My Seat/i);
-  assert.match(html, /6 seats · \$2,500 · Response within 48 hours/);
+  assert.match(html, /<option value="Series A">Series A<\/option>/);
+  assert.match(html, /<option value="Other">Other<\/option>/);
+  assert.doesNotMatch(html, /<option value="Seed">/);
+  assert.doesNotMatch(html, /Raising now/);
+  assert.match(
+    html,
+    /If you join the room, it becomes the starting point for your founder-session pre-read\./,
+  );
+  assert.match(html, /6 seats · \$5,000 · Response within 48 hours/);
   assert.doesNotMatch(html, /type="file"/);
 });
 
@@ -204,6 +212,16 @@ test("serves a static Netlify detection form with the complete Partner Room sche
     .map((match) => match[1])
     .sort();
 
+  const liveResponse = await fetch(`${baseUrl}/partner-room`);
+  const liveHtml = await liveResponse.text();
+  const liveFormNameIndex = liveHtml.indexOf('name="partner-room-seat-request"');
+  const liveFormStart = liveHtml.lastIndexOf("<form", liveFormNameIndex);
+  const liveFormEnd = liveHtml.indexOf("</form>", liveFormStart);
+  const liveFields = [...liveHtml.slice(liveFormStart, liveFormEnd).matchAll(/<(?:input|select|textarea)[^>]*\sname="([^"]+)"/g)]
+    .map((match) => match[1])
+    .filter((field) => field !== "form-name")
+    .sort();
+
   assert.deepEqual(fields, [
     "bot-field",
     "company",
@@ -225,4 +243,6 @@ test("serves a static Netlify detection form with the complete Partner Room sche
     "utm-source",
     "utm-term",
   ].sort());
+  assert.deepEqual(fields, liveFields);
+  assert.doesNotMatch(form, /Seed|Raising now/);
 });

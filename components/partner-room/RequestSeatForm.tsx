@@ -23,6 +23,18 @@ const emptyAttribution = {
   "landing-page-url": "",
 };
 
+const netlifyMetadataFields = [
+  "utm-source",
+  "utm-medium",
+  "utm-campaign",
+  "utm-content",
+  "utm-term",
+  "referral-url",
+  "landing-page-url",
+  "submitted-at",
+  "subject",
+];
+
 function FieldError({ field, errors }: { field: string; errors: Errors }) {
   if (!errors[field]) return null;
   return (
@@ -37,6 +49,7 @@ export default function RequestSeatForm() {
   const [errors, setErrors] = useState<Errors>({});
   const attributionRef = useRef<Record<string, string>>(emptyAttribution);
   const submittingRef = useRef(false);
+  const applicationStartedRef = useRef(false);
   const successRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -73,6 +86,14 @@ export default function RequestSeatForm() {
       delete next[target.name];
       return next;
     });
+  }
+
+  function handleInput(event: SyntheticEvent<HTMLFormElement>) {
+    if (!applicationStartedRef.current) {
+      applicationStartedRef.current = true;
+      window.dispatchEvent(new Event("partner-room:application-start"));
+    }
+    clearFieldError(event);
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -116,6 +137,7 @@ export default function RequestSeatForm() {
         body: new URLSearchParams(payload).toString(),
       });
       if (!response.ok) throw new Error(`Seat request failed with HTTP ${response.status}`);
+      window.dispatchEvent(new Event("partner-room:application-complete"));
       setStatus("success");
     } catch {
       setStatus("error");
@@ -146,11 +168,14 @@ export default function RequestSeatForm() {
       data-netlify="true"
       data-netlify-honeypot="bot-field"
       className={styles.requestForm}
-      onInput={clearFieldError}
+      onInput={handleInput}
       onSubmit={handleSubmit}
       noValidate
     >
       <input type="hidden" name="form-name" value={PARTNER_ROOM_FORM_NAME} />
+      {netlifyMetadataFields.map((field) => (
+        <input key={field} type="hidden" name={field} />
+      ))}
       <div className={styles.honeypot} aria-hidden="true">
         <label htmlFor="bot-field">Leave this field empty</label>
         <input id="bot-field" name="bot-field" type="text" tabIndex={-1} autoComplete="off" />
@@ -181,7 +206,6 @@ export default function RequestSeatForm() {
           <label htmlFor="round">What round are you preparing for? <span aria-hidden="true">*</span></label>
           <select id="round" name="round" defaultValue="" required aria-invalid={Boolean(errors.round)} aria-describedby={describedBy("round")}>
             <option value="" disabled>Select a round</option>
-            <option value="Seed">Seed</option>
             <option value="Series A">Series A</option>
             <option value="Other">Other</option>
           </select>
@@ -191,7 +215,6 @@ export default function RequestSeatForm() {
           <label htmlFor="raise-timing">When do you expect to raise? <span aria-hidden="true">*</span></label>
           <select id="raise-timing" name="raise-timing" defaultValue="" required aria-invalid={Boolean(errors["raise-timing"])} aria-describedby={describedBy("raise-timing")}>
             <option value="" disabled>Select timing</option>
-            <option value="Raising now">Raising now</option>
             <option value="Within 3 months">Within 3 months</option>
             <option value="Within 3–6 months">Within 3–6 months</option>
             <option value="More than 6 months away">More than 6 months away</option>
@@ -208,7 +231,9 @@ export default function RequestSeatForm() {
 
       <div className={`${styles.formField} ${styles.concernField}`}>
         <label htmlFor="room-concern">What do you think the investment room may struggle to believe about your company? <span aria-hidden="true">*</span></label>
-        <p id="room-concern-hint">This is the most important question in the request.</p>
+        <p id="room-concern-hint">
+          This is the most important question in the request. If you join the room, it becomes the starting point for your founder-session pre-read.
+        </p>
         <textarea id="room-concern" name="room-concern" rows={7} required aria-invalid={Boolean(errors["room-concern"])} aria-describedby={["room-concern-hint", describedBy("room-concern")].filter(Boolean).join(" ")} />
         <FieldError field="room-concern" errors={errors} />
       </div>
@@ -229,7 +254,7 @@ export default function RequestSeatForm() {
         <button type="submit" disabled={status === "submitting"}>
           {status === "submitting" ? "Sending Request…" : "Request My Seat"}
         </button>
-        <p>6 seats · $2,500 · Response within 48 hours</p>
+        <p>6 seats · $5,000 · Response within 48 hours</p>
       </div>
     </form>
   );

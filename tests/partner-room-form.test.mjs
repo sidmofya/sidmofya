@@ -14,7 +14,7 @@ const validValues = {
   company: "Signal Works",
   "company-website": "signalworks.example",
   round: "Series A",
-  "raise-timing": "Within 3 months",
+  "raise-timing": "Within 3–6 months",
   "investor-targets": "Institutional venture funds focused on climate software.",
   "room-concern": "Whether our retention evidence is strong enough.",
   "deck-url": "docsend.com/view/example",
@@ -82,11 +82,11 @@ test("rejects malformed email and URL values without changing the answers", () =
   });
 });
 
-test("rejects round and timing values outside the published choices", () => {
+test("rejects retired Seed round and Raising now timing choices", () => {
   const result = validateSeatRequest({
     ...validValues,
-    round: "Pre-Seed",
-    "raise-timing": "Next year",
+    round: "Seed",
+    "raise-timing": "Raising now",
   });
 
   assert.deepEqual(result.errors, {
@@ -176,7 +176,7 @@ test("builds the exact Netlify notification payload", () => {
       company: "Signal Works",
       "company-website": "https://signalworks.example/",
       round: "Series A",
-      "raise-timing": "Within 3 months",
+      "raise-timing": "Within 3–6 months",
       "investor-targets": "Institutional venture funds focused on climate software.",
       "room-concern": "Whether our retention evidence is strong enough.",
       "deck-url": "https://docsend.com/view/example",
