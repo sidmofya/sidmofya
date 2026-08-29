@@ -47,10 +47,8 @@ test("serves Partner Room at the dedicated site root and retains attribution", a
 
   assert.equal(response.status, 200);
   assert.match(html, /Your Series A is decided in a room you will never be in\./);
-  assert.equal(
-    new URL(response.headers.get("x-middleware-rewrite"), baseUrl).href,
-    `${baseUrl}/partner-room?utm_source=linkedin&utm_campaign=founding_room`,
-  );
+  assert.doesNotMatch(html, /For people building across worlds\./);
+  assert.equal(response.headers.get("x-middleware-rewrite"), null);
 });
 
 test("keeps other routes off the dedicated site without losing attribution", async () => {
