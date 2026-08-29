@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import styles from "./partner-room.module.css";
 
 const title = "Partner Room | Rehearse the Room That Decides Your Series A";
 const description =
   "Partner Room puts founders inside six venture investment decision architectures before they raise. Six founders. Six live Zoom sessions. One Founder seat. Five rotating Partner seats.";
+const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://partnerroom.sidmofya.com"),
@@ -31,6 +33,19 @@ export default function PartnerRoomLayout({ children }: { children: React.ReactN
         Skip to content
       </a>
       {children}
+      {plausibleDomain && (
+        <>
+          <Script id="plausible-queue" strategy="afterInteractive">
+            {"window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}"}
+          </Script>
+          <Script
+            defer
+            data-domain={plausibleDomain}
+            src="https://plausible.io/js/script.js"
+            strategy="afterInteractive"
+          />
+        </>
+      )}
     </div>
   );
 }
