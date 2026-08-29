@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import styles from "./partner-room.module.css";
 
-const title = "Partner Room | Rehearse the Room That Decides Your Series A";
+const title = "Partner Room — See How Your Series A Gets Decided";
 const description =
-  "Partner Room puts founders inside six venture investment decision architectures before they raise. Six founders. Six live Zoom sessions. One Founder seat. Five rotating Partner seats.";
+  "Partner Room puts six Series A founders inside the investment decision process: five rooms as an investor, one as the founder.";
+const socialTitle = "Your Series A is decided in a room you will never be in.";
+const socialDescription = "Five rooms as an investor. One as the founder.";
+const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://partnerroom.sidmofya.com"),
@@ -11,16 +15,16 @@ export const metadata: Metadata = {
   description,
   alternates: { canonical: "/" },
   openGraph: {
-    title,
-    description,
+    title: socialTitle,
+    description: socialDescription,
     url: "/",
     siteName: "Partner Room",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title,
-    description,
+    title: socialTitle,
+    description: socialDescription,
   },
 };
 
@@ -31,6 +35,19 @@ export default function PartnerRoomLayout({ children }: { children: React.ReactN
         Skip to content
       </a>
       {children}
+      {plausibleDomain && (
+        <>
+          <Script id="plausible-queue" strategy="afterInteractive">
+            {"window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}"}
+          </Script>
+          <Script
+            defer
+            data-domain={plausibleDomain}
+            src="https://plausible.io/js/script.js"
+            strategy="afterInteractive"
+          />
+        </>
+      )}
     </div>
   );
 }

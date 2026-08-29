@@ -25,7 +25,7 @@ test("preserves attribution parameters when building route destinations", () => 
   );
 });
 
-test("rewrites the Partner Room site root to its internal route", () => {
+test("serves the Partner Room site root directly", () => {
   assert.deepEqual(
     resolvePartnerRoomRoute({
       hostname: "partner-room-preview.netlify.app",
@@ -33,11 +33,11 @@ test("rewrites the Partner Room site root to its internal route", () => {
       method: "GET",
       siteVariant: "partner-room",
     }),
-    { type: "rewrite", pathname: "/partner-room" },
+    { type: "next" },
   );
 });
 
-test("recognizes the production Partner Room host without the variant flag", () => {
+test("serves the production Partner Room host root directly without the variant flag", () => {
   assert.deepEqual(
     resolvePartnerRoomRoute({
       hostname: "partnerroom.sidmofya.com",
@@ -45,7 +45,7 @@ test("recognizes the production Partner Room host without the variant flag", () 
       method: "GET",
       siteVariant: undefined,
     }),
-    { type: "rewrite", pathname: "/partner-room" },
+    { type: "next" },
   );
 });
 

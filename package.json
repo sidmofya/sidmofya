@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node --test --test-concurrency=1 tests/partner-room-routing.test.mjs tests/partner-room-form.test.mjs tests/partner-room-interactions.test.mjs tests/partner-room-page.test.mjs tests/partner-room-variant.test.mjs"
+    "test": "node --test --test-concurrency=1 tests/partner-room-routing.test.mjs tests/partner-room-form.test.mjs tests/partner-room-analytics.test.mjs tests/partner-room-page.test.mjs tests/partner-room-variant.test.mjs"
   },
   "dependencies": {
     "next": "15.5.18",
