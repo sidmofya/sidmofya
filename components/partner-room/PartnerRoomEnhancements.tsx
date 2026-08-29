@@ -7,6 +7,7 @@ import {
   isSectionDepthQualified,
   reconcileArchitectureIntersections,
   selectActiveArchitecture,
+  toArchitectureIntersection,
 } from "@/lib/partner-room-analytics.mjs";
 
 type Plausible = (name: string, options?: { props?: Record<string, string> }) => void;
@@ -73,7 +74,7 @@ export default function PartnerRoomEnhancements() {
             visibleArchitectures,
             entries.flatMap((entry) => {
               const architecture = entry.target.getAttribute("data-architecture");
-              return architecture ? [{ architecture, ...entry }] : [];
+              return architecture ? [toArchitectureIntersection(entry, architecture)] : [];
             }),
           );
           const activeArchitecture = selectActiveArchitecture(visibleArchitectures);

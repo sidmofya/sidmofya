@@ -6,6 +6,7 @@ import {
   isSectionDepthQualified,
   reconcileArchitectureIntersections,
   selectActiveArchitecture,
+  toArchitectureIntersection,
 } from "../lib/partner-room-analytics.mjs";
 
 test("emits each application boundary and allowed section depth once", () => {
@@ -99,4 +100,22 @@ test("maintains and deterministically resolves active architectures across obser
     { architecture: "01", isIntersecting: false, intersectionRatio: 0 },
   ]);
   assert.equal(selectActiveArchitecture(visibleArchitectures), undefined);
+});
+
+test("adapts prototype-backed observer values without spreading entry fields", () => {
+  const observerEntry = Object.create({
+    get isIntersecting() {
+      return true;
+    },
+    get intersectionRatio() {
+      return 0.75;
+    },
+  });
+
+  assert.deepEqual({ ...observerEntry }, {});
+  assert.deepEqual(toArchitectureIntersection(observerEntry, "03"), {
+    architecture: "03",
+    isIntersecting: true,
+    intersectionRatio: 0.75,
+  });
 });
