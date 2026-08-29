@@ -82,6 +82,28 @@ test("renders the approved Partner Room v3 commercial narrative", async () => {
   const contentSource = await readFile(path.join(process.cwd(), "components", "partner-room", "content.ts"), "utf8");
   assert.doesNotMatch(`${pageSource}\n${contentSource}`, /\$2,500|institutional Seed|6 Decisions/);
 });
+
+test("places seat-request CTAs at the approved narrative locations without a footer CTA", async () => {
+  const response = await fetch(`${baseUrl}/partner-room`);
+  const html = await response.text();
+
+  assert.equal(response.status, 200);
+  for (const location of ["nav", "hero", "architectures", "founding-room"]) {
+    assert.match(
+      html,
+      new RegExp(`href="\\#request-seat" data-cta-location="${location}"`),
+      `${location} should provide a seat-request CTA`,
+    );
+  }
+
+  const architecturesStart = html.indexOf('id="architectures"');
+  const architecturesCta = html.indexOf('data-cta-location="architectures"', architecturesStart);
+  const sameCompanyStart = html.indexOf('id="same-company"');
+  assert.ok(architecturesCta > architecturesStart, "The architecture CTA should follow the architectures section.");
+  assert.ok(architecturesCta < sameCompanyStart, "The architecture CTA should precede the same-company section.");
+  assert.doesNotMatch(html, /data-cta-location="footer"/);
+});
+
 test("preserves the existing homepage through the main route group", async () => {
   const response = await fetch(baseUrl);
   const html = await response.text();

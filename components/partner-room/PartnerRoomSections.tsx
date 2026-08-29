@@ -78,6 +78,7 @@ export default function PartnerRoomSections() {
       </CopySection>
 
       <DecisionArchitectures />
+      <div className={styles.heroAction}><SeatLink location="architectures" /></div>
       <SameCompanyDifferentRoom />
 
       <CopySection id="company-risk" number="06" label="What happens to your company" title={companyRisk.title}>
