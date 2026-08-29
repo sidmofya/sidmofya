@@ -85,17 +85,19 @@ Partner Room is deployed from this repository as a second Netlify site. Its rout
 
 1. In Netlify, choose **Add new site → Import an existing project** and select this repository's `main` branch.
 2. Keep the build command and publish directory from `netlify.toml`.
-3. Under **Site configuration → Environment variables**, add `SITE_VARIANT=partner-room` for Production, Deploy Previews, and Branch deploys.
+3. Under **Site configuration → Environment variables**, add `SITE_VARIANT=partner-room` and `NEXT_PUBLIC_PLAUSIBLE_DOMAIN=partnerroom.sidmofya.com` for the Partner Room site only. Keep `SITE_VARIANT=partner-room` enabled for Production, Deploy Previews, and Branch deploys. Plausible is optional in Deploy Previews and Branch deploys, so `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` may be limited to Production when preview analytics are not needed.
 4. Deploy once, then confirm the generated `netlify.app` URL serves Partner Room at `/` and redirects every other public route back to `/`.
 5. Under **Domain management**, attach `partnerroom.sidmofya.com`. If DNS is managed elsewhere, add a CNAME from `partnerroom` to the new site's `netlify.app` hostname and wait for Netlify to provision SSL.
 6. Under **Forms**, confirm `partner-room-seat-request` was detected from `public/__forms.html`.
 7. Under **Site configuration → Forms → Form notifications**, add an email notification for new `partner-room-seat-request` submissions to `sid@cxbventures.com`.
 
-After the production domain and notification are active, submit one real request at `https://partnerroom.sidmofya.com`. Treat the launch as complete only after the request appears in Netlify Forms and the notification reaches `sid@cxbventures.com`.
+Plausible receives only the approved Partner Room journey events. No form answers are sent to analytics.
+
+After the production domain and notification are active, submit one real request at `https://partnerroom.sidmofya.com`. The existing requirement to verify a real Netlify form submission and notification email remains in force before launch: treat the launch as complete only after the request appears in Netlify Forms and the notification reaches `sid@cxbventures.com`.
 
 The main production site redirects `/partner-room` to the canonical Partner Room subdomain. Local development keeps `/partner-room` directly accessible.
 
 ## Outstanding
 
 - **Main-site OG image / favicon** — Partner Room has its own generated social image; the main site still needs dedicated assets when ready.
-- **Analytics** — none installed; add Plausible / Fathom / Netlify Analytics when ready.
+- **Analytics** — Partner Room conditionally loads Plausible when its site-scoped `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` is set; the main site has no analytics installed.

@@ -182,9 +182,11 @@ test("publishes Partner Room metadata and a renderable social image", async () =
   const response = await fetch(`${baseUrl}/partner-room`);
   const html = await response.text();
 
-  assert.match(html, /<title>Partner Room \| Rehearse the Room That Decides Your Series A<\/title>/);
+  assert.match(html, /<title>Partner Room — See How Your Series A Gets Decided<\/title>/);
+  assert.match(html, /name="description" content="Partner Room puts six Series A founders inside the investment decision process: five rooms as an investor, one as the founder\."/);
   assert.match(html, /<link rel="canonical" href="https:\/\/partnerroom\.sidmofya\.com\/?"/);
-  assert.match(html, /property="og:title" content="Partner Room \| Rehearse the Room That Decides Your Series A"/);
+  assert.match(html, /property="og:title" content="Your Series A is decided in a room you will never be in\."/);
+  assert.match(html, /property="og:description" content="Five rooms as an investor\. One as the founder\."/);
   assert.match(html, /property="og:image:width" content="1200"/);
   assert.match(html, /property="og:image:height" content="630"/);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
