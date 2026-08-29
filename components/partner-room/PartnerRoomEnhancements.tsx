@@ -53,6 +53,10 @@ export default function PartnerRoomEnhancements() {
       analytics.trackApplicationComplete();
     }
 
+    function handleFormSubmit() {
+      analytics.trackFormSubmitCta();
+    }
+
     function handlePageHide() {
       analytics.trackApplicationAbandon();
     }
@@ -60,6 +64,7 @@ export default function PartnerRoomEnhancements() {
     document.addEventListener("click", handleSeatLink);
     window.addEventListener("partner-room:application-start", handleApplicationStart);
     window.addEventListener("partner-room:application-complete", handleApplicationComplete);
+    window.addEventListener("partner-room:form-submit", handleFormSubmit);
     window.addEventListener("pagehide", handlePageHide);
 
     let architectureObserver: IntersectionObserver | undefined;
@@ -130,6 +135,7 @@ export default function PartnerRoomEnhancements() {
       document.removeEventListener("click", handleSeatLink);
       window.removeEventListener("partner-room:application-start", handleApplicationStart);
       window.removeEventListener("partner-room:application-complete", handleApplicationComplete);
+      window.removeEventListener("partner-room:form-submit", handleFormSubmit);
       window.removeEventListener("pagehide", handlePageHide);
       architectureObserver?.disconnect();
       milestoneObserver?.disconnect();

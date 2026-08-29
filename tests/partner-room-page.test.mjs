@@ -51,6 +51,45 @@ test("uses the parent MOTIF 54 tokens without the legacy palette or mobile float
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
 });
 
+test("keeps desktop company evidence fixed with narrow and short viewport resets", async () => {
+  const css = await readFile(path.join(process.cwd(), "app", "partner-room", "partner-room.module.css"), "utf8");
+  const evidenceRule = css.match(/\.companyEvidenceColumn\s*\{([^}]*)\}/)?.[1] ?? "";
+  const narrowStart = css.indexOf("@media (max-width: 900px)");
+  const narrowEnd = css.indexOf("@media", narrowStart + 1);
+  const narrowRules = css.slice(narrowStart, narrowEnd);
+  const shortStart = css.indexOf("@media (min-width: 901px) and (max-height: 700px)");
+  const shortEnd = css.indexOf("@media", shortStart + 1);
+  const shortRules = css.slice(shortStart, shortEnd);
+
+  assert.match(evidenceRule, /position:\s*sticky/);
+  assert.match(evidenceRule, /top:\s*6\.5rem/);
+  assert.match(evidenceRule, /align-self:\s*start/);
+  assert.match(evidenceRule, /height:\s*max-content/);
+  assert.match(narrowRules, /\.companyEvidenceColumn\s*\{[^}]*position:\s*static/);
+  assert.match(narrowRules, /\.companyEvidenceColumn\s*\{[^}]*height:\s*auto/);
+  assert.match(shortRules, /\.companyEvidenceColumn\s*\{[^}]*position:\s*static/);
+  assert.match(shortRules, /\.companyEvidenceColumn\s*\{[^}]*height:\s*auto/);
+});
+
+test("keeps the sticky site header and seat CTA visible across responsive rules", async () => {
+  const css = await readFile(path.join(process.cwd(), "app", "partner-room", "partner-room.module.css"), "utf8");
+  const headerRule = css.match(/\.siteHeader\s*\{([^}]*)\}/)?.[1] ?? "";
+  const responsiveStart = css.indexOf("@media (max-width: 900px)");
+  const responsiveEnd = css.indexOf("@media (prefers-reduced-motion: reduce)");
+  const responsiveRules = css.slice(responsiveStart, responsiveEnd);
+  const mobileStart = css.indexOf("@media (max-width: 640px)");
+  const mobileEnd = css.indexOf("@media", mobileStart + 1);
+  const mobileRules = css.slice(mobileStart, mobileEnd);
+
+  assert.match(headerRule, /position:\s*sticky/);
+  assert.match(headerRule, /top:\s*0/);
+  assert.doesNotMatch(responsiveRules, /\.siteHeader\s*\{[^}]*position:\s*static/);
+  assert.doesNotMatch(responsiveRules, /\.headerInner \.primaryCta\s*\{[^}]*display:\s*none/);
+  assert.match(mobileRules, /\.headerInner\s*\{[^}]*gap:\s*0\.5rem/);
+  assert.match(mobileRules, /\.headerInner \.primaryCta\s*\{[^}]*white-space:\s*nowrap/);
+  assert.match(mobileRules, /\.brand\s*\{[^}]*white-space:\s*nowrap/);
+});
+
 test("renders the approved Partner Room v3 commercial narrative", async () => {
   const response = await fetch(`${baseUrl}/partner-room`);
   const html = await response.text();
@@ -114,6 +153,35 @@ test("places seat-request CTAs at the approved narrative locations without a foo
   assert.ok(architecturesCta < sameCompanyStart, "The architecture CTA should precede the same-company section.");
   assert.match(html, /<h2[^>]*id="request-seat-title"[^>]*tabindex="-1"/);
   assert.doesNotMatch(html, /data-cta-location="footer"/);
+});
+
+test("routes every form submit attempt through the form CTA analytics boundary once", async () => {
+  const formSource = await readFile(path.join(process.cwd(), "components", "partner-room", "RequestSeatForm.tsx"), "utf8");
+  const enhancementSource = await readFile(path.join(process.cwd(), "components", "partner-room", "PartnerRoomEnhancements.tsx"), "utf8");
+  const handlerStart = formSource.indexOf("async function handleSubmit");
+  const handlerEnd = formSource.indexOf("\n  if (status === \"success\")", handlerStart);
+  const handlerSource = formSource.slice(handlerStart, handlerEnd);
+  const preventDefaultIndex = handlerSource.indexOf("event.preventDefault()");
+  const boundaryIndex = handlerSource.indexOf('window.dispatchEvent(new Event("partner-room:form-submit"))');
+  const duplicateGuardIndex = handlerSource.indexOf("if (submittingRef.current) return");
+
+  assert.ok(preventDefaultIndex >= 0, "The submit handler should own every mouse and keyboard submit attempt.");
+  assert.ok(boundaryIndex > preventDefaultIndex, "The submit handler should emit its analytics boundary after preventing navigation.");
+  assert.ok(duplicateGuardIndex > boundaryIndex, "Every submit attempt should emit before the in-flight submission guard returns.");
+  assert.match(
+    enhancementSource,
+    /function handleFormSubmit\(\)\s*\{\s*analytics\.trackFormSubmitCta\(\);\s*\}/,
+  );
+  assert.match(
+    enhancementSource,
+    /window\.addEventListener\("partner-room:form-submit", handleFormSubmit\)/,
+  );
+  assert.match(enhancementSource, /target\.closest<HTMLAnchorElement>\("a\[data-cta-location\]"\)/);
+  assert.equal(
+    enhancementSource.match(/analytics\.trackFormSubmitCta\(\)/g)?.length,
+    1,
+    "The submit boundary should reach the analytics adapter exactly once.",
+  );
 });
 
 test("preserves the existing homepage through the main route group", async () => {

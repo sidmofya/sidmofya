@@ -10,7 +10,7 @@ export default function SameCompanyDifferentRoom() {
           <h2 id="same-company-title" className={`${styles.sectionTitle} ${styles.display}`}>Same Company. Different Room.</h2>
           <p className={styles.lead}>Imagine this company:</p>
           <div className={styles.companyRoomGrid}>
-            <div>
+            <div className={styles.companyEvidenceColumn}>
               <p className={styles.columnLabel}>The company</p>
               <ul className={styles.factList}>{companyEvidence.map((fact) => <li key={fact}>{fact}</li>)}</ul>
             </div>

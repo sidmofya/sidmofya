@@ -72,6 +72,17 @@ test("records CTA location without collecting application data", () => {
   ]);
 });
 
+test("records the static form-submit CTA location without application answers", () => {
+  const events = [];
+  const analytics = createPartnerRoomAnalytics((name, props) => events.push({ name, props }));
+
+  analytics.trackFormSubmitCta();
+
+  assert.deepEqual(events, [
+    { name: "partner_room_cta_click", props: { location: "form-submit" } },
+  ]);
+});
+
 test("qualifies section depth only at or above 25 percent intersection", () => {
   assert.equal(isSectionDepthQualified({ isIntersecting: true, intersectionRatio: 0.249 }), false);
   assert.equal(isSectionDepthQualified({ isIntersecting: false, intersectionRatio: 1 }), false);

@@ -98,6 +98,7 @@ export default function RequestSeatForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    window.dispatchEvent(new Event("partner-room:form-submit"));
     if (submittingRef.current) return;
 
     const form = event.currentTarget;
