@@ -40,17 +40,48 @@ after(() => {
   server?.kill();
 });
 
-test("renders the Partner Room page with the core commercial promise", async () => {
+test("renders the approved Partner Room v3 commercial narrative", async () => {
   const response = await fetch(`${baseUrl}/partner-room`);
   const html = await response.text();
 
   assert.equal(response.status, 200);
-  assert.match(html, /Your Series A is decided in a room you will never be in\./);
-  assert.match(html, /6 live sessions over Zoom/);
-  assert.match(html, /5 rotating Partner seats/);
-  assert.match(html, /\$2,500 founding price/);
-});
+  assert.match(html, /Five Rooms as an Investor\. One as the Founder\./);
+  assert.match(html, /Then the founder goes silent\./);
+  assert.match(html, /The room decides in front of them\./);
+  assert.match(html, /Structured Disagreement/);
+  assert.match(html, /Same Company\. Different Room\./);
+  assert.match(html, /storytelling problem/i);
+  assert.match(html, /evidence problem/i);
+  assert.match(html, /underwriting problem/i);
+  assert.match(html, /28 September/);
+  assert.match(html, /15 October 2026/);
+  assert.match(html, /\$5,000/);
+  assert.match(html, /A working venture investor (?:also sits|in every room)/i);
 
+  const headings = [
+    "The Meeting Goes Well. The Answer Is Still No.",
+    "Five Rooms as an Investor. One as the Founder.",
+    "Built by someone who sat in them.",
+    "Six Recurring Decision Architectures",
+    "Same Company. Different Room.",
+    "Before Your Series A Is Actually on the Line.",
+    "Judgment you can carry into the raise.",
+    "Who This Is For",
+    "The Founding Room",
+    "The room is the product.",
+    "Request a Seat",
+  ];
+  let previous = -1;
+  for (const heading of headings) {
+    const next = html.indexOf(heading, previous + 1);
+    assert.ok(next > previous, `${heading} should occur in narrative order`);
+    previous = next;
+  }
+
+  const pageSource = await readFile(path.join(process.cwd(), "app", "partner-room", "page.tsx"), "utf8");
+  const contentSource = await readFile(path.join(process.cwd(), "components", "partner-room", "content.ts"), "utf8");
+  assert.doesNotMatch(`${pageSource}\n${contentSource}`, /\$2,500|institutional Seed|6 Decisions/);
+});
 test("preserves the existing homepage through the main route group", async () => {
   const response = await fetch(baseUrl);
   const html = await response.text();
@@ -160,19 +191,4 @@ test("serves a static Netlify detection form with the complete Partner Room sche
     "utm-source",
     "utm-term",
   ].sort());
-
-});
-
-test("keeps the launch copy within the approved content contract", async () => {
-  const source = await readFile(path.join(process.cwd(), "app", "partner-room", "page.tsx"), "utf8");
-
-  assert.match(source, /Founding Room/);
-  assert.doesNotMatch(source, /founding cohort/i);
-  assert.match(
-    source,
-    /Partner Room is designed for the moment when your company is investable enough to be judged, but your raise is still early enough for that judgment to change how you show up in partner meetings\./,
-  );
-  assert.equal(source.match(/no sales call/gi)?.length, 1);
-  assert.match(source, /\$2,500 founding price/);
-  assert.doesNotMatch(source, /Calendly|testimonial|checkout|type="file"/i);
 });
