@@ -1,7 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { createPartnerRoomAnalytics } from "../lib/partner-room-analytics.mjs";
+import {
+  createPartnerRoomAnalytics,
+  isSectionDepthQualified,
+  reconcileArchitectureIntersections,
+  selectActiveArchitecture,
+} from "../lib/partner-room-analytics.mjs";
 
 test("emits each application boundary and allowed section depth once", () => {
   const events = [];
@@ -64,4 +69,34 @@ test("records CTA location without collecting application data", () => {
   assert.deepEqual(events, [
     { name: "partner_room_cta_click", props: { location: "architectures" } },
   ]);
+});
+
+test("qualifies section depth only at or above 25 percent intersection", () => {
+  assert.equal(isSectionDepthQualified({ isIntersecting: true, intersectionRatio: 0.249 }), false);
+  assert.equal(isSectionDepthQualified({ isIntersecting: false, intersectionRatio: 1 }), false);
+  assert.equal(isSectionDepthQualified({ isIntersecting: true, intersectionRatio: 0.25 }), true);
+});
+
+test("maintains and deterministically resolves active architectures across observer batches", () => {
+  let visibleArchitectures = new Map();
+
+  visibleArchitectures = reconcileArchitectureIntersections(visibleArchitectures, [
+    { architecture: "01", isIntersecting: true, intersectionRatio: 0.5 },
+  ]);
+  assert.equal(selectActiveArchitecture(visibleArchitectures), "01");
+
+  visibleArchitectures = reconcileArchitectureIntersections(visibleArchitectures, [
+    { architecture: "02", isIntersecting: true, intersectionRatio: 0.8 },
+  ]);
+  assert.equal(selectActiveArchitecture(visibleArchitectures), "02");
+
+  visibleArchitectures = reconcileArchitectureIntersections(visibleArchitectures, [
+    { architecture: "02", isIntersecting: false, intersectionRatio: 0 },
+  ]);
+  assert.equal(selectActiveArchitecture(visibleArchitectures), "01");
+
+  visibleArchitectures = reconcileArchitectureIntersections(visibleArchitectures, [
+    { architecture: "01", isIntersecting: false, intersectionRatio: 0 },
+  ]);
+  assert.equal(selectActiveArchitecture(visibleArchitectures), undefined);
 });

@@ -2,7 +2,12 @@
 
 import { useEffect } from "react";
 import styles from "@/app/partner-room/partner-room.module.css";
-import { createPartnerRoomAnalytics } from "@/lib/partner-room-analytics.mjs";
+import {
+  createPartnerRoomAnalytics,
+  isSectionDepthQualified,
+  reconcileArchitectureIntersections,
+  selectActiveArchitecture,
+} from "@/lib/partner-room-analytics.mjs";
 
 type Plausible = (name: string, options?: { props?: Record<string, string> }) => void;
 
@@ -59,19 +64,31 @@ export default function PartnerRoomEnhancements() {
     let architectureObserver: IntersectionObserver | undefined;
     let milestoneObserver: IntersectionObserver | undefined;
     let revealObserver: IntersectionObserver | undefined;
+    let visibleArchitectures = new Map<string, number>();
 
     if ("IntersectionObserver" in window) {
       architectureObserver = new IntersectionObserver(
         (entries) => {
-          const activeEntry = entries
-            .filter((entry) => entry.isIntersecting)
-            .sort((first, second) => second.intersectionRatio - first.intersectionRatio)[0];
-          const architecture = activeEntry?.target.getAttribute("data-architecture");
-          if (!architecture || !architectureContainer) return;
+          visibleArchitectures = reconcileArchitectureIntersections(
+            visibleArchitectures,
+            entries.flatMap((entry) => {
+              const architecture = entry.target.getAttribute("data-architecture");
+              return architecture ? [{ architecture, ...entry }] : [];
+            }),
+          );
+          const activeArchitecture = selectActiveArchitecture(visibleArchitectures);
+          if (!architectureContainer) return;
 
-          architectureContainer.dataset.activeArchitecture = architecture;
+          if (activeArchitecture) {
+            architectureContainer.dataset.activeArchitecture = activeArchitecture;
+          } else {
+            architectureContainer.removeAttribute("data-active-architecture");
+          }
           for (const element of architectureElements) {
-            element.classList.toggle(styles.architectureActive, element === activeEntry?.target);
+            element.classList.toggle(
+              styles.architectureActive,
+              element.dataset.architecture === activeArchitecture,
+            );
           }
         },
         { rootMargin: "-20% 0px -45%", threshold: [0, 0.5, 1] },
@@ -81,7 +98,7 @@ export default function PartnerRoomEnhancements() {
       milestoneObserver = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
-            if (!entry.isIntersecting) continue;
+            if (!isSectionDepthQualified(entry)) continue;
             analytics.trackSectionDepth(entry.target.id);
             milestoneObserver?.unobserve(entry.target);
           }
