@@ -181,3 +181,125 @@ body {
 .doors::after {
   right: 18%;
 }
+
+/* Respect reduced-motion preferences site-wide. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Screen-reader-only text. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Visible focus for keyboard users everywhere. */
+:focus-visible {
+  outline: 2px solid var(--color-copper);
+  outline-offset: 3px;
+}
+
+/*
+ * 23° South latitude motif: a lens and point of view, not a geography lesson.
+ * A hairline with a small coordinate label riding on it.
+ */
+.latitude {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.latitude::before,
+.latitude::after {
+  content: "";
+  height: 1px;
+  background: color-mix(in oklab, var(--color-copper) 35%, transparent);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.latitude::after {
+  flex-grow: 6;
+}
+
+.latitude > span {
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-copper);
+  white-space: nowrap;
+}
+
+/*
+ * KwaZuri: a page-scoped tonal environment derived from the Living Codex
+ * artwork. Scoped so the site's own tokens are never overridden globally.
+ */
+.kwazuri {
+  --kz-parchment: #efe6d4;
+  --kz-ivory: #f7f0e2;
+  --kz-charcoal: #241f19;
+  --kz-ink: #3b332a;
+  --kz-muted: #6b6155;
+  --kz-rule: #d8cab0;
+  /* Used sparingly: the trace of something living beneath the surface. */
+  --kz-blue: #5b7791;
+
+  background: var(--kz-parchment);
+  color: var(--kz-ink);
+}
+
+.kwazuri .eyebrow {
+  color: var(--kz-blue);
+}
+
+.kwazuri hr {
+  border-top-color: var(--kz-rule);
+}
+
+/* Codex plates: the artwork is the storytelling object, so give it room. */
+.codex-plate {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--kz-ivory);
+  border: 1px solid var(--kz-rule);
+}
+
+button.codex-plate {
+  cursor: zoom-in;
+  padding: 0;
+}
+
+.codex-lightbox {
+  max-width: 100vw;
+  max-height: 100vh;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.codex-lightbox::backdrop {
+  background: color-mix(in oklab, var(--color-ink) 92%, transparent);
+}

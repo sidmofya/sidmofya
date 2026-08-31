@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
+import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -16,10 +17,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Sid Mofya | For People Building Across Worlds",
+  title: {
+    default: "Sid Mofya | Capital, Infrastructure & Story",
+    template: "%s",
+  },
   description:
-    "Sid Mofya helps founders, artists, and conveners turn complex work into clear offers, trusted rooms, and revenue-ready possibilities.",
-  metadataBase: new URL("https://sidmofya.com"),
+    "Sid Mofya is a Zambian builder and writer based in Silicon Valley, working across capital, infrastructure and story.",
+  metadataBase: new URL(siteConfig.url),
 };
 
 export default function RootLayout({
