@@ -31,12 +31,20 @@ export default function Page() {
               A living African storyworld spanning fiction, music, technology, ritual
               and play.
             </p>
+            <p className="mt-12 text-[0.8125rem] uppercase tracking-[0.18em] text-[var(--kz-muted)]">
+              Enter the Living Codex ↓
+            </p>
           </div>
         </div>
       </section>
 
-      <section className="px-6 md:px-10">
+      {/* PLACE */}
+      <section className="px-6 md:px-10 pb-20 md:pb-28">
         <div className="mx-auto max-w-[72rem]">
+          <div className="mb-8 flex flex-wrap items-baseline gap-x-8 gap-y-2">
+            <p className="eyebrow">Place</p>
+            <h2 className="h-card text-[var(--kz-charcoal)]">M&rsquo;vua Basin</h2>
+          </div>
           {/* The complete artifact is preserved rather than cropped to a hero band. */}
           <CodexPlate
             src="/kwazuri/mvua-basin.webp"
@@ -46,49 +54,8 @@ export default function Page() {
             priority
           />
           <p className="mt-6 text-[0.8125rem] text-[var(--kz-muted)]">
-            Tap the plate to enlarge.
+            Tap any plate to enlarge.
           </p>
-          <p className="mt-10 text-[0.8125rem] uppercase tracking-[0.18em] text-[var(--kz-muted)]">
-            Enter the Living Codex ↓
-          </p>
-        </div>
-      </section>
-
-      <section className="px-6 md:px-10 py-20 md:py-28">
-        <div className="mx-auto max-w-[72rem]">
-          <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16">
-            <p className="eyebrow">The Living Codex</p>
-            <div className="prose-narrow text-[var(--kz-ink)]">
-              <h2 className="h-section !mb-5 text-[var(--kz-charcoal)]">
-                Fragments from a world in formation.
-              </h2>
-              <p>
-                KwaZuri is being revealed in fragments: places, principles,
-                instruments, memories and ways of living.
-              </p>
-              <p>What follows are a few leaves from the Living Codex.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PLACE — the hero plate already performs this role; only the caption follows. */}
-      <section className="px-6 md:px-10 pb-20 md:pb-28">
-        <div className="mx-auto max-w-[72rem]">
-          <hr className="rule mb-12" />
-          <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16">
-            <p className="eyebrow">Place</p>
-            <div className="max-w-xl">
-              <h2 className="h-card text-[var(--kz-charcoal)]">M&rsquo;vua Basin</h2>
-              <p className="mt-4 text-[var(--kz-ink)]">Heart of KwaZuri.</p>
-              <p className="mt-2 text-[var(--kz-ink)]">
-                A place of memory, making and return.
-              </p>
-              <blockquote className="mt-7 border-l-2 border-[var(--kz-blue)] pl-5 font-display text-xl leading-snug text-[var(--kz-charcoal)]">
-                We build to harmonize, not to impose.
-              </blockquote>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -96,22 +63,9 @@ export default function Page() {
       <section className="px-6 md:px-10 pb-20 md:pb-28">
         <div className="mx-auto max-w-[72rem]">
           <hr className="rule mb-12" />
-          <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16 mb-12">
+          <div className="mb-8 flex flex-wrap items-baseline gap-x-8 gap-y-2">
             <p className="eyebrow">Craft</p>
-            <div className="max-w-xl">
-              <h2 className="h-section text-[var(--kz-charcoal)]">Ekundela</h2>
-              <p className="mt-5 text-[var(--kz-ink)]">
-                The Living Codex records not only stories, but tools, practices and
-                the principles that give them life.
-              </p>
-              <p className="mt-4 text-[var(--kz-ink)]">
-                The Ekundela is one such instrument: a form shaped by memory,
-                resonance and care.
-              </p>
-              <p className="mt-6 font-display text-lg text-[var(--kz-charcoal)]">
-                Sound is architecture.
-              </p>
-            </div>
+            <h2 className="h-card text-[var(--kz-charcoal)]">Ekundela</h2>
           </div>
           <CodexPlate
             src="/kwazuri/ekundela-codex.webp"
@@ -126,23 +80,9 @@ export default function Page() {
       <section className="px-6 md:px-10 pb-24 md:pb-32">
         <div className="mx-auto max-w-[72rem]">
           <hr className="rule mb-12" />
-          <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16 mb-12">
+          <div className="mb-8 flex flex-wrap items-baseline gap-x-8 gap-y-2">
             <p className="eyebrow">People</p>
-            <div className="max-w-xl">
-              <h2 className="h-section text-[var(--kz-charcoal)]">
-                Repair is remembrance.
-              </h2>
-              <p className="mt-5 text-[var(--kz-ink)]">
-                In KwaZuri, knowledge is not only possessed. It is practiced, cared
-                for and passed on.
-              </p>
-              <p className="mt-4 text-[var(--kz-ink)]">
-                Repair is part of memory. Tuning is part of listening.
-              </p>
-              <p className="mt-6 font-display text-lg text-[var(--kz-charcoal)]">
-                We do not own the craft. We keep it alive for those who come after.
-              </p>
-            </div>
+            <h2 className="h-card text-[var(--kz-charcoal)]">Repair is remembrance.</h2>
           </div>
           <CodexPlate
             src="/kwazuri/repair-is-remembrance.webp"
@@ -162,18 +102,15 @@ export default function Page() {
               <h2 className="h-section text-[var(--kz-charcoal)]">
                 Be there when they are.
               </h2>
-              <div className="prose-narrow mt-6 text-[var(--kz-ink)]">
-                <p>KwaZuri is currently in development.</p>
-                <p>
-                  Leave your email and we&rsquo;ll let you know when the world opens,
-                  and occasionally share significant glimpses from the Living Codex.
-                </p>
-              </div>
+              <p className="mt-6 text-[var(--kz-ink)]">
+                KwaZuri is currently in development.
+              </p>
               <div className="mt-8">
                 <KwaZuriSignupForm />
               </div>
               <p className="mt-6 max-w-md text-[0.875rem] text-[var(--kz-muted)]">
-                No regular newsletter. Just launch news and occasional glimpses.
+                No regular newsletter. Just launch news and occasional glimpses from
+                the Living Codex.
               </p>
             </div>
           </div>
