@@ -1,11 +1,22 @@
 import type { Metadata } from "next";
 import Section from "@/components/Section";
 import CTAButton from "@/components/CTAButton";
+import SpeakingInquiryForm from "@/components/SpeakingInquiryForm";
+
+const description =
+  "Sid Mofya briefs boards, investors, founders, and leadership teams on The Sovereign Stack: how AI, energy, minerals, capital, and culture are rewriting power, risk, and opportunity.";
 
 export const metadata: Metadata = {
   title: "Speaking & Executive Briefings | Sid Mofya",
-  description:
-    "Sid Mofya briefs boards, investors, founders, and leadership teams on The Sovereign Stack: how AI, energy, minerals, capital, and culture are rewriting power, risk, and opportunity.",
+  description,
+  alternates: { canonical: "/speaking" },
+  openGraph: {
+    title: "Speaking & Executive Briefings | Sid Mofya",
+    description,
+    url: "/speaking",
+    type: "website",
+    images: ["/sid-mofya.jpg"],
+  },
 };
 
 // Swap this single field when a better ADIS cut is ready (currently a placeholder Short shown 16:9).
@@ -116,9 +127,9 @@ export default function Page() {
               decisions about capital, risk, partnerships, and positioning are live.
             </p>
             <div className="mt-9 flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <CTAButton href="#see-a-talk">Watch a talk</CTAButton>
-              <CTAButton href="/work-with-me?interest=speaking" variant="secondary">
-                Request a briefing
+              <CTAButton href="#request-a-briefing">Request a briefing</CTAButton>
+              <CTAButton href="#see-a-talk" variant="secondary">
+                Watch a talk
               </CTAButton>
             </div>
           </div>
@@ -350,11 +361,25 @@ export default function Page() {
             investment, private capital, or geopolitical risk, start here.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
-            <CTAButton href="/work-with-me?interest=speaking">Request a briefing</CTAButton>
+            <CTAButton href="#request-a-briefing">Request a briefing</CTAButton>
             <CTAButton href="#see-a-talk" variant="secondary">
               Watch a talk
             </CTAButton>
           </div>
+        </div>
+      </Section>
+
+      {/* Speaking-specific inquiry, coherent with this page's proposition. */}
+      <Section id="request-a-briefing" divider className="scroll-mt-20 !py-16 md:!py-24">
+        <div className="grid gap-10 md:grid-cols-[18rem_1fr] md:gap-16">
+          <div>
+            <div className="eyebrow mb-3">Request a briefing</div>
+            <h2 className="h-section text-[var(--color-ink)]">Start here.</h2>
+            <p className="mt-5 text-[var(--color-ink-muted)]">
+              Tell me about the room and what is live in it.
+            </p>
+          </div>
+          <SpeakingInquiryForm />
         </div>
       </Section>
     </>

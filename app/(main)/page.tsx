@@ -1,36 +1,73 @@
+import Image from "next/image";
 import Link from "next/link";
 import Section from "@/components/Section";
-import CTAButton from "@/components/CTAButton";
-import OfferCard from "@/components/OfferCard";
-import { visibleOffers } from "@/lib/offers";
+import LatitudeRule from "@/components/LatitudeRule";
+import { bodiesOfWork } from "@/lib/bodies-of-work";
 import PartnerRoomPage from "@/app/partner-room/page";
 import { metadata as partnerRoomMetadata } from "@/app/partner-room/layout";
 
+const homeMetadata = {
+  title: "Sid Mofya | Capital, Infrastructure & Story",
+  description:
+    "Sid Mofya is a Zambian builder and writer based in Silicon Valley, working across capital, infrastructure and story. He builds through MOTIF 54, publishes through 23° South and imagines through KwaZuri.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Sid Mofya | Capital, Infrastructure & Story",
+    description:
+      "A Zambian builder and writer working across capital, infrastructure and story.",
+    url: "/",
+    type: "website",
+    images: ["/sid-mofya.jpg"],
+  },
+};
+
 export function generateMetadata() {
-  return process.env.SITE_VARIANT === "partner-room" ? partnerRoomMetadata : {};
+  return process.env.SITE_VARIANT === "partner-room"
+    ? partnerRoomMetadata
+    : homeMetadata;
 }
 
-const briefingOffer = {
-  title: "Sovereign Stack Briefing",
-  cardFor:
-    "For boards, investors, founders, and leadership teams trying to understand the forces reshaping power, risk, and opportunity.",
-  cardCopy:
-    "AI is no longer just a software story. It is becoming an energy, minerals, compute, capital, culture, and coordination story. This briefing helps serious rooms see the full stack before they allocate capital, choose partners, or commit to a strategic direction.",
-  cardDeliverables: [
-    "shared language",
-    "strategic map",
-    "risk lens",
-    "opportunity thesis",
-    "decision prompts",
-    "next-room recommendation",
-  ],
-  cardCta: "Explore Briefings",
-};
+/** Deliberately different texture per door; the shared grid supplies coherence. */
+function doorVisual(name: string) {
+  if (name === "MOTIF 54") {
+    return (
+      <div
+        aria-hidden="true"
+        className="h-full min-h-[9rem] border border-[var(--color-rule)] bg-[var(--color-bg-elev)] p-6 flex flex-col justify-end gap-2"
+      >
+        {[92, 68, 44, 24].map((width) => (
+          <span
+            key={width}
+            className="block h-px bg-[color-mix(in_oklab,var(--color-copper)_45%,transparent)]"
+            style={{ width: `${width}%` }}
+          />
+        ))}
+      </div>
+    );
+  }
 
-const publicOfferTitles: Record<string, string> = {
-  "market-legibility": "Market Legibility",
-  "room-to-results": "Room-to-Results",
-};
+  if (name === "23° SOUTH") {
+    return (
+      <div className="h-full min-h-[9rem] border border-[var(--color-rule)] bg-[var(--color-bg-elev)] p-6 flex items-center">
+        <LatitudeRule />
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative h-full min-h-[9rem] overflow-hidden border border-[var(--color-rule)]">
+      <Image
+        src="/kwazuri/mvua-basin.webp"
+        alt=""
+        aria-hidden="true"
+        width={1672}
+        height={941}
+        sizes="(min-width: 768px) 22rem, 100vw"
+        className="h-full w-full object-cover object-[68%_38%]"
+      />
+    </div>
+  );
+}
 
 export default function Home() {
   if (process.env.SITE_VARIANT === "partner-room") {
@@ -39,204 +76,130 @@ export default function Home() {
 
   return (
     <>
-      {/* 1. Hero */}
-      <section className="relative px-6 md:px-10 pt-16 md:pt-24 pb-20 md:pb-28">
-        <div className="doors" aria-hidden="true">
-          <span />
-        </div>
-        <div className="relative mx-auto max-w-[72rem]">
+      {/* Confident enough not to ask for anything. The doors below are the CTA. */}
+      <section className="px-6 md:px-10 pt-20 md:pt-32 pb-16 md:pb-24">
+        <div className="mx-auto max-w-[72rem]">
           <div className="max-w-3xl">
-            <div className="eyebrow mb-6">Sid Mofya</div>
-            <h1 className="h-hero text-[var(--color-ink)]">For people building across worlds.</h1>
-            <p className="lede mt-7 text-[var(--color-ink)]">
-              I help founders, investors, and leadership teams turn complex transitions into clear
-              offers, trusted rooms, and practical next moves.
+            <p className="eyebrow mb-6">Sid Mofya</p>
+            <h1 className="h-hero text-[var(--color-ink)]">
+              Capital. Infrastructure. Story.
+            </h1>
+            <p className="lede mt-8 max-w-2xl text-[var(--color-ink)]">
+              Sid Mofya is a Zambian builder and writer based in Silicon Valley,
+              working across capital, infrastructure and story.
             </p>
-            <p className="mt-5 text-[var(--color-ink-muted)] max-w-2xl">
-              The work sits where identity, story, trust, rooms, and action meet.
+            <p className="mt-10 text-[0.8125rem] uppercase tracking-[0.18em] text-[var(--color-ink-muted)]">
+              Build · Publish · Imagine
             </p>
-            <div className="mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <CTAButton href="/work-with-me">Work With Me</CTAButton>
-              <CTAButton href="#offers" variant="secondary">
-                See the Offers
-              </CTAButton>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* 2. Speaking bridge */}
-      <Section divider>
-        <div className="grid md:grid-cols-[18rem_1fr] gap-10 md:gap-16 items-start">
-          <div>
-            <div className="eyebrow mb-5">Speaking &amp; Executive Briefings</div>
-            <h2 className="h-section text-[var(--color-ink)]">The Sovereign Stack</h2>
-          </div>
-          <div className="prose-narrow">
-            <p className="lede text-[var(--color-ink)]">
-              I brief boards, investors, founders, and leadership teams on how AI, energy,
-              minerals, compute, capital, culture, and coordination are reshaping power, risk, and
-              opportunity.
-            </p>
-            <p className="mt-5 text-[var(--color-ink-muted)]">
-              The next strategic cycle will not be won by leaders who understand software, energy,
-              finance, or geopolitics in isolation. It will be won by those who can see the full
-              stack.
-            </p>
-            <p className="mt-5 text-[var(--color-ink-muted)]">
-              Available for keynotes, executive briefings, boardroom sessions, investor
-              roundtables, leadership offsites, and private strategic rooms.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <CTAButton href="/speaking">Explore Speaking &amp; Briefings</CTAButton>
-              <CTAButton href="https://motif54.com" variant="secondary">
-                Visit MOTIF 54
-              </CTAButton>
-            </div>
-          </div>
-        </div>
-      </Section>
+      {/* The three doors: the primary object on the page. */}
+      <section className="px-6 md:px-10 pb-8">
+        <div className="mx-auto max-w-[72rem]">
+          {bodiesOfWork.map((work, index) => (
+            <article
+              key={work.name}
+              className="border-t border-[var(--color-rule)] py-12 md:py-16 grid gap-8 md:grid-cols-[1fr_22rem] md:gap-16 md:items-center"
+            >
+              <div>
+                <p className="eyebrow mb-5">
+                  {String(index + 1).padStart(2, "0")} / {work.mode}
+                </p>
+                <h2 className="h-section text-[var(--color-ink)]">{work.name}</h2>
+                <p className="lede mt-5 max-w-xl text-[var(--color-ink-muted)]">
+                  {work.copy}
+                </p>
+                {work.name === "23° SOUTH" && (
+                  <p className="mt-4 max-w-xl text-[0.9375rem] text-[var(--color-ink-muted)]">
+                    Capital. Sovereignty. Technology. Culture. Institutions. The future.
+                  </p>
+                )}
+                <p className="mt-8">
+                  {work.external ? (
+                    <a
+                      href={work.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="link-copper font-medium"
+                    >
+                      {work.cta} ↗<span className="sr-only">(opens in a new tab)</span>
+                    </a>
+                  ) : (
+                    <Link href={work.href} className="link-copper font-medium">
+                      {work.cta} →
+                    </Link>
+                  )}
+                </p>
+              </div>
 
-      {/* 3. Offers */}
-      <Section id="offers" divider>
-        <div className="max-w-2xl mb-12 md:mb-16">
-          <h2 className="h-section text-[var(--color-ink)]">
-            Choose the threshold you are facing.
-          </h2>
-          <p className="mt-5 text-[var(--color-ink-muted)] lede">
-            Each offer is designed for a live moment where the old language is no longer enough
-            and the next move needs to become clear.
-          </p>
-        </div>
-
-        <div className="grid gap-6 lg:grid-cols-3">
-          {visibleOffers.map((offer, i) => (
-            <OfferCard
-              key={offer.slug}
-              offer={{ ...offer, title: publicOfferTitles[offer.slug] ?? offer.title }}
-              index={i}
-            />
+              <div className="order-first md:order-last">{doorVisual(work.name)}</div>
+            </article>
           ))}
-          <OfferCard offer={briefingOffer} index={2} href="/speaking" kind="Briefing" />
         </div>
-      </Section>
+      </section>
 
-      {/* 4. The work is translation */}
-      <Section divider className="text-center">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="h-section text-[var(--color-ink)]">The work is translation.</h2>
-          <div className="mt-8 space-y-4 text-[var(--color-ink)] text-lg">
-            <p>Some things are powerful before they are legible.</p>
-            <p className="text-[var(--color-ink-muted)]">A founder&rsquo;s strange edge.</p>
-            <p className="text-[var(--color-ink-muted)]">A room full of possibility.</p>
-            <p className="text-[var(--color-ink-muted)]">
-              A career chapter that has ended before the next one has fully arrived.
-            </p>
-            <p className="text-[var(--color-ink-muted)]">
-              A story people feel before they know how to trust or buy.
-            </p>
-            <p className="pt-4">
-              My work helps make the invisible structure visible, so the right people can
-              understand, trust, and move.
-            </p>
-          </div>
-        </div>
-      </Section>
-
-      {/* 5. Built for live thresholds */}
       <Section divider>
-        <div className="max-w-2xl mb-12">
-          <h2 className="h-section text-[var(--color-ink)]">Built for live thresholds.</h2>
-          <p className="mt-5 text-[var(--color-ink-muted)] lede">
-            This is for people and organizations at the point where the old language is no longer
-            enough.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-12 md:gap-16">
+        <div className="grid gap-10 md:grid-cols-[18rem_1fr] md:gap-16">
           <div>
-            <div className="eyebrow mb-4">For</div>
-            <ul className="space-y-2">
-              {[
-                "founders with complex stories and unclear offers",
-                "conveners designing rooms where trust must become action",
-                "leaders and teams facing a consequential strategic decision",
-                "advisors moving into a clearer commercial category",
-                "cultural entrepreneurs creating new forms of value",
-                "institutions that need meaning, structure, and outcomes in the same room",
-              ].map((f) => (
-                <li key={f} className="flex items-start gap-3 text-[var(--color-ink)]">
-                  <span className="text-[var(--color-copper)] mt-1">·</span>
-                  <span>{f}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <div className="eyebrow mb-4 !text-[var(--color-ink-muted)]">Not for</div>
-            <ul className="space-y-2">
-              {[
-                "generic personal branding",
-                "curiosity-only conversations",
-                "vague coaching requests",
-                "events that only need moderation",
-                "career tactics with no deeper decision",
-                "endless exploration without a next move",
-              ].map((f) => (
-                <li key={f} className="flex items-start gap-3 text-[var(--color-ink-muted)]">
-                  <span className="mt-1">·</span>
-                  <span>{f}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </Section>
-
-      {/* 6. About */}
-      <Section divider>
-        <div className="grid md:grid-cols-[16rem_1fr] gap-10 md:gap-16">
-          <div>
-            <h2 className="h-section text-[var(--color-ink)]">Led by Sid Mofya.</h2>
+            <p className="eyebrow mb-5">Speaking</p>
+            <h2 className="h-section text-[var(--color-ink)]">
+              Ideas for consequential rooms.
+            </h2>
           </div>
           <div className="prose-narrow">
             <p className="text-[var(--color-ink)]">
-              Sid Mofya works at the edge of capital and culture.
+              Sid speaks to investors, boards, executives and institutional leaders
+              about the forces reshaping capital, infrastructure, technology and
+              sovereignty.
             </p>
-            <p className="text-[var(--color-ink)] mt-4">
-              He has led a global venture network, worked across African investment and
-              infrastructure ecosystems, advised founders and institutions, built creative worlds,
-              and released music through AI-assisted creative practice.
-            </p>
-            <p className="text-[var(--color-ink)] mt-4">
-              His work helps people make the invisible structure visible: the room, the story, the
-              trust, the offer, the capital logic, and the next move.
-            </p>
-            <p className="text-[var(--color-ink-muted)] text-[0.9375rem] mt-6 border-l-2 border-[var(--color-copper)] pl-4">
-              Former CEO and Director of Draper Venture Network. Kauffman Fellow. Founder of MOTIF
-              54. Builder across Africa&rsquo;s energy, minerals, compute, capital, and culture
-              stack.
-            </p>
-            <div className="mt-8">
-              <Link href="/about" className="link-copper font-medium">
-                Read More About Sid →
+            <p className="mt-8">
+              <Link href="/speaking" className="link-copper font-medium">
+                Speaking &amp; Executive Briefings →
               </Link>
-            </div>
+            </p>
+            <p className="mt-6 text-[0.8125rem] uppercase tracking-[0.14em] text-[var(--color-ink-muted)]">
+              Keynotes · Executive Briefings · Boardrooms · Investor Rooms
+            </p>
           </div>
         </div>
       </Section>
 
-      {/* 7. Final CTA */}
       <Section divider>
-        <div className="max-w-2xl">
-          <h2 className="h-section text-[var(--color-ink)]">Bring the live threshold.</h2>
-          <p className="mt-5 lede text-[var(--color-ink)]">
-            Tell me what you are trying to make clear, protect, design, or move. I will recommend
-            the right sprint or say plainly if there is not a fit.
-          </p>
-          <div className="mt-8">
-            <CTAButton href="/work-with-me">Work With Me</CTAButton>
+        <div className="grid gap-10 md:grid-cols-[20rem_1fr] md:gap-16">
+          <div>
+            <h2 className="eyebrow mb-5">About</h2>
+            <Image
+              src="/sid-mofya.jpg"
+              alt="Sid Mofya"
+              width={640}
+              height={800}
+              sizes="(min-width: 768px) 20rem, 100vw"
+              className="w-full max-w-xs aspect-[4/5] object-cover object-top"
+            />
+          </div>
+          <div className="prose-narrow text-[var(--color-ink)]">
+            <p>
+              Sid Mofya is a Zambian builder, writer and former venture executive
+              based in Silicon Valley. He works across capital, infrastructure and
+              story.
+            </p>
+            <p>
+              He is the founder of MOTIF 54 and creator of KwaZuri. His work spans
+              African energy, critical minerals, AI infrastructure, venture capital,
+              institutional decision-making and cultural worldbuilding.
+            </p>
+            <p>
+              Previously, he served as Executive Director of the Draper Venture
+              Network, and as a Technologist at Royal Dutch Shell. He is a Kauffman
+              Fellow and trained as a chemical engineer.
+            </p>
+            <p className="!mt-8">
+              <Link href="/about" className="link-copper font-medium">
+                More about Sid →
+              </Link>
+            </p>
           </div>
         </div>
       </Section>

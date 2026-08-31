@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Pattern Cognition | Sid Mofya",
   description:
     "Short videos on noticing — recurring shapes, signals, and patterns across capital, culture, and creative work.",
+  alternates: { canonical: "/patterncognition" },
 };
 
 export default function Page() {

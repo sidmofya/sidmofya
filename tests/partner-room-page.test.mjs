@@ -184,26 +184,36 @@ test("routes every form submit attempt through the form CTA analytics boundary o
   );
 });
 
-test("preserves the existing homepage through the main route group", async () => {
+test("renders the redesigned homepage through the main route group", async () => {
   const response = await fetch(baseUrl);
   const html = await response.text();
 
   assert.equal(response.status, 200);
-  assert.match(html, /For people building across worlds\./);
+  assert.match(html, /Capital\. Infrastructure\. Story\./);
   assert.match(html, />Sid Mofya</);
+
+  // The three doors are the primary object on the page.
+  assert.match(html, /MOTIF 54/);
+  assert.match(html, /23° SOUTH/);
+  assert.match(html, /KWAZURI/);
+  assert.match(html, /Build · Publish · Imagine/);
+
+  // The retired commercial positioning must not linger anywhere on the page.
+  assert.doesNotMatch(html, /For people building across worlds/);
+  assert.doesNotMatch(html, /Work With Me/);
+  assert.doesNotMatch(html, /Choose the threshold you are facing/);
+  assert.doesNotMatch(html, /54 Worlds/);
 });
 
-test("preserves every existing public route through the main route group", async () => {
+test("serves every public route through the main route group", async () => {
   for (const route of [
+    "/23-south",
     "/about",
-    "/ai-music-rights",
-    "/market-legibility",
+    "/contact",
+    "/kwazuri",
     "/patterncognition",
-    "/reinvention",
-    "/room-to-results",
-    "/sovereigngeometry",
+    "/privacy",
     "/speaking",
-    "/work-with-me",
   ]) {
     const response = await fetch(`${baseUrl}${route}`);
     const html = await response.text();
@@ -212,13 +222,58 @@ test("preserves every existing public route through the main route group", async
   }
 });
 
+test("permanently redirects the retired services architecture", async () => {
+  const redirects = {
+    "/market-legibility": "/23-south",
+    "/room-to-results": "https://motif54.com/",
+    "/work-with-me": "/contact",
+    "/briefings": "/speaking",
+    "/sovereigngeometry": "/23-south",
+    "/reinvention": "/contact",
+    "/ai-music-rights": "/contact",
+  };
+
+  for (const [route, destination] of Object.entries(redirects)) {
+    const response = await fetch(`${baseUrl}${route}`, { redirect: "manual" });
+    assert.equal(response.status, 308, `${route} should redirect permanently`);
+    assert.equal(
+      response.headers.get("location"),
+      destination,
+      `${route} should redirect to ${destination}`,
+    );
+  }
+});
+
+test("declares every live form field for Netlify form detection", async () => {
+  const declared = await readFile(
+    path.join(process.cwd(), "public", "__forms.html"),
+    "utf8",
+  );
+
+  for (const formName of [
+    "work-request",
+    "kwazuri-interest",
+    "speaking-inquiry",
+    "contact",
+    "partner-room-seat-request",
+  ]) {
+    assert.match(
+      declared,
+      new RegExp(`name="${formName}"`),
+      `${formName} must be declared or Netlify drops its submissions`,
+    );
+  }
+
+  // KwaZuri permission stays scoped to KwaZuri.
+  assert.match(declared, /name="tag" value="kwazuri_interest"/);
+});
+
 test("preserves the existing main-site chrome on the 404 page", async () => {
   const response = await fetch(`${baseUrl}/this-route-does-not-exist`);
   const html = await response.text();
 
   assert.equal(response.status, 404);
   assert.match(html, />Sid Mofya</);
-  assert.match(html, /For capital-facing work, visit/);
   assert.match(html, /Not here\./);
 });
 
