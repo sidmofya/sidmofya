@@ -1,8 +1,7 @@
 - 👋 Hi, I’m @sidmofya
-- 👀 I’m interested in world building
-- 🌱 I’m writing on memory as architecture 
-- 💞️ I’m looking to collaborate on world building, fiction writing, creative works 
-- 📫 How to reach me on x @sidmofya
+- 👀 I’m interested in capital, real assets and world building
+- 🌱 I’m building investment and infrsatructure tools, and writing on memory and myth as architecture 
+- 📫 Open to collaborate. Reach me on x @sidmofya
 - 😄 Pronouns: he/him
 - ⚡ Fun fact: apparently, I have a funny laugh
 
