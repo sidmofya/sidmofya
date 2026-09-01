@@ -268,6 +268,56 @@ test("declares every live form field for Netlify form detection", async () => {
   assert.match(declared, /name="tag" value="kwazuri_interest"/);
 });
 
+test("presents Selected Works as a collapsed accordion in the required order", async () => {
+  const response = await fetch(`${baseUrl}/23-south`);
+  const html = await response.text();
+
+  assert.equal(response.status, 200);
+
+  // Real Economik sits immediately before FutureCraft.
+  const order = [
+    "The Wealth of Resource Nations",
+    "Sovereign Geometry",
+    "Canon Before Capital",
+    "Real Economik",
+    "FutureCraft",
+  ].map((title) => {
+    const index = html.indexOf(title);
+    assert.ok(index >= 0, `${title} should render`);
+    return index;
+  });
+
+  for (let i = 1; i < order.length; i += 1) {
+    assert.ok(order[i] > order[i - 1], "Selected Works should render in the required order");
+  }
+
+  // Every entry is collapsed on load, and each trigger is wired to its panel.
+  assert.equal(
+    (html.match(/aria-expanded="false"/g) ?? []).length >= 5,
+    true,
+    "all five accordion triggers should start collapsed",
+  );
+  assert.doesNotMatch(html, /aria-expanded="true"/);
+
+  for (const slug of [
+    "the-wealth-of-resource-nations",
+    "sovereign-geometry",
+    "canon-before-capital",
+    "real-economik",
+    "futurecraft",
+  ]) {
+    assert.match(html, new RegExp(`id="${slug}-trigger"`), `${slug} needs a trigger id`);
+    assert.match(html, new RegExp(`aria-controls="${slug}-panel"`), `${slug} needs aria-controls`);
+    assert.match(html, new RegExp(`id="${slug}-panel"`), `${slug} needs a panel id`);
+  }
+
+  // The in-page navigation anchors resolve to real sections.
+  for (const id of ["premise", "sovereign-tea", "selected-works"]) {
+    assert.match(html, new RegExp(`href="#${id}"`), `nav should link to #${id}`);
+    assert.match(html, new RegExp(`id="${id}"`), `#${id} section should exist`);
+  }
+});
+
 test("preserves the existing main-site chrome on the 404 page", async () => {
   const response = await fetch(`${baseUrl}/this-route-does-not-exist`);
   const html = await response.text();

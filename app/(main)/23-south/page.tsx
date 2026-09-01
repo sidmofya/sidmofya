@@ -36,6 +36,11 @@ const works: Work[] = [
       "The case that durable capital formation begins upstream of money: with shared meaning, legitimacy, standards, memory and a coherent account of what is worth building and preserving.",
   },
   {
+    title: "Real Economik",
+    description:
+      "A framework for understanding the informal economy through the roles that different participants play regardless of institutional recognition.",
+  },
+  {
     title: "FutureCraft",
     description:
       "Africa is a supercomputer humming beneath the surface: copper in the ground, memory in the body, knowledge in language, trade routes crossing old borders. FutureCraft is the work of reconnecting those circuits until the continent can generate its own futures again.",
@@ -57,9 +62,34 @@ export default function Page() {
           </p>
         </div>
         <LatitudeRule className="mt-14 md:mt-20" />
+
+        <nav
+          aria-label="On this page"
+          className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.8125rem] uppercase tracking-[0.14em]"
+        >
+          {[
+            { label: "Premise", href: "#premise" },
+            { label: "Sovereign Tea", href: "#sovereign-tea" },
+            { label: "Selected Works", href: "#selected-works" },
+          ].map((item, index) => (
+            <span key={item.href} className="flex items-center gap-3">
+              {index > 0 && (
+                <span aria-hidden="true" className="text-[var(--color-rule)]">
+                  ·
+                </span>
+              )}
+              <a
+                href={item.href}
+                className="text-[var(--color-ink-muted)] transition-colors hover:text-[var(--color-copper)]"
+              >
+                {item.label}
+              </a>
+            </span>
+          ))}
+        </nav>
       </Section>
 
-      <Section divider>
+      <Section id="premise" divider className="scroll-mt-20">
         <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16">
           <h2 className="eyebrow">A latitude</h2>
           <div className="prose-narrow text-[var(--color-ink)]">
@@ -77,7 +107,7 @@ export default function Page() {
         </div>
       </Section>
 
-      <Section divider>
+      <Section id="sovereign-tea" divider className="scroll-mt-20">
         <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16">
           <h2 className="eyebrow">The newsletter</h2>
           <div>
@@ -104,7 +134,7 @@ export default function Page() {
         </div>
       </Section>
 
-      <Section divider className="!pb-24 md:!pb-32">
+      <Section id="selected-works" divider className="scroll-mt-20 !pb-24 md:!pb-32">
         <h2 className="eyebrow mb-10">Selected writing &amp; frameworks</h2>
         <SelectedWork works={works} />
       </Section>
