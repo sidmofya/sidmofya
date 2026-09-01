@@ -36,9 +36,9 @@ const works: Work[] = [
       "The case that durable capital formation begins upstream of money: with shared meaning, legitimacy, standards, memory and a coherent account of what is worth building and preserving.",
   },
   {
-    title: "Futurecraft",
+    title: "FutureCraft",
     description:
-      "A framework for making better strategic choices when technology changes faster than institutions, categories and conventional planning.",
+      "Africa is a supercomputer humming beneath the surface: copper in the ground, memory in the body, knowledge in language, trade routes crossing old borders. FutureCraft is the work of reconnecting those circuits until the continent can generate its own futures again.",
   },
 ];
 
@@ -61,17 +61,17 @@ export default function Page() {
 
       <Section divider>
         <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16">
-          <h2 className="eyebrow">A latitude, not a niche</h2>
+          <h2 className="eyebrow">A latitude</h2>
           <div className="prose-narrow text-[var(--color-ink)]">
             <p>The world looks different depending on where you stand.</p>
             <p>
-              23° South begins with a point of view: looking at the world from the
+              23° South views the world from a specific latitude and examines the
               intersection of resource economies, Silicon Valley, capital markets,
               technological change, culture and the long arc of sovereignty.
             </p>
             <p>
-              The subject is not one geography. It is the changing world, viewed from
-              a different latitude.
+              The result of a different lens is a changed perception, which leads to
+              different actions.
             </p>
           </div>
         </div>

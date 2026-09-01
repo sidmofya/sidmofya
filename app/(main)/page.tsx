@@ -54,17 +54,28 @@ function doorVisual(name: string) {
     );
   }
 
+  // Concentric rings, after the resonance diagrams that recur in the Codex.
   return (
-    <div className="relative h-full min-h-[9rem] overflow-hidden border border-[var(--color-rule)]">
-      <Image
-        src="/kwazuri/mvua-basin.webp"
-        alt=""
+    <div className="h-full min-h-[9rem] border border-[var(--color-rule)] bg-[var(--color-bg-elev)] p-6 flex items-center justify-center">
+      <svg
+        viewBox="0 0 120 120"
         aria-hidden="true"
-        width={1672}
-        height={941}
-        sizes="(min-width: 768px) 22rem, 100vw"
-        className="h-full w-full object-cover object-[68%_38%]"
-      />
+        className="h-24 w-24 text-[var(--color-copper)]"
+      >
+        {[10, 22, 34, 46].map((r, i) => (
+          <circle
+            key={r}
+            cx="60"
+            cy="60"
+            r={r}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+            opacity={0.55 - i * 0.11}
+          />
+        ))}
+        <circle cx="60" cy="60" r="2.5" fill="currentColor" opacity="0.6" />
+      </svg>
     </div>
   );
 }
