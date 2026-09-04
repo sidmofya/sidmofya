@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import styles from "./partner-room.module.css";
 
-const title = "Partner Room — See How Your Series A Gets Decided";
+const title = "Partner Room | See How Your Series A Gets Decided";
 const description =
-  "Partner Room puts six Series A founders inside the investment decision process: five rooms as an investor, one as the founder.";
+  "Five venture investors evaluate your company while you listen to the deliberation founders normally never hear. A live Series A decision room facilitated by Sid Mofya.";
 const socialTitle = "Your Series A is decided in a room you will never be in.";
-const socialDescription = "Five rooms as an investor. One as the founder.";
+const socialDescription =
+  "Partner Room puts your company in front of five venture investors and lets you hear the deliberation that normally happens after the founder leaves.";
 const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 
 export const metadata: Metadata = {

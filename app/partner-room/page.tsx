@@ -1,5 +1,4 @@
 import styles from "./partner-room.module.css";
-import PartnerRoomEnhancements from "@/components/partner-room/PartnerRoomEnhancements";
 import PartnerRoomSections, { RoomLink } from "@/components/partner-room/PartnerRoomSections";
 import { partnerRoomCopy } from "@/components/partner-room/content";
 
@@ -16,7 +15,6 @@ export default function PartnerRoomPage() {
         </div>
       </header>
       <main id="partner-room-main"><PartnerRoomSections /></main>
-      <PartnerRoomEnhancements />
       <footer className={styles.siteFooter}>
         <div>
           <p className={styles.brand}>{navigation.brand}</p>

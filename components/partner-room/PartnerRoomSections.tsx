@@ -1,5 +1,4 @@
 import styles from "@/app/partner-room/partner-room.module.css";
-import RequestSeatForm from "./RequestSeatForm";
 import DecisionArchitectures from "./DecisionArchitectures";
 import RoomDiagram from "./RoomDiagram";
 import RoomMechanism from "./RoomMechanism";
@@ -157,7 +156,6 @@ export default function PartnerRoomSections() {
 
       <CopySection id="request-room" number="11" label={copy.request.label} title={copy.request.title} className={`${styles.section} ${styles.requestSection}`}>
         <div className={styles.requestIntro}>{copy.request.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
-        <RequestSeatForm />
       </CopySection>
     </>
   );
