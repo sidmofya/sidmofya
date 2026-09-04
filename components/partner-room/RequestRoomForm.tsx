@@ -8,6 +8,7 @@ import {
   PARTNER_ROOM_FORM_NAME,
   validateRoomRequest,
 } from "@/lib/partner-room-form.mjs";
+import { createRoomRequestSubmitter } from "@/lib/partner-room-request-submission.mjs";
 import styles from "@/app/partner-room/partner-room.module.css";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -47,9 +48,22 @@ function FieldError({ field, errors }: { field: string; errors: Errors }) {
 export default function RequestRoomForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Errors>({});
+  const [pendingInvalidField, setPendingInvalidField] = useState<string | null>(null);
   const attributionRef = useRef<Record<string, string>>(emptyAttribution);
-  const submittingRef = useRef(false);
+  const formRef = useRef<HTMLFormElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
+  const submitterRef = useRef<((payload: Record<string, string>) => Promise<string>) | null>(null);
+
+  if (!submitterRef.current) {
+    submitterRef.current = createRoomRequestSubmitter({
+      post: (payload: Record<string, string>) => fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(payload).toString(),
+      }),
+      onSuccess: () => window.dispatchEvent(new CustomEvent("partner-room:request-submitted")),
+    });
+  }
 
   useEffect(() => {
     let storedValue: string | null = null;
@@ -77,6 +91,13 @@ export default function RequestRoomForm() {
     if (status === "success") successRef.current?.focus();
   }, [status]);
 
+  useEffect(() => {
+    if (!pendingInvalidField) return;
+    const control = formRef.current?.elements.namedItem(pendingInvalidField);
+    if (control instanceof HTMLElement) control.focus();
+    setPendingInvalidField(null);
+  }, [errors, pendingInvalidField]);
+
   function clearFieldError(event: SyntheticEvent<HTMLFormElement>) {
     const target = event.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
     if (!target.name || !errors[target.name]) return;
@@ -89,7 +110,6 @@ export default function RequestRoomForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (submittingRef.current) return;
 
     const form = event.currentTarget;
     const rawValues = Object.fromEntries(
@@ -101,8 +121,7 @@ export default function RequestRoomForm() {
       setErrors(validation.errors);
       setStatus("idle");
       const firstInvalidField = Object.keys(validation.errors)[0];
-      const control = form.elements.namedItem(firstInvalidField);
-      if (control instanceof HTMLElement) control.focus();
+      setPendingInvalidField(firstInvalidField);
       return;
     }
 
@@ -117,24 +136,13 @@ export default function RequestRoomForm() {
       new Date().toISOString(),
     );
 
-    submittingRef.current = true;
     setErrors({});
     setStatus("submitting");
-
-    try {
-      const response = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(payload).toString(),
-      });
-      if (!response.ok) throw new Error(`Room request failed with HTTP ${response.status}`);
-      window.dispatchEvent(new CustomEvent("partner-room:request-submitted"));
-      setStatus("success");
-    } catch {
-      setStatus("error");
-    } finally {
-      submittingRef.current = false;
-    }
+    const submitRoomRequest = submitterRef.current;
+    if (!submitRoomRequest) return;
+    const outcome = await submitRoomRequest(payload);
+    if (outcome === "success") setStatus("success");
+    if (outcome === "error") setStatus("error");
   }
 
   if (status === "success") {
@@ -150,6 +158,7 @@ export default function RequestRoomForm() {
 
   return (
     <form
+      ref={formRef}
       action="/"
       method="POST"
       name={PARTNER_ROOM_FORM_NAME}

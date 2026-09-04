@@ -1,5 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 
 import {
   buildRoomRequestPayload,
@@ -7,6 +9,7 @@ import {
   normalizeHttpUrl,
   validateRoomRequest,
 } from "../lib/partner-room-form.mjs";
+import { createRoomRequestSubmitter } from "../lib/partner-room-request-submission.mjs";
 
 const validValues = {
   name: "Amina Founder",
@@ -213,4 +216,76 @@ test("builds the exact Netlify notification payload", () => {
       "bot-field": "",
     },
   );
+});
+
+test("keeps the static Partner Room form in exact parity with every request payload key", async () => {
+  const publicForms = await readFile(path.join(process.cwd(), "public", "__forms.html"), "utf8");
+  const partnerRoomForm = publicForms.match(
+    /<form\s+name="partner-room-seat-request"[\s\S]*?<\/form>/,
+  )?.[0];
+  const sovereignGeometryForm = publicForms.match(
+    /<form\s+name="sovereign-geometry-waitlist"[\s\S]*?<\/form>/,
+  )?.[0];
+  const validation = validateRoomRequest(validValues);
+  const payload = buildRoomRequestPayload(validation.values, {}, "2026-09-03T00:00:00.000Z");
+
+  assert.ok(partnerRoomForm, "the Partner Room detection form should exist");
+  const staticFieldNames = Array.from(
+    partnerRoomForm.matchAll(/<(?:input|select|textarea)\b[^>]*\bname="([^"]+)"/g),
+    ([, name]) => name,
+  ).sort();
+
+  assert.deepEqual(staticFieldNames, Object.keys(payload).sort());
+  assert.match(partnerRoomForm, /name="form-name" value="partner-room-seat-request"/);
+  assert.match(partnerRoomForm, /name="raise-amount"/);
+  assert.ok(sovereignGeometryForm, "unrelated static forms should remain present");
+  assert.doesNotMatch(sovereignGeometryForm, /partner-room-seat-request|raise-amount/);
+});
+
+test("submits once, preserves the payload after failed responses, and dispatches only after OK", async () => {
+  let resolvePost;
+  const postedPayloads = [];
+  const successEvents = [];
+  const payload = { ...validValues, "raise-amount": " $8M " };
+  const submitter = createRoomRequestSubmitter({
+    post: (candidate) => new Promise((resolve) => {
+      postedPayloads.push(candidate);
+      resolvePost = resolve;
+    }),
+    onSuccess: () => successEvents.push("partner-room:request-submitted"),
+  });
+
+  const firstSubmission = submitter(payload);
+  assert.equal(await submitter(payload), "duplicate");
+  assert.equal(postedPayloads.length, 1);
+  assert.deepEqual(successEvents, []);
+
+  resolvePost({ ok: true });
+  assert.equal(await firstSubmission, "success");
+  assert.deepEqual(successEvents, ["partner-room:request-submitted"]);
+
+  const failedPayload = { ...payload };
+  const failedSubmitter = createRoomRequestSubmitter({
+    post: async () => ({ ok: false }),
+    onSuccess: () => successEvents.push("unexpected-success"),
+  });
+
+  assert.equal(await failedSubmitter(failedPayload), "error");
+  assert.deepEqual(failedPayload, payload);
+  assert.deepEqual(successEvents, ["partner-room:request-submitted"]);
+});
+
+test("uses a post-commit pending invalid field effect and retains answers on failure", async () => {
+  const source = await readFile(
+    path.join(process.cwd(), "components", "partner-room", "RequestRoomForm.tsx"),
+    "utf8",
+  );
+
+  assert.match(source, /const \[pendingInvalidField, setPendingInvalidField\] = useState<string \| null>\(null\)/);
+  assert.match(source, /const formRef = useRef<HTMLFormElement>\(null\)/);
+  assert.match(source, /useEffect\(\(\) => \{[\s\S]*?formRef\.current\?\.elements\.namedItem\(pendingInvalidField\)[\s\S]*?control\.focus\(\)[\s\S]*?setPendingInvalidField\(null\)[\s\S]*?\}, \[errors, pendingInvalidField\]\)/);
+  assert.match(source, /setErrors\(validation\.errors\);[\s\S]*?setPendingInvalidField\(firstInvalidField\);/);
+  assert.match(source, /aria-invalid=\{Boolean\(errors\.name\)\}/);
+  assert.match(source, /setStatus\("error"\)/);
+  assert.doesNotMatch(source, /\.reset\(/);
 });
