@@ -98,6 +98,58 @@ test("allows the Partner Room social image route on the dedicated site", () => {
   );
 });
 
+test("rewrites the public framework path to the internal framework page", () => {
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "partnerroom.sidmofya.com",
+      pathname: "/decision-architecture-framework",
+      method: "GET",
+    }),
+    { type: "rewrite", pathname: "/partner-room/decision-architecture-framework" },
+  );
+});
+
+test("allows only the generated framework PDF download on the dedicated site", () => {
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "partnerroom.sidmofya.com",
+      pathname: "/downloads/how-venture-rooms-decide.pdf",
+      method: "GET",
+    }),
+    { type: "next" },
+  );
+
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "partnerroom.sidmofya.com",
+      pathname: "/downloads/another-file.pdf",
+      method: "GET",
+    }),
+    { type: "redirect", pathname: "/" },
+  );
+});
+
+test("allows the internal framework route only while fulfilling the public rewrite", () => {
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "partnerroom.sidmofya.com",
+      pathname: "/partner-room/decision-architecture-framework",
+      method: "GET",
+      isInternalRewrite: true,
+    }),
+    { type: "next" },
+  );
+
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "partnerroom.sidmofya.com",
+      pathname: "/partner-room/decision-architecture-framework",
+      method: "GET",
+    }),
+    { type: "redirect", pathname: "/" },
+  );
+});
+
 test("redirects the internal Partner Room route to the dedicated production domain", () => {
   assert.deepEqual(
     resolvePartnerRoomRoute({

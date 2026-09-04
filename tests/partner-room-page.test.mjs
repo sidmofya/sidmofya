@@ -411,3 +411,16 @@ test("publishes Partner Room metadata and a renderable social image", async () =
   assert.equal(imageResponse.status, 200);
   assert.equal(imageResponse.headers.get("content-type"), "image/png");
 });
+
+test("renders the approved footer destinations without another request CTA", async () => {
+  const response = await fetch(`${baseUrl}/partner-room`);
+  const html = await response.text();
+  const footer = html.match(/<footer[\s\S]*?<\/footer>/)?.[0] ?? "";
+
+  assert.equal(response.status, 200);
+  assert.match(footer, /href="https:\/\/motif54\.com"[^>]*>MOTIF 54</);
+  assert.match(footer, /href="\/decision-architecture-framework"[^>]*>Decision Architecture Framework</);
+  assert.match(footer, /href="https:\/\/motif54\.com\/privacy"[^>]*>Privacy</);
+  assert.match(footer, /href="https:\/\/motif54\.com\/terms"[^>]*>Terms</);
+  assert.doesNotMatch(footer, /href="\#request-room"|data-request-source|Request a Room/);
+});

@@ -96,6 +96,31 @@ test("serves the social image directly on the dedicated variant", async () => {
   assert.equal(response.headers.get("content-type"), "image/png");
 });
 
+test("serves the public framework route through its internal page without dropping attribution", async () => {
+  const response = await fetch(`${baseUrl}/decision-architecture-framework?utm_source=shared-link`, {
+    redirect: "manual",
+  });
+  const html = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.equal(
+    response.headers.get("x-middleware-rewrite"),
+    "/partner-room/decision-architecture-framework?utm_source=shared-link",
+  );
+  assert.match(html, /Six Ways Venture Firms Make the Same Decision Differently/);
+  assert.match(html, /name="partner-room-decision-architecture"/);
+});
+
+test("serves the exact framework PDF without redirecting", async () => {
+  const response = await fetch(`${baseUrl}/downloads/how-venture-rooms-decide.pdf`, {
+    redirect: "manual",
+  });
+
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("content-type"), "application/pdf");
+  assert.equal(response.headers.get("location"), null);
+});
+
 test("does not redirect form POST requests through page middleware", async () => {
   const response = await fetch(baseUrl, {
     method: "POST",
