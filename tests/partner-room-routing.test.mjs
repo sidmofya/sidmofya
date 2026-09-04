@@ -73,19 +73,6 @@ test("canonicalizes the internal route to root on the dedicated site", () => {
   );
 });
 
-test("allows the internal route while fulfilling a root rewrite", () => {
-  assert.deepEqual(
-    resolvePartnerRoomRoute({
-      hostname: "partner-room-preview.netlify.app",
-      pathname: "/partner-room",
-      method: "GET",
-      siteVariant: "partner-room",
-      isInternalRewrite: true,
-    }),
-    { type: "next" },
-  );
-});
-
 test("allows the Partner Room social image route on the dedicated site", () => {
   assert.deepEqual(
     resolvePartnerRoomRoute({
@@ -129,17 +116,7 @@ test("allows only the generated framework PDF download on the dedicated site", (
   );
 });
 
-test("allows the internal framework route only while fulfilling the public rewrite", () => {
-  assert.deepEqual(
-    resolvePartnerRoomRoute({
-      hostname: "partnerroom.sidmofya.com",
-      pathname: "/partner-room/decision-architecture-framework",
-      method: "GET",
-      isInternalRewrite: true,
-    }),
-    { type: "next" },
-  );
-
+test("canonicalizes the internal framework route on the dedicated site", () => {
   assert.deepEqual(
     resolvePartnerRoomRoute({
       hostname: "partnerroom.sidmofya.com",

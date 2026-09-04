@@ -89,6 +89,19 @@ test("canonicalizes the internal page route and retains attribution", async () =
   );
 });
 
+test("rejects a forged internal-rewrite header on the framework route", async () => {
+  const response = await fetch(`${baseUrl}/partner-room/decision-architecture-framework?utm_source=forged`, {
+    redirect: "manual",
+    headers: { "x-partner-room-internal-rewrite": "1" },
+  });
+
+  assert.equal(response.status, 307);
+  assert.equal(
+    new URL(response.headers.get("location"), baseUrl).href,
+    `${baseUrl}/?utm_source=forged`,
+  );
+});
+
 test("serves the social image directly on the dedicated variant", async () => {
   const response = await fetch(`${baseUrl}/partner-room/opengraph-image`);
 
