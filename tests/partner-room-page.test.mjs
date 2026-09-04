@@ -63,6 +63,8 @@ test("uses the parent MOTIF 54 tokens without the legacy palette or mobile float
   assert.match(css, /var\(--color-copper\)/);
   assert.match(css, /\.decisionStates\s*\{/);
   assert.match(css, /\.roomDiagram\s*\{/);
+  assert.match(css, /\.architectureList\s*\{[^}]*display:\s*grid;[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/s);
+  assert.match(css, /@media\s*\(max-width:\s*900px\)[\s\S]*?\.architectureList\s*\{[^}]*display:\s*block;/);
   assert.match(css, /@media\s*\(max-width:\s*900px\)/);
   assert.match(css, /@media\s*\(max-width:\s*640px\)/);
   assert.doesNotMatch(css, /--pr-(?:ink|ivory|copper|coral|bg)/);

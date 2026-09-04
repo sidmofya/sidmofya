@@ -98,6 +98,30 @@ test("ordinary production redirects the framework route without rendering a form
   assert.doesNotMatch(html, /<form|For people building across worlds|For capital-facing work, visit/);
 });
 
+test("ordinary production also redirects the private internal framework route", async () => {
+  const response = await fetch(
+    `${mainBaseUrl}/partner-room/decision-architecture-framework?utm_source=internal-link`,
+    { redirect: "manual" },
+  );
+  const html = await response.text();
+
+  assert.equal(response.status, 307);
+  assert.equal(
+    response.headers.get("location"),
+    "https://partnerroom.sidmofya.com/decision-architecture-framework?utm_source=internal-link",
+  );
+  assert.doesNotMatch(html, /<form|For people building across worlds|For capital-facing work, visit/);
+});
+
+test("Partner Room production root publishes its generated social image metadata", async () => {
+  const response = await fetch(partnerBaseUrl);
+  const html = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.match(html, /property="og:image" content="https:\/\/partnerroom\.sidmofya\.com\/partner-room\/opengraph-image"/);
+  assert.match(html, /name="twitter:image" content="https:\/\/partnerroom\.sidmofya\.com\/partner-room\/opengraph-image"/);
+});
+
 test("Partner Room production serves the public framework page without main-site chrome", async () => {
   const response = await fetch(
     `${partnerBaseUrl}/decision-architecture-framework?utm_source=shared-link`,

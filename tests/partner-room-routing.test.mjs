@@ -140,6 +140,30 @@ test("redirects local public framework requests to the Partner Room route withou
   }
 });
 
+test("keeps the internal framework route private outside local development", () => {
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "sidmofya.com",
+      pathname: "/partner-room/decision-architecture-framework",
+      method: "GET",
+    }),
+    {
+      type: "redirect",
+      url: "https://partnerroom.sidmofya.com/decision-architecture-framework",
+    },
+  );
+
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "localhost",
+      pathname: "/partner-room/decision-architecture-framework",
+      method: "GET",
+      isDevelopment: true,
+    }),
+    { type: "next" },
+  );
+});
+
 test("allows only the generated framework PDF download on the dedicated site", () => {
   assert.deepEqual(
     resolvePartnerRoomRoute({

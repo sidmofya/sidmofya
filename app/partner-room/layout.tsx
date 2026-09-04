@@ -9,6 +9,12 @@ const description =
 const socialTitle = "Your Series A is decided in a room you will never be in.";
 const socialDescription =
   "Partner Room puts your company in front of five venture investors and lets you hear the deliberation that normally happens after the founder leaves.";
+const socialImage = {
+  url: "/partner-room/opengraph-image",
+  width: 1200,
+  height: 630,
+  alt: "PARTNER ROOM — Your Series A is decided in a room you will never be in.",
+};
 const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 
 export const metadata: Metadata = {
@@ -22,11 +28,13 @@ export const metadata: Metadata = {
     url: "/",
     siteName: "Partner Room",
     type: "website",
+    images: [socialImage],
   },
   twitter: {
     card: "summary_large_image",
     title: socialTitle,
     description: socialDescription,
+    images: [socialImage.url],
   },
 };
 

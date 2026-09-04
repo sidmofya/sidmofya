@@ -366,6 +366,8 @@
 
 .architectureList {
   margin-top: 4rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   border-top: 1px solid var(--color-copper);
 }
 
@@ -443,6 +445,15 @@
 
 .architectureCta {
   padding: 0 clamp(1.25rem, 4vw, 3rem) clamp(5.5rem, 10vw, 9rem);
+}
+
+.architecture:nth-child(odd) {
+  padding-right: clamp(1.5rem, 3vw, 3rem);
+  border-right: 1px solid var(--color-rule);
+}
+
+.architecture:nth-child(even) {
+  padding-left: clamp(1.5rem, 3vw, 3rem);
 }
 
 .realityCallout {
@@ -1324,8 +1335,20 @@
     grid-column: 2;
   }
 
+  .architectureList {
+    display: block;
+  }
+
   .architecture {
     display: block;
+    padding-inline: 0;
+    border-right: 0;
+  }
+
+  .architecture:nth-child(odd),
+  .architecture:nth-child(even) {
+    padding-inline: 0;
+    border-right: 0;
   }
 
   .architectureHeading {
