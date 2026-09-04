@@ -7,6 +7,9 @@ import { partnerRoomCopy } from "@/components/partner-room/content";
 export const metadata: Metadata = {
   title: "Decision Architecture Framework | Partner Room",
   description: "The full Partner Room Decision Architecture Framework is a field guide to six recurring systems of venture investment judgment.",
+  alternates: {
+    canonical: "https://partnerroom.sidmofya.com/decision-architecture-framework",
+  },
 };
 
 export default function DecisionArchitectureFrameworkPage() {

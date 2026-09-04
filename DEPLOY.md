@@ -112,6 +112,14 @@ After publishing and enabling notifications, test both forms on the deployed pro
 
 Treat launch as complete only after both deployed submissions, both Netlify records, the configured notifications, the framework source/tag values, and the PDF download have been verified.
 
+Before launch, complete these browser checks with real browser controls rather than emulation alone:
+
+- Navigate the framework dialog with hardware Tab and Shift+Tab, close it with Escape, and confirm focus returns to the exact trigger.
+- Inspect the homepage, framework route, dialog, and both forms at literal 200% browser zoom with no clipping or horizontal overflow.
+- Enable the operating system or browser reduced-motion preference and confirm scrolling is immediate and reveal transitions/animations are absent.
+
+These are mandatory launch gates. Automated controller, CSS, and viewport tests support them but do not replace them.
+
 The main production site redirects `/partner-room` to the canonical Partner Room subdomain. Local development keeps `/partner-room` directly accessible.
 
 ## Outstanding

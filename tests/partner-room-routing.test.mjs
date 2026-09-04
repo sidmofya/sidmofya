@@ -23,6 +23,15 @@ test("preserves attribution parameters when building route destinations", () => 
     }).href,
     "https://partnerroom.sidmofya.com/partner-room?utm_source=referrer",
   );
+
+  assert.equal(
+    buildPartnerRoomUrl({
+      requestUrl:
+        "https://www.sidmofya.com/decision-architecture-framework?utm_source=shared-link&utm_campaign=framework",
+      url: "https://partnerroom.sidmofya.com/decision-architecture-framework",
+    }).href,
+    "https://partnerroom.sidmofya.com/decision-architecture-framework?utm_source=shared-link&utm_campaign=framework",
+  );
 });
 
 test("serves the Partner Room site root directly", () => {
@@ -94,6 +103,41 @@ test("serves the canonical framework path without an internal middleware rewrite
     }),
     { type: "next" },
   );
+});
+
+test("redirects the public framework route away from ordinary production and preview hosts", () => {
+  for (const hostname of ["sidmofya.com", "www.sidmofya.com", "main-site-preview.netlify.app"]) {
+    assert.deepEqual(
+      resolvePartnerRoomRoute({
+        hostname,
+        pathname: "/decision-architecture-framework",
+        method: "GET",
+      }),
+      {
+        type: "redirect",
+        url: "https://partnerroom.sidmofya.com/decision-architecture-framework",
+      },
+      hostname,
+    );
+  }
+});
+
+test("redirects local public framework requests to the Partner Room route without main-site chrome", () => {
+  for (const hostname of ["localhost", "127.0.0.1"]) {
+    assert.deepEqual(
+      resolvePartnerRoomRoute({
+        hostname,
+        pathname: "/decision-architecture-framework",
+        method: "GET",
+        isDevelopment: true,
+      }),
+      {
+        type: "redirect",
+        pathname: "/partner-room/decision-architecture-framework",
+      },
+      hostname,
+    );
+  }
 });
 
 test("allows only the generated framework PDF download on the dedicated site", () => {

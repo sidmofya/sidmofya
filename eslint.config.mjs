@@ -11,6 +11,8 @@ const config = [
       ".next/**",
       ".next-partner-room-page-test/**",
       ".next-partner-room-variant-test/**",
+      ".next-partner-room-production-main-test/**",
+      ".next-partner-room-production-variant-test/**",
       "node_modules/**",
       "next-env.d.ts",
     ],

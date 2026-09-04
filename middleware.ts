@@ -10,6 +10,7 @@ export function middleware(request: NextRequest) {
     pathname: request.nextUrl.pathname,
     method: request.method,
     siteVariant: process.env.SITE_VARIANT,
+    isDevelopment: process.env.NODE_ENV === "development",
   });
 
   if (decision.type === "rewrite") {

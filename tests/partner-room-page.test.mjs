@@ -265,6 +265,10 @@ test("renders the accessible framework dialog and the internal inline capture ro
   assert.match(homeHtml, /id="framework-dialog-title"[^>]*>Download the Decision Architecture Framework</);
 
   assert.equal(routeResponse.status, 200);
+  assert.match(
+    routeHtml,
+    /<link rel="canonical" href="https:\/\/partnerroom\.sidmofya\.com\/decision-architecture-framework"\/?/,
+  );
   assert.match(routeHtml, /<main[^>]*id="partner-room-main"/);
   assert.match(routeHtml, /href="\/">Back to Partner Room</);
   assert.match(routeHtml, /Six Ways Venture Firms Make the Same Decision Differently/);

@@ -118,6 +118,10 @@ test("serves the canonical framework page directly without dropping attribution"
   assert.equal(response.status, 200);
   assert.equal(response.headers.get("x-middleware-rewrite"), null);
   assert.match(html, /<title>Decision Architecture Framework \| Partner Room<\/title>/);
+  assert.match(
+    html,
+    /<link rel="canonical" href="https:\/\/partnerroom\.sidmofya\.com\/decision-architecture-framework"\/?/,
+  );
   assert.match(html, /href="\/">Back to Partner Room</);
   assert.match(html, /Six Ways Venture Firms Make the Same Decision Differently/);
   assert.match(html, /name="partner-room-decision-architecture"/);
