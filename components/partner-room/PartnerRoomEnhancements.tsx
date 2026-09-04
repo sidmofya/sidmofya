@@ -9,6 +9,7 @@ import {
   selectActiveArchitecture,
   toArchitectureIntersection,
 } from "@/lib/partner-room-analytics.mjs";
+import FrameworkDialog from "./FrameworkDialog";
 
 type Plausible = (name: string, options?: { props?: Record<string, string> }) => void;
 
@@ -148,5 +149,5 @@ export default function PartnerRoomEnhancements() {
     };
   }, []);
 
-  return null;
+  return <FrameworkDialog />;
 }

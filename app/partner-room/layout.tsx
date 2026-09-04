@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import styles from "./partner-room.module.css";
+import PartnerRoomEnhancements from "@/components/partner-room/PartnerRoomEnhancements";
 
 const title = "Partner Room | See How Your Series A Gets Decided";
 const description =
@@ -36,6 +37,7 @@ export default function PartnerRoomLayout({ children }: { children: React.ReactN
         Skip to content
       </a>
       {children}
+      <PartnerRoomEnhancements />
       {plausibleDomain && (
         <>
           <Script id="plausible-queue" strategy="afterInteractive">

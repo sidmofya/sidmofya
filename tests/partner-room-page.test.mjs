@@ -232,6 +232,55 @@ test("renders room-request and framework links as server-rendered progressive-en
   }
 });
 
+test("renders the accessible framework dialog and the internal inline capture route", async () => {
+  const homeResponse = await fetch(`${baseUrl}/partner-room`);
+  const homeHtml = await homeResponse.text();
+  const routeResponse = await fetch(`${baseUrl}/partner-room/decision-architecture-framework`);
+  const routeHtml = await routeResponse.text();
+
+  assert.equal(homeResponse.status, 200);
+  assert.match(homeHtml, /data-framework-source="framework-primary"/);
+  assert.match(homeHtml, /data-framework-source="framework-secondary"/);
+  assert.match(homeHtml, /<dialog[^>]*aria-labelledby="framework-dialog-title"/);
+  assert.match(homeHtml, /id="framework-dialog-title"[^>]*>Download the Decision Architecture Framework</);
+
+  assert.equal(routeResponse.status, 200);
+  assert.match(routeHtml, /Six Ways Venture Firms Make the Same Decision Differently/);
+  assert.match(routeHtml, /<form[^>]*name="partner-room-decision-architecture"/);
+  assert.match(routeHtml, /Send me the framework/);
+});
+
+test("keeps each Netlify capture schema limited to its intended fields", async () => {
+  const forms = await readFile(path.join(process.cwd(), "public", "__forms.html"), "utf8");
+  const schema = (name) => forms.match(new RegExp(`<form[^>]*name="${name}"[\\s\\S]*?<\\/form>`))?.[0] ?? "";
+  const requestSchema = schema("partner-room-seat-request");
+  const frameworkSchema = schema("partner-room-decision-architecture");
+  const fieldNames = (markup) => [...markup.matchAll(/\bname="([^"]+)"/g)].map((match) => match[1]);
+
+  assert.ok(requestSchema, "the room request schema should remain independently detectable");
+  assert.ok(frameworkSchema, "the framework schema should be independently detectable");
+  assert.deepEqual(fieldNames(frameworkSchema), [
+    "partner-room-decision-architecture",
+    "form-name",
+    "bot-field",
+    "first-name",
+    "email",
+    "role",
+    "source",
+    "tag",
+    "utm-source",
+    "utm-medium",
+    "utm-campaign",
+    "utm-content",
+    "utm-term",
+    "referral-url",
+    "landing-page-url",
+    "submitted-at",
+    "subject",
+  ]);
+  assert.doesNotMatch(frameworkSchema, /\b(?:phone|revenue|funding|stage|availability|deck)\b/i);
+});
+
 test("renders the Request a Room form without retired seat-application details", async () => {
   const response = await fetch(`${baseUrl}/partner-room`);
   const html = await response.text();

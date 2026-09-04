@@ -1057,6 +1057,166 @@
   margin-top: 0.85rem;
 }
 
+.frameworkForm {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 34rem;
+  margin-top: 2rem;
+}
+
+.frameworkDialogForm {
+  max-width: none;
+  margin-top: 0;
+}
+
+.frameworkSuccess {
+  max-width: 34rem;
+}
+
+.frameworkDownload,
+.frameworkDialogClose {
+  min-height: 2.75rem;
+  border: 1px solid var(--color-copper);
+  border-radius: 0;
+  background: var(--color-copper);
+  color: var(--color-bg);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.frameworkDownload {
+  width: fit-content;
+  margin-top: 1.5rem;
+  padding: 0.9rem 1.4rem;
+}
+
+.frameworkDownload:hover,
+.frameworkDialogClose:hover {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+}
+
+.frameworkDialog {
+  width: min(42rem, calc(100vw - 2rem));
+  max-height: min(46rem, calc(100dvh - 2rem));
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--color-rule);
+  border-radius: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+.frameworkDialog::backdrop {
+  background: color-mix(in oklab, var(--color-ink) 72%, transparent);
+}
+
+.frameworkDialogInner {
+  max-height: inherit;
+  overflow-y: auto;
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.frameworkDialogHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--color-rule);
+  padding-bottom: 1.5rem;
+}
+
+.frameworkDialogHeader p,
+.frameworkRouteContent > .sectionLabel {
+  margin: 0 0 0.65rem;
+  color: var(--color-copper);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.frameworkDialogHeader h2 {
+  max-width: 28rem;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+
+.frameworkDialogClose {
+  flex: 0 0 auto;
+  padding: 0.65rem 0.8rem;
+}
+
+.frameworkDialog:focus-visible,
+.frameworkDialogClose:focus-visible,
+.frameworkDownload:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+.frameworkRoute {
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-ink-muted);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+}
+
+.frameworkRouteHeader,
+.frameworkRouteContent {
+  width: min(44rem, calc(100% - 2.5rem));
+  margin-inline: auto;
+}
+
+.frameworkRouteHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 4.5rem;
+  border-bottom: 1px solid var(--color-rule);
+  font-size: 0.8125rem;
+}
+
+.frameworkRouteHeader > a:last-child {
+  color: var(--color-ink);
+  text-underline-offset: 0.25rem;
+}
+
+.frameworkRouteContent {
+  padding-block: clamp(4rem, 10vw, 8rem);
+}
+
+.frameworkRouteContent h1 {
+  max-width: 42rem;
+  margin: 0 0 2rem;
+  color: var(--color-ink);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+
+.frameworkRouteContent > p:not(.sectionLabel):not(.frameworkSupport) {
+  max-width: 38rem;
+  margin: 0 0 1rem;
+}
+
+.frameworkSupport {
+  margin: 2rem 0 0;
+  color: var(--color-ink);
+  font-size: 0.85rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
 .honeypot {
   position: absolute;
   left: -10000px;
@@ -1286,6 +1446,47 @@
   .roomRequestCta {
     width: 100%;
     min-height: 2.75rem;
+  }
+
+  .frameworkDialog {
+    width: calc(100vw - 1rem);
+    max-height: calc(100dvh - 1rem);
+  }
+
+  .frameworkDialogInner {
+    padding: 1.25rem;
+  }
+
+  .frameworkDialogHeader {
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .frameworkDialogHeader h2 {
+    font-size: clamp(1.9rem, 10vw, 2.75rem);
+  }
+
+  .frameworkDialogClose {
+    min-height: 2.75rem;
+  }
+
+  .frameworkForm,
+  .frameworkDownload {
+    width: 100%;
+  }
+
+  .frameworkRouteHeader,
+  .frameworkRouteContent {
+    width: min(100% - 1.5rem, 44rem);
+  }
+
+  .frameworkRouteHeader {
+    min-height: 3.75rem;
+  }
+
+  .frameworkRouteHeader > a:last-child {
+    font-size: 0.75rem;
   }
 
   .outcomeList article,
