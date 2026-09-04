@@ -87,7 +87,11 @@ def normalized(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def require_in_order(section: str, values: tuple[str, ...], label: str) -> None:
+def normalized_lines(text: str) -> list[str]:
+    return [line for raw_line in text.splitlines() if (line := normalized(raw_line))]
+
+
+def require_text_in_order(section: str, values: tuple[str, ...], label: str) -> None:
     cursor = 0
     for value in values:
         needle = normalized(value)
@@ -101,9 +105,65 @@ def require_in_order(section: str, values: tuple[str, ...], label: str) -> None:
         cursor = position + len(needle)
 
 
+def exact_line_position(lines: list[str], value: str, start: int = 0) -> int:
+    needle = normalized(value)
+    return next(
+        (position for position in range(start, len(lines)) if lines[position] == needle),
+        -1,
+    )
+
+
+def require_exact_lines_in_order(
+    lines: list[str], values: tuple[str, ...], label: str, start: int = 0
+) -> int:
+    cursor = start
+    for value in values:
+        needle = normalized(value)
+        position = exact_line_position(lines, needle, cursor)
+        if position == -1:
+            if needle in lines:
+                raise AssertionError(
+                    f"{label} exact line order is incorrect at {value!r}."
+                )
+            if any(needle in line for line in lines):
+                raise AssertionError(
+                    f"{label} must contain {value!r} as its own exact normalized line."
+                )
+            raise AssertionError(f"{label} is missing exact line: {value!r}.")
+        cursor = position + 1
+    return cursor
+
+
+def require_distinct_statements_in_order(
+    lines: list[str], statements: tuple[str, ...], label: str
+) -> int:
+    """Match each statement to distinct adjacent extraction lines in order."""
+
+    cursor = 0
+    for statement in statements:
+        needle = normalized(statement)
+        next_cursor = -1
+        for start in range(cursor, len(lines)):
+            for end in range(start + 1, len(lines) + 1):
+                candidate = normalized(" ".join(lines[start:end]))
+                if candidate == needle:
+                    next_cursor = end
+                    break
+                if not needle.startswith(candidate):
+                    break
+            if next_cursor != -1:
+                break
+        if next_cursor == -1:
+            raise AssertionError(
+                f"{label} must contain {statement!r} as a distinct exact normalized line."
+            )
+        cursor = next_cursor
+    return cursor
+
+
 def verify_content(page_texts: list[str]) -> int:
-    normalized_pages = [normalized(page) for page in page_texts]
-    text = normalized("\n".join(normalized_pages))
+    page_lines = [normalized_lines(page) for page in page_texts]
+    text = normalized("\n".join("\n".join(lines) for lines in page_lines))
     if "(cid:" in text:
         raise AssertionError("PDF text extraction contains an unresolved glyph reference.")
 
@@ -125,24 +185,31 @@ def verify_content(page_texts: list[str]) -> int:
             f"Recurring architecture subheadings are incomplete: {insufficient}"
         )
 
-    if len(normalized_pages) < 2:
+    if len(page_lines) < 2:
         raise AssertionError("The closing content must belong to a distinct final page.")
 
-    content_before_final = normalized("\n".join(normalized_pages[:-1]))
-    final_page = normalized_pages[-1]
+    content_before_final_lines = [
+        line for lines in page_lines[:-1] for line in lines
+    ]
+    content_before_final = normalized("\n".join(content_before_final_lines))
+    final_page_lines = page_lines[-1]
     architecture_positions: list[int] = []
     cursor = 0
     for architecture in ARCHITECTURES:
-        position = content_before_final.find(architecture, cursor)
+        position = exact_line_position(
+            content_before_final_lines, architecture, cursor
+        )
         if position == -1:
             raise AssertionError(
-                f"Could not locate the {architecture!r} architecture section in order."
+                f"Could not locate the exact {architecture!r} architecture title line in order."
             )
         architecture_positions.append(position)
-        cursor = position + len(architecture)
+        cursor = position + 1
 
     comparison_title = "Same Company. Different Room."
-    comparison_position = content_before_final.find(comparison_title, cursor)
+    comparison_position = exact_line_position(
+        content_before_final_lines, comparison_title, cursor
+    )
     if comparison_position == -1:
         raise AssertionError(
             "Could not locate the Same Company. Different Room. section after all architectures."
@@ -155,10 +222,14 @@ def verify_content(page_texts: list[str]) -> int:
     for architecture, start, end in zip(
         ARCHITECTURES, architecture_positions, architecture_boundaries
     ):
-        section = content_before_final[start:end]
-        require_in_order(section, RECURRING_SUBHEADINGS, architecture)
+        section_lines = content_before_final_lines[start:end]
+        require_exact_lines_in_order(
+            section_lines, RECURRING_SUBHEADINGS, architecture
+        )
 
-    comparison_section = content_before_final[comparison_position:]
+    comparison_section = normalized(
+        "\n".join(content_before_final_lines[comparison_position:])
+    )
     comparison_content = (
         comparison_title,
         "The company",
@@ -171,16 +242,19 @@ def verify_content(page_texts: list[str]) -> int:
         ROOM_LABELS[2],
         EXACT_JUDGMENTS[2],
     )
-    require_in_order(
+    require_text_in_order(
         comparison_section,
         comparison_content,
         "Same Company. Different Room.",
     )
 
+    prior_to_comparison = normalized(
+        "\n".join(content_before_final_lines[:comparison_position])
+    )
     leaked_comparison_content = [
         value
         for value in (*COMPANY_FACTS, *ROOM_LABELS, *EXACT_JUDGMENTS)
-        if normalized(value) in content_before_final[:comparison_position]
+        if normalized(value) in prior_to_comparison
     ]
     if leaked_comparison_content:
         raise AssertionError(
@@ -188,11 +262,17 @@ def verify_content(page_texts: list[str]) -> int:
             f"{leaked_comparison_content}"
         )
 
-    closing_statement = normalized(" ".join(CLOSING_CONTENT[:-1]))
-    if closing_statement not in final_page or CLOSING_CONTENT[-1] not in final_page:
-        raise AssertionError(
-            "The exact Partner Room closing statement and URL must appear on the final page."
-        )
+    closing_cursor = require_distinct_statements_in_order(
+        final_page_lines,
+        CLOSING_CONTENT[:-1],
+        "The final page",
+    )
+    require_exact_lines_in_order(
+        final_page_lines,
+        (CLOSING_CONTENT[-1],),
+        "The final page URL",
+        closing_cursor,
+    )
 
     earlier_closing_content = [
         value

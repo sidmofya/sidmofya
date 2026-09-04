@@ -110,6 +110,18 @@ class ContentLocalityTests(unittest.TestCase):
         ):
             verify_content(pages)
 
+    def test_heading_word_in_prose_does_not_replace_an_exact_heading_line(self) -> None:
+        pages = valid_pages()
+        pages[2] = pages[2].replace(
+            "\nExample",
+            "\nThis prose retains the word Example without retaining its heading.",
+        )
+
+        with self.assertRaisesRegex(
+            AssertionError, r"Structured Disagreement.*Example"
+        ):
+            verify_content(pages)
+
     def test_architecture_headings_must_remain_in_order(self) -> None:
         pages = valid_pages()
         pages[4] = pages[4].replace(
@@ -146,6 +158,13 @@ class ContentLocalityTests(unittest.TestCase):
         pages = valid_pages()
         pages[0] += "\n" + "\n".join(CLOSING)
         pages[-1] = "PARTNER ROOM"
+
+        with self.assertRaisesRegex(AssertionError, r"final page"):
+            verify_content(pages)
+
+    def test_closing_statements_must_remain_four_distinct_lines(self) -> None:
+        pages = valid_pages()
+        pages[-1] = " ".join(CLOSING[:-1]) + "\n" + CLOSING[-1]
 
         with self.assertRaisesRegex(AssertionError, r"final page"):
             verify_content(pages)
