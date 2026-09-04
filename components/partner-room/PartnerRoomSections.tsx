@@ -82,15 +82,15 @@ export default function PartnerRoomSections() {
         <RoomMechanism />
       </CopySection>
 
-      <aside className={`${styles.section} ${styles.chamber}`} aria-label="Partner Room reality">
-        <blockquote className={`${styles.fitStatement} ${styles.composition}`}>
+      <aside className={`${styles.section} ${styles.chamber} ${styles.realityCallout}`} aria-label="Partner Room reality">
+        <blockquote className={`${styles.realityStatement} ${styles.composition}`}>
           {copy.reality.map((line) => <p key={line}>{line}</p>)}
         </blockquote>
       </aside>
 
       <CopySection id="decision-discipline" number="" label={copy.decisionDiscipline.label} title={copy.decisionDiscipline.title}>
         {copy.decisionDiscipline.paragraphs.slice(0, 3).map((paragraph, index) => <p className={index === 2 ? styles.lead : undefined} key={paragraph}>{paragraph}</p>)}
-        <ul className={styles.outcomeList} aria-label={copy.decisionDiscipline.title}>
+        <ul className={styles.decisionStates} aria-label={copy.decisionDiscipline.title}>
           {decisionStates.map((decision) => <li data-decision-state={decision.state} key={decision.state}><strong>{decision.state}</strong><p>{decision.description}</p></li>)}
         </ul>
         {copy.decisionDiscipline.paragraphs.slice(3).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
@@ -104,18 +104,20 @@ export default function PartnerRoomSections() {
       <DecisionArchitectures />
 
       <CopySection id="decision-architecture-framework" number="" label="" title={copy.frameworkPrimary.title}>
-        {copy.frameworkPrimary.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        <FrameworkLink source="framework-primary">{copy.frameworkPrimary.cta}</FrameworkLink>
-        <p>{copy.frameworkPrimary.support}</p>
+        <div className={styles.frameworkBlock}>
+          {copy.frameworkPrimary.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          <FrameworkLink source="framework-primary">{copy.frameworkPrimary.cta}</FrameworkLink>
+          <p>{copy.frameworkPrimary.support}</p>
+        </div>
       </CopySection>
 
       <SameCompanyDifferentRoom />
 
       <CopySection id="your-company" number="06" label={copy.yourCompany.label} title={copy.yourCompany.title}>
         {copy.yourCompany.paragraphs.slice(0, 4).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        <ul>{companyQuestions.map((question) => <li key={question}>{question}</li>)}</ul>
+        <ol className={styles.questionField}>{companyQuestions.map((question) => <li key={question}>{question}</li>)}</ol>
         <p>{copy.yourCompany.paragraphs[4]}</p>
-        <div className={styles.outcomeList}>
+        <div className={styles.failureTypes}>
           {failureTypes.map((failure) => <article data-failure-type={failure.number} key={failure.number}><span>{failure.number}</span><div><h3>{failure.title}</h3>{failure.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div></article>)}
         </div>
         {copy.yourCompany.paragraphs.slice(5).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
@@ -123,7 +125,7 @@ export default function PartnerRoomSections() {
 
       <CopySection id="deliverables" number="07" label={copy.deliverables.label} title={copy.deliverables.title}>
         {copy.deliverables.paragraphs.slice(0, 2).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        <div className={styles.outcomeList}>
+        <div className={styles.deliverableList}>
           {deliverables.map((deliverable) => <article data-deliverable={deliverable.number} key={deliverable.number}><span>{deliverable.number}</span><div><h3>{deliverable.title}</h3>{deliverable.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div></article>)}
         </div>
         {copy.deliverables.paragraphs.slice(2).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
@@ -135,7 +137,7 @@ export default function PartnerRoomSections() {
       </CopySection>
 
       <CopySection id="room" number="09" label={copy.room.label} title={copy.room.title} className={`${styles.section} ${styles.chamber}`}>
-        <ul className={styles.foundingFacts}>{roomAttributes.map((attribute) => <li data-room-attribute={attribute} key={attribute}>{attribute}</li>)}</ul>
+        <ol className={styles.roomDocket}>{roomAttributes.map((attribute, index) => <li data-room-attribute={attribute} key={attribute}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{attribute}</li>)}</ol>
         {copy.room.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         <RoomDiagram />
         <RoomLink sourceSection="room">{copy.room.cta}</RoomLink>
@@ -150,11 +152,13 @@ export default function PartnerRoomSections() {
       </CopySection>
 
       <CopySection id="framework-secondary" number="" label="" title={copy.frameworkSecondary.title}>
-        {copy.frameworkSecondary.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        <FrameworkLink source="framework-secondary">{copy.frameworkSecondary.cta}</FrameworkLink>
+        <div className={styles.frameworkBlock}>
+          {copy.frameworkSecondary.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          <FrameworkLink source="framework-secondary">{copy.frameworkSecondary.cta}</FrameworkLink>
+        </div>
       </CopySection>
 
-      <CopySection id="request-room" number="11" label={copy.request.label} title={copy.request.title} className={`${styles.section} ${styles.requestSection}`}>
+      <CopySection id="request-room" number="11" label={copy.request.label} title={copy.request.title} className={`${styles.section} ${styles.chamber} ${styles.requestSection}`}>
         <div className={styles.requestIntro}>{copy.request.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
       </CopySection>
     </>

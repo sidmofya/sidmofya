@@ -159,6 +159,23 @@
   outline-color: var(--color-copper-soft);
 }
 
+.shell a:focus-visible,
+.shell button:focus-visible,
+.shell input:focus-visible,
+.shell select:focus-visible,
+.shell textarea:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+.chamber a:focus-visible,
+.chamber button:focus-visible,
+.chamber input:focus-visible,
+.chamber select:focus-visible,
+.chamber textarea:focus-visible {
+  outline-color: var(--color-copper-soft);
+}
+
 .chamber .primaryCta:hover {
   border-color: var(--color-bg);
   background: var(--color-bg);
@@ -274,6 +291,9 @@
 .readingColumnWide > p,
 .architecture > p,
 .outcomeList p,
+.failureTypes p,
+.deliverableList p,
+.frameworkBlock p,
 .foundingCopy p {
   max-width: 46rem;
   margin: 0;
@@ -311,7 +331,7 @@
   margin: 4rem 0 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   border-top: 1px solid var(--color-copper);
   border-bottom: 1px solid color-mix(in oklab, var(--color-bg) 28%, var(--color-ink));
   list-style: none;
@@ -423,6 +443,78 @@
 
 .architectureCta {
   padding: 0 clamp(1.25rem, 4vw, 3rem) clamp(5.5rem, 10vw, 9rem);
+}
+
+.realityCallout {
+  border-bottom-color: color-mix(in oklab, var(--color-bg) 26%, var(--color-ink));
+}
+
+.realityStatement {
+  padding: clamp(5.5rem, 10vw, 9rem) clamp(1.25rem, 4vw, 3rem);
+  color: var(--color-bg);
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5.8vw, 5.8rem);
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+}
+
+.realityStatement p {
+  max-width: 20ch;
+  margin: 0;
+}
+
+.realityStatement p + p {
+  margin-top: 0.15em;
+}
+
+.decisionStates {
+  max-width: 60rem;
+  margin: 3.5rem 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--color-copper);
+  border-bottom: 1px solid var(--color-rule);
+  list-style: none;
+}
+
+.decisionStates li {
+  min-width: 0;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border-right: 1px solid var(--color-rule);
+}
+
+.decisionStates li:last-child {
+  border-right: 0;
+}
+
+.decisionStates strong {
+  display: block;
+  margin-bottom: 1.25rem;
+  color: var(--color-copper);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+}
+
+.decisionStates p {
+  margin: 0;
+}
+
+.frameworkBlock {
+  max-width: 60rem;
+  padding: clamp(2rem, 5vw, 4rem) 0;
+  border-top: 1px solid var(--color-copper);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.frameworkBlock .primaryCta {
+  margin-top: 2rem;
+}
+
+.frameworkBlock .primaryCta + p {
+  margin-top: 1rem;
+  color: var(--color-ink-muted);
+  font-size: 0.8125rem;
 }
 
 .sameCompanySection {
@@ -549,6 +641,73 @@
   margin-top: 0.65rem;
 }
 
+.questionField {
+  max-width: 60rem;
+  margin: 3.5rem 0;
+  padding: 0;
+  counter-reset: question;
+  border-top: 1px solid var(--color-copper);
+  list-style: none;
+}
+
+.questionField li {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--color-rule);
+  color: var(--color-ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 3vw, 2.35rem);
+  line-height: 1.15;
+}
+
+.questionField li::before {
+  content: counter(question, decimal-leading-zero);
+  counter-increment: question;
+  padding-top: 0.35em;
+  color: var(--color-copper);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+}
+
+.failureTypes,
+.deliverableList {
+  max-width: 60rem;
+  margin-top: 3.5rem;
+  border-top: 1px solid var(--color-copper);
+}
+
+.failureTypes article,
+.deliverableList article {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: 1.5rem;
+  padding-block: 2.25rem;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.failureTypes > article > span,
+.deliverableList > article > span {
+  color: var(--color-copper);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+}
+
+.failureTypes h3,
+.deliverableList h3 {
+  margin: 0 0 0.75rem;
+  color: var(--color-ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 2.5vw, 2.15rem);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
 .fitStatement {
   max-width: 55rem;
   margin: 4rem 0 0;
@@ -593,6 +752,92 @@
   color: color-mix(in oklab, var(--color-bg) 76%, var(--color-ink));
 }
 
+.roomDocket {
+  max-width: 60rem;
+  margin: 3rem 0;
+  padding: 0;
+  border-top: 1px solid var(--color-copper);
+  list-style: none;
+}
+
+.roomDocket li {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: baseline;
+  padding-block: 1.25rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--color-bg) 22%, var(--color-ink));
+  color: var(--color-bg);
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+}
+
+.roomDocket span {
+  color: var(--color-copper-soft);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+}
+
+.roomDiagram {
+  max-width: 60rem;
+  margin: 4rem 0;
+  padding: clamp(1.5rem, 4vw, 3rem) 0;
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr) minmax(0, 0.8fr);
+  gap: clamp(1rem, 3vw, 3rem);
+  border-top: 1px solid var(--color-copper);
+  border-bottom: 1px solid color-mix(in oklab, var(--color-bg) 28%, var(--color-ink));
+}
+
+.roomDiagramGroup {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.roomDiagramGroup:first-child {
+  padding-bottom: 2.5rem;
+}
+
+.roomDiagramGroup:last-child {
+  padding-top: 2.5rem;
+}
+
+.roomDiagramLabel {
+  margin: 0;
+  color: var(--color-copper-soft);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+}
+
+.roomDiagramDescription {
+  margin: 0;
+  color: color-mix(in oklab, var(--color-bg) 72%, var(--color-ink));
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.investorNodes {
+  min-height: 8rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  gap: 0.65rem;
+  border-top: 1px solid color-mix(in oklab, var(--color-bg) 35%, var(--color-ink));
+  border-bottom: 1px solid color-mix(in oklab, var(--color-bg) 35%, var(--color-ink));
+}
+
+.investorNodes span {
+  width: clamp(0.7rem, 1.2vw, 1rem);
+  aspect-ratio: 1;
+  justify-self: center;
+  border-radius: 50%;
+  background: var(--color-copper-soft);
+}
+
 .requestIntro {
   max-width: 46rem;
   margin-bottom: 3rem;
@@ -602,11 +847,28 @@
 
 .requestSection {
   scroll-margin-top: 5.5rem;
+  border-bottom-color: color-mix(in oklab, var(--color-bg) 26%, var(--color-ink));
 }
 
 .requestIntro p + p {
   margin-top: 0.65rem;
   color: var(--color-ink-muted);
+}
+
+.requestSection .requestIntro {
+  color: var(--color-bg);
+}
+
+.requestSection .requestIntro p + p {
+  color: color-mix(in oklab, var(--color-bg) 70%, var(--color-ink));
+}
+
+.requestSection .formField input,
+.requestSection .formField select,
+.requestSection .formField textarea,
+.requestSection .formError,
+.requestSection .successState {
+  background: var(--color-bg-elev);
 }
 
 .requestForm {
@@ -852,6 +1114,19 @@
     grid-template-columns: 1fr;
   }
 
+  .decisionStates {
+    grid-template-columns: 1fr;
+  }
+
+  .decisionStates li {
+    border-right: 0;
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .decisionStates li:last-child {
+    border-bottom: 0;
+  }
+
   .processStep {
     min-height: 0;
     display: grid;
@@ -892,6 +1167,15 @@
     top: auto;
     align-self: stretch;
     height: auto;
+  }
+
+  .roomDiagram {
+    grid-template-columns: 1fr;
+  }
+
+  .roomDiagramGroup:first-child,
+  .roomDiagramGroup:last-child {
+    padding: 0;
   }
 }
 
@@ -942,6 +1226,11 @@
     flex-direction: column;
   }
 
+  .realityStatement {
+    padding-block: 4.5rem;
+    font-size: clamp(2.25rem, 10vw, 3.5rem);
+  }
+
   .sectionGrid {
     padding-block: 4.5rem;
   }
@@ -965,15 +1254,34 @@
   .formActions button,
   .heroAction .primaryCta,
   .architectureCta .primaryCta,
-  .foundingSection .primaryCta {
+  .foundingSection .primaryCta,
+  .frameworkBlock .primaryCta,
+  .requestSection .primaryCta {
     width: 100%;
     min-height: 2.75rem;
   }
 
   .outcomeList article,
-  .foundingFacts p {
+  .foundingFacts p,
+  .failureTypes article,
+  .deliverableList article,
+  .questionField li,
+  .roomDocket li {
     grid-template-columns: 2.5rem minmax(0, 1fr);
     gap: 0.75rem;
+  }
+
+  .roomDiagram {
+    margin-block: 3rem;
+    gap: 1.5rem;
+  }
+
+  .roomDiagramGroup {
+    padding-block: 1rem;
+  }
+
+  .investorNodes {
+    min-height: 4.5rem;
   }
 
   .siteFooter {
