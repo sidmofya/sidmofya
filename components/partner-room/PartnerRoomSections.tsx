@@ -12,8 +12,8 @@ import {
   roomAttributes,
 } from "./content";
 
-export function RoomLink({ sourceSection, children = partnerRoomCopy.navigation.primary }: { sourceSection: string; children?: React.ReactNode }) {
-  return <a className={styles.primaryCta} href="#request-room" data-request-source={sourceSection}>{children}</a>;
+export function RoomLink({ sourceSection, children = partnerRoomCopy.navigation.primary, className = "" }: { sourceSection: string; children?: React.ReactNode; className?: string }) {
+  return <a className={`${styles.primaryCta} ${className}`} href="#request-room" data-request-source={sourceSection}>{children}</a>;
 }
 
 function SectionLabel({ number, children }: { number: string; children: React.ReactNode }) {
@@ -140,7 +140,7 @@ export default function PartnerRoomSections() {
         <ol className={styles.roomDocket}>{roomAttributes.map((attribute, index) => <li data-room-attribute={attribute} key={attribute}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{attribute}</li>)}</ol>
         {copy.room.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         <RoomDiagram />
-        <RoomLink sourceSection="room">{copy.room.cta}</RoomLink>
+        <RoomLink sourceSection="room" className={styles.roomRequestCta}>{copy.room.cta}</RoomLink>
       </CopySection>
 
       <CopySection id="curation" number="10" label={copy.curation.label} title={copy.curation.title}>

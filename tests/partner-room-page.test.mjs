@@ -94,6 +94,34 @@ test("keeps the sticky site header and seat CTA visible across responsive rules"
   assert.match(mobileRules, /\.brand\s*\{[^}]*white-space:\s*nowrap/);
 });
 
+test("stacks decision-room layouts and preserves accessible request controls on small screens", async () => {
+  const css = await readFile(path.join(process.cwd(), "app", "partner-room", "partner-room.module.css"), "utf8");
+  const sections = await readFile(path.join(process.cwd(), "components", "partner-room", "PartnerRoomSections.tsx"), "utf8");
+  const narrowStart = css.indexOf("@media (max-width: 900px)");
+  const narrowEnd = css.indexOf("@media", narrowStart + 1);
+  const narrowRules = css.slice(narrowStart, narrowEnd);
+  const mobileStart = css.indexOf("@media (max-width: 640px)");
+  const mobileEnd = css.indexOf("@media", mobileStart + 1);
+  const mobileRules = css.slice(mobileStart, mobileEnd);
+  const motionStart = css.indexOf("@media (prefers-reduced-motion: reduce)");
+  const motionRules = css.slice(motionStart);
+  const architectureRule = narrowRules.match(/\.architecture\s*\{([^}]*)\}/)?.[1] ?? "";
+  const roomCtaRule = mobileRules.match(/\.roomRequestCta\s*\{([^}]*)\}/)?.[1] ?? "";
+
+  assert.match(architectureRule, /display:\s*block/);
+  assert.doesNotMatch(architectureRule, /grid-template-columns/);
+  assert.match(sections, /className=\{styles\.roomRequestCta\}/);
+  assert.match(roomCtaRule, /width:\s*100%/);
+  assert.match(roomCtaRule, /min-height:\s*2\.75rem/);
+  assert.match(css, /\.requestSection \.formField label\s*\{[^}]*color:\s*var\(--color-bg\)/);
+  assert.match(css, /\.requestSection \.formField > p:not\(\.fieldError\)\s*\{[^}]*color:\s*var\(--color-bg\)/);
+  assert.match(css, /\.requestSection \.fieldError\s*\{[^}]*color:\s*var\(--color-copper-soft\)/);
+  assert.match(css, /\.requestSection \.formActions p\s*\{[^}]*color:\s*var\(--color-bg\)/);
+  assert.match(css, /\.requestSection \.formField input,[\s\S]*?background:\s*var\(--color-bg-elev\)/);
+  assert.match(motionRules, /animation:\s*none\s*!important/);
+  assert.match(motionRules, /transition:\s*none\s*!important/);
+});
+
 test("renders the complete v4 decision-room narrative in its public order", async () => {
   const response = await fetch(`${baseUrl}/partner-room`);
   const html = await response.text();

@@ -871,6 +871,26 @@
   background: var(--color-bg-elev);
 }
 
+.requestSection .formField label {
+  color: var(--color-bg);
+}
+
+.requestSection .formField label span {
+  color: var(--color-copper-soft);
+}
+
+.requestSection .fieldError {
+  color: var(--color-copper-soft);
+}
+
+.requestSection .formField > p:not(.fieldError) {
+  color: var(--color-bg);
+}
+
+.requestSection .formActions p {
+  color: var(--color-bg);
+}
+
 .requestForm {
   max-width: 60rem;
   display: flex;
@@ -1141,11 +1161,18 @@
   }
 
   .architecture {
-    grid-template-columns: 3.5rem minmax(0, 1fr);
+    display: block;
+  }
+
+  .architectureHeading {
+    display: block;
   }
 
   .architectureRailNumber {
     position: static;
+    display: block;
+    margin-bottom: 0.65rem;
+    padding-top: 0;
   }
 
   .companyRoomGrid {
@@ -1235,11 +1262,6 @@
     padding-block: 4.5rem;
   }
 
-  .architecture {
-    grid-template-columns: 2.5rem minmax(0, 1fr);
-    column-gap: 0.75rem;
-  }
-
   .architectureCta {
     padding-bottom: 4.5rem;
   }
@@ -1257,6 +1279,11 @@
   .foundingSection .primaryCta,
   .frameworkBlock .primaryCta,
   .requestSection .primaryCta {
+    width: 100%;
+    min-height: 2.75rem;
+  }
+
+  .roomRequestCta {
     width: 100%;
     min-height: 2.75rem;
   }
@@ -1299,9 +1326,8 @@
   .shell,
   .shell * {
     scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation: none !important;
+    transition: none !important;
   }
 
   .reveal {
