@@ -1,11 +1,25 @@
 import test, { after, before } from "node:test";
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
+import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const port = 3218;
 const baseUrl = `http://localhost:${port}`;
 let server;
+let generatedProjectFiles;
+
+async function preserveGeneratedProjectFiles() {
+  generatedProjectFiles = await Promise.all(
+    ["next-env.d.ts", "tsconfig.json"].map(async (file) => [file, await readFile(path.join(process.cwd(), file), "utf8")]),
+  );
+}
+
+async function restoreGeneratedProjectFiles() {
+  await Promise.all(
+    generatedProjectFiles?.map(([file, contents]) => writeFile(path.join(process.cwd(), file), contents)) ?? [],
+  );
+}
 
 async function waitForServer() {
   const deadline = Date.now() + 60_000;
@@ -25,18 +39,20 @@ async function waitForServer() {
 }
 
 before(async () => {
+  await preserveGeneratedProjectFiles();
   const nextBin = path.join(process.cwd(), "node_modules", "next", "dist", "bin", "next");
   server = spawn(process.execPath, [nextBin, "dev", "-H", "localhost", "-p", String(port)], {
     cwd: process.cwd(),
-    env: { ...process.env, SITE_VARIANT: "partner-room" },
+    env: { ...process.env, SITE_VARIANT: "partner-room", NEXT_TEST_DIST_DIR: ".next-partner-room-variant-test" },
     stdio: "ignore",
   });
 
   await waitForServer();
 });
 
-after(() => {
+after(async () => {
   server?.kill();
+  await restoreGeneratedProjectFiles();
 });
 
 test("serves Partner Room at the dedicated site root and retains attribution", async () => {

@@ -5,6 +5,8 @@
 
 # next.js
 /.next/
+/.next-partner-room-page-test/
+/.next-partner-room-variant-test/
 /out/
 
 # production

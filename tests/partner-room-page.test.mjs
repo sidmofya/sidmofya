@@ -1,12 +1,25 @@
 import test, { after, before } from "node:test";
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const port = 3217;
 const baseUrl = `http://127.0.0.1:${port}`;
 let server;
+let generatedProjectFiles;
+
+async function preserveGeneratedProjectFiles() {
+  generatedProjectFiles = await Promise.all(
+    ["next-env.d.ts", "tsconfig.json"].map(async (file) => [file, await readFile(path.join(process.cwd(), file), "utf8")]),
+  );
+}
+
+async function restoreGeneratedProjectFiles() {
+  await Promise.all(
+    generatedProjectFiles?.map(([file, contents]) => writeFile(path.join(process.cwd(), file), contents)) ?? [],
+  );
+}
 
 async function waitForServer() {
   const deadline = Date.now() + 60_000;
@@ -26,18 +39,20 @@ async function waitForServer() {
 }
 
 before(async () => {
+  await preserveGeneratedProjectFiles();
   const nextBin = path.join(process.cwd(), "node_modules", "next", "dist", "bin", "next");
   server = spawn(process.execPath, [nextBin, "dev", "-H", "127.0.0.1", "-p", String(port)], {
     cwd: process.cwd(),
-    env: { ...process.env, SITE_VARIANT: "" },
+    env: { ...process.env, SITE_VARIANT: "", NEXT_TEST_DIST_DIR: ".next-partner-room-page-test" },
     stdio: "ignore",
   });
 
   await waitForServer();
 });
 
-after(() => {
+after(async () => {
   server?.kill();
+  await restoreGeneratedProjectFiles();
 });
 
 test("uses the parent MOTIF 54 tokens without the legacy palette or mobile floating CTA", async () => {
