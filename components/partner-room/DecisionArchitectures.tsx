@@ -1,26 +1,19 @@
 import styles from "@/app/partner-room/partner-room.module.css";
-import { architectures } from "./content";
+import { architectures, partnerRoomCopy } from "./content";
 
 export default function DecisionArchitectures() {
+  const copy = partnerRoomCopy.architectures;
+
   return (
-    <section className={styles.section} id="architectures" aria-labelledby="architectures-title">
+    <section className={styles.section} id="how-rooms-decide" aria-labelledby="how-rooms-decide-title">
       <div className={`${styles.sectionGrid} ${styles.composition}`}>
-        <div className={styles.sectionLabel}><span>04</span><span>How rooms decide</span></div>
+        <div className={styles.sectionLabel}><span>04</span><span>{copy.label}</span></div>
         <div className={styles.readingColumnWide}>
-          <h2 id="architectures-title" className={`${styles.sectionTitle} ${styles.display}`}>Six Recurring Decision Architectures</h2>
-          <p className={styles.sectionIntro}>There is no universal investment committee.</p>
-          <p className={styles.sectionIntro}>Different firms organise judgment differently.</p>
-          <p className={styles.sectionIntro}>Even within the same firm, the effective decision system can change with the cheque size, the sponsor, the market, the partnership and the investment itself.</p>
-          <p className={styles.sectionIntro}>Partner Room works through six recurring architectures. Each changes what the room is trying to resolve.</p>
+          <h2 id="how-rooms-decide-title" className={`${styles.sectionTitle} ${styles.display}`}>{copy.title}</h2>
+          {copy.paragraphs.map((paragraph) => <p className={styles.sectionIntro} key={paragraph}>{paragraph}</p>)}
           <div className={styles.architectureList}>
             {architectures.map((architecture) => (
-              <article
-                className={styles.architecture}
-                id={`architecture-${architecture.number}`}
-                data-architecture={architecture.number}
-                aria-labelledby={`architecture-${architecture.number}-title`}
-                key={architecture.number}
-              >
+              <article className={styles.architecture} id={`architecture-${architecture.number}`} data-architecture={architecture.number} aria-labelledby={`architecture-${architecture.number}-title`} key={architecture.number}>
                 <div className={styles.architectureHeading}>
                   <span className={styles.architectureRailNumber} aria-hidden="true">{architecture.number}</span>
                   <h3 id={`architecture-${architecture.number}-title`}>{architecture.name}</h3>

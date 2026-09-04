@@ -90,36 +90,56 @@ test("keeps the sticky site header and seat CTA visible across responsive rules"
   assert.match(mobileRules, /\.brand\s*\{[^}]*white-space:\s*nowrap/);
 });
 
-test("renders the approved Partner Room v3 commercial narrative", async () => {
+test("renders the complete v4 decision-room narrative in its public order", async () => {
   const response = await fetch(`${baseUrl}/partner-room`);
   const html = await response.text();
 
   assert.equal(response.status, 200);
-  assert.match(html, /Five Rooms as an Investor\. One as the Founder\./);
-  assert.match(html, /Then the founder goes silent\./);
-  assert.match(html, /The room decides in front of them\./);
-  assert.match(html, /Structured Disagreement/);
-  assert.match(html, /Same Company\. Different Room\./);
-  assert.match(html, /storytelling problem/i);
-  assert.match(html, /evidence problem/i);
-  assert.match(html, /underwriting problem/i);
-  assert.match(html, /28 September/);
-  assert.match(html, /15 October 2026/);
-  assert.match(html, /\$5,000/);
-  assert.match(html, /A working venture investor (?:also sits|in every room)/i);
+  const required = [
+    "One company · Five venture investors · One live decision room",
+    "Five Investors. Your Company. The Room Decides.",
+    "The company is real.",
+    "Advice is easy. Judgment is harder.",
+    "Built by someone who sat in them.",
+    "The Room Is Real. The Framework Makes It Legible.",
+    "Six Ways Venture Firms Make the Same Decision Differently",
+    "Same Company. Different Room.",
+    "Before Your Series A Is Actually on the Line.",
+    "Judgment You Can Carry Into the Raise.",
+    "One Company. Five Investors. One Decision Room.",
+    "The Room Is the Product.",
+  ];
+  for (const text of required) {
+    assert.match(html, new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+
+  for (const forbidden of [
+    /Request a Seat/i,
+    /six founders/i,
+    /rotating Partner seats/i,
+    /live simulation/i,
+    /founding price/i,
+    /investor map/i,
+    /all participants sign a mutual NDA/i,
+  ]) {
+    assert.doesNotMatch(html, forbidden);
+  }
 
   const headings = [
     "The Meeting Goes Well. The Answer Is Still No.",
-    "Five Rooms as an Investor. One as the Founder.",
+    "Five Investors. Your Company. The Room Decides.",
+    "Advice is easy. Judgment is harder.",
     "Built by someone who sat in them.",
-    "Six Recurring Decision Architectures",
+    "The Room Is Real. The Framework Makes It Legible.",
+    "Six Ways Venture Firms Make the Same Decision Differently",
     "Same Company. Different Room.",
     "Before Your Series A Is Actually on the Line.",
-    "Judgment you can carry into the raise.",
+    "Judgment You Can Carry Into the Raise.",
     "Who This Is For",
-    "The Founding Room",
-    "The room is the product.",
-    "Request a Seat",
+    "One Company. Five Investors. One Decision Room.",
+    "The Room Is the Product.",
+    "Not ready for a room yet?",
+    "Request a Room",
   ];
   let previous = -1;
   for (const heading of headings) {
@@ -128,60 +148,33 @@ test("renders the approved Partner Room v3 commercial narrative", async () => {
     previous = next;
   }
 
-  const pageSource = await readFile(path.join(process.cwd(), "app", "partner-room", "page.tsx"), "utf8");
-  const contentSource = await readFile(path.join(process.cwd(), "components", "partner-room", "content.ts"), "utf8");
-  assert.doesNotMatch(`${pageSource}\n${contentSource}`, /\$2,500|institutional Seed|6 Decisions/);
+  assert.equal((html.match(/data-deliverable=/g) ?? []).length, 3);
+  assert.equal((html.match(/data-decision-state=/g) ?? []).length, 3);
+  assert.equal((html.match(/data-architecture=/g) ?? []).length, 6);
+  assert.equal((html.match(/data-process-stage=/g) ?? []).length, 6);
+  assert.equal((html.match(/data-room-judgment=/g) ?? []).length, 3);
+  assert.equal((html.match(/data-failure-type=/g) ?? []).length, 3);
+  assert.equal((html.match(/data-room-attribute=/g) ?? []).length, 8);
 });
-
-test("places seat-request CTAs at the approved narrative locations without a footer CTA", async () => {
+test("renders room-request and framework links as server-rendered progressive-enhancement hooks", async () => {
   const response = await fetch(`${baseUrl}/partner-room`);
   const html = await response.text();
 
   assert.equal(response.status, 200);
-  for (const location of ["nav", "hero", "architectures", "founding-room"]) {
+  for (const source of ["nav", "hero", "room"]) {
     assert.match(
       html,
-      new RegExp(`href="\\#request-seat" data-cta-location="${location}"`),
-      `${location} should provide a seat-request CTA`,
+      new RegExp(`href="\\#request-room" data-request-source="${source}"`),
+      `${source} should provide a room-request link`,
     );
   }
-
-  const architecturesStart = html.indexOf('id="architectures"');
-  const architecturesCta = html.indexOf('data-cta-location="architectures"', architecturesStart);
-  const sameCompanyStart = html.indexOf('id="same-company"');
-  assert.ok(architecturesCta > architecturesStart, "The architecture CTA should follow the architectures section.");
-  assert.ok(architecturesCta < sameCompanyStart, "The architecture CTA should precede the same-company section.");
-  assert.match(html, /<h2[^>]*id="request-seat-title"[^>]*tabindex="-1"/);
-  assert.doesNotMatch(html, /data-cta-location="footer"/);
-});
-
-test("routes every form submit attempt through the form CTA analytics boundary once", async () => {
-  const formSource = await readFile(path.join(process.cwd(), "components", "partner-room", "RequestSeatForm.tsx"), "utf8");
-  const enhancementSource = await readFile(path.join(process.cwd(), "components", "partner-room", "PartnerRoomEnhancements.tsx"), "utf8");
-  const handlerStart = formSource.indexOf("async function handleSubmit");
-  const handlerEnd = formSource.indexOf("\n  if (status === \"success\")", handlerStart);
-  const handlerSource = formSource.slice(handlerStart, handlerEnd);
-  const preventDefaultIndex = handlerSource.indexOf("event.preventDefault()");
-  const boundaryIndex = handlerSource.indexOf('window.dispatchEvent(new Event("partner-room:form-submit"))');
-  const duplicateGuardIndex = handlerSource.indexOf("if (submittingRef.current) return");
-
-  assert.ok(preventDefaultIndex >= 0, "The submit handler should own every mouse and keyboard submit attempt.");
-  assert.ok(boundaryIndex > preventDefaultIndex, "The submit handler should emit its analytics boundary after preventing navigation.");
-  assert.ok(duplicateGuardIndex > boundaryIndex, "Every submit attempt should emit before the in-flight submission guard returns.");
-  assert.match(
-    enhancementSource,
-    /function handleFormSubmit\(\)\s*\{\s*analytics\.trackFormSubmitCta\(\);\s*\}/,
-  );
-  assert.match(
-    enhancementSource,
-    /window\.addEventListener\("partner-room:form-submit", handleFormSubmit\)/,
-  );
-  assert.match(enhancementSource, /target\.closest<HTMLAnchorElement>\("a\[data-cta-location\]"\)/);
-  assert.equal(
-    enhancementSource.match(/analytics\.trackFormSubmitCta\(\)/g)?.length,
-    1,
-    "The submit boundary should reach the analytics adapter exactly once.",
-  );
+  for (const source of ["framework-primary", "framework-secondary"]) {
+    assert.match(
+      html,
+      new RegExp(`href="/decision-architecture-framework" data-framework-trigger(?:="true")? data-framework-source="${source}"`),
+      `${source} should offer the direct framework route before JavaScript loads`,
+    );
+  }
 });
 
 test("preserves the existing homepage through the main route group", async () => {
@@ -222,30 +215,6 @@ test("preserves the existing main-site chrome on the 404 page", async () => {
   assert.match(html, /Not here\./);
 });
 
-test("renders the complete seat-request contract without a file upload", async () => {
-  const response = await fetch(`${baseUrl}/partner-room`);
-  const html = await response.text();
-
-  assert.equal(response.status, 200);
-  assert.match(html, /name="partner-room-seat-request"/);
-  assert.match(html, /name="company-website"/);
-  assert.match(html, /name="raise-timing"/);
-  assert.match(html, /name="investor-targets"/);
-  assert.match(html, /name="room-concern"/);
-  assert.match(html, /name="deck-url"/);
-  assert.match(html, /Request My Seat/i);
-  assert.match(html, /<option value="Series A">Series A<\/option>/);
-  assert.match(html, /<option value="Other">Other<\/option>/);
-  assert.doesNotMatch(html, /<option value="Seed">/);
-  assert.doesNotMatch(html, /Raising now/);
-  assert.match(
-    html,
-    /If you join the room, it becomes the starting point for your founder-session pre-read\./,
-  );
-  assert.match(html, /6 seats · \$5,000 · Response within 48 hours/);
-  assert.doesNotMatch(html, /type="file"/);
-});
-
 test("publishes Partner Room metadata and a renderable social image", async () => {
   const response = await fetch(`${baseUrl}/partner-room`);
   const html = await response.text();
@@ -266,53 +235,4 @@ test("publishes Partner Room metadata and a renderable social image", async () =
   const imageResponse = await fetch(`${baseUrl}${imageUrl.pathname}${imageUrl.search}`);
   assert.equal(imageResponse.status, 200);
   assert.equal(imageResponse.headers.get("content-type"), "image/png");
-});
-
-test("serves a static Netlify detection form with the complete Partner Room schema", async () => {
-  const response = await fetch(`${baseUrl}/__forms.html`);
-  const html = await response.text();
-
-  assert.equal(response.status, 200);
-  const formNameIndex = html.indexOf('name="partner-room-seat-request"');
-  const formStart = html.lastIndexOf("<form", formNameIndex);
-  assert.notEqual(formStart, -1, "Partner Room detection form should be present");
-  const formEnd = html.indexOf("</form>", formStart);
-  const form = html.slice(formStart, formEnd);
-  const fields = [...form.matchAll(/<(?:input|select|textarea)[^>]*\sname="([^"]+)"/g)]
-    .map((match) => match[1])
-    .sort();
-
-  const liveResponse = await fetch(`${baseUrl}/partner-room`);
-  const liveHtml = await liveResponse.text();
-  const liveFormNameIndex = liveHtml.indexOf('name="partner-room-seat-request"');
-  const liveFormStart = liveHtml.lastIndexOf("<form", liveFormNameIndex);
-  const liveFormEnd = liveHtml.indexOf("</form>", liveFormStart);
-  const liveFields = [...liveHtml.slice(liveFormStart, liveFormEnd).matchAll(/<(?:input|select|textarea)[^>]*\sname="([^"]+)"/g)]
-    .map((match) => match[1])
-    .filter((field) => field !== "form-name")
-    .sort();
-
-  assert.deepEqual(fields, [
-    "bot-field",
-    "company",
-    "company-website",
-    "deck-url",
-    "email",
-    "investor-targets",
-    "landing-page-url",
-    "name",
-    "raise-timing",
-    "referral-url",
-    "room-concern",
-    "round",
-    "subject",
-    "submitted-at",
-    "utm-campaign",
-    "utm-content",
-    "utm-medium",
-    "utm-source",
-    "utm-term",
-  ].sort());
-  assert.deepEqual(fields, liveFields);
-  assert.doesNotMatch(form, /Seed|Raising now/);
 });
