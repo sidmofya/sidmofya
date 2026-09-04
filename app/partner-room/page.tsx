@@ -1,26 +1,31 @@
 import styles from "./partner-room.module.css";
-import PartnerRoomEnhancements from "@/components/partner-room/PartnerRoomEnhancements";
-import PartnerRoomSections, { SeatLink } from "@/components/partner-room/PartnerRoomSections";
+import PartnerRoomSections, { RoomLink } from "@/components/partner-room/PartnerRoomSections";
+import { partnerRoomCopy } from "@/components/partner-room/content";
 
 export default function PartnerRoomPage() {
+  const { footer, navigation } = partnerRoomCopy;
+
   return (
     <>
       <header className={styles.siteHeader}>
         <div className={styles.headerInner}>
-          <a className={styles.brand} href="#partner-room-main" aria-label="Partner Room home">
-            MOTIF 54 <span aria-hidden="true">/</span> PARTNER ROOM
-          </a>
-          <SeatLink location="nav" />
+          <a className={styles.brand} href="#partner-room-main" aria-label={navigation.brand}>{navigation.brand}</a>
+          <a className={styles.headerSecondary} href="#how-rooms-decide">{navigation.secondary}</a>
+          <RoomLink sourceSection="nav" />
         </div>
       </header>
       <main id="partner-room-main"><PartnerRoomSections /></main>
-      <PartnerRoomEnhancements />
       <footer className={styles.siteFooter}>
         <div>
-          <p className={styles.brand}>MOTIF 54 / PARTNER ROOM</p>
-          <p>Decision rooms for consequential capital.</p>
+          <p className={styles.brand}>{navigation.brand}</p>
+          <p>{footer.tagline}</p>
         </div>
-        <div className={styles.footerLinks}><a href="https://motif54.com" rel="noopener">MOTIF 54</a></div>
+        <nav className={styles.footerLinks} aria-label={navigation.brand}>
+          <a href="https://motif54.com" rel="noopener">{footer.links[0]}</a>
+          <a href="/decision-architecture-framework">{footer.links[3]}</a>
+          <a href="https://motif54.com/privacy" rel="noopener">{footer.links[1]}</a>
+          <a href="https://motif54.com/terms" rel="noopener">{footer.links[2]}</a>
+        </nav>
       </footer>
     </>
   );

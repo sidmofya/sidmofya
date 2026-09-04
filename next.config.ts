@@ -1,7 +1,12 @@
+import path from "node:path";
 import type { NextConfig } from "next";
+
+const testDistDir = process.env.NEXT_TEST_DIST_DIR;
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  outputFileTracingRoot: path.resolve(process.cwd()),
+  ...(testDistDir ? { distDir: testDistDir } : {}),
   async redirects() {
     // The old services architecture. Kept as permanent redirects rather than
     // deletions, since these URLs may be indexed or externally linked.

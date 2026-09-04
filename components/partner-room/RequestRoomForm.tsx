@@ -3,11 +3,13 @@
 import { useEffect, useRef, useState, type FormEvent, type SyntheticEvent } from "react";
 import {
   ATTRIBUTION_STORAGE_KEY,
-  buildSeatRequestPayload,
+  buildRoomRequestPayload,
   captureFirstTouchAttribution,
   PARTNER_ROOM_FORM_NAME,
-  validateSeatRequest,
+  validateRoomRequest,
 } from "@/lib/partner-room-form.mjs";
+import { createRoomRequestSubmitter } from "@/lib/partner-room-request-submission.mjs";
+import { focusRoomRequestSuccess, transitionRoomRequestToSuccess } from "@/lib/partner-room-request-state.mjs";
 import styles from "@/app/partner-room/partner-room.module.css";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -44,13 +46,28 @@ function FieldError({ field, errors }: { field: string; errors: Errors }) {
   );
 }
 
-export default function RequestSeatForm() {
+export default function RequestRoomForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Errors>({});
+  const [pendingInvalidField, setPendingInvalidField] = useState<string | null>(null);
   const attributionRef = useRef<Record<string, string>>(emptyAttribution);
-  const submittingRef = useRef(false);
-  const applicationStartedRef = useRef(false);
+  const formRef = useRef<HTMLFormElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
+  const submitterRef = useRef<((payload: Record<string, string>) => Promise<string>) | null>(null);
+
+  if (!submitterRef.current) {
+    submitterRef.current = createRoomRequestSubmitter({
+      post: (payload: Record<string, string>) => fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(payload).toString(),
+      }),
+      onSuccess: () => transitionRoomRequestToSuccess({
+        dispatchSubmitted: () => window.dispatchEvent(new CustomEvent("partner-room:request-submitted")),
+        setStatus,
+      }),
+    });
+  }
 
   useEffect(() => {
     let storedValue: string | null = null;
@@ -75,8 +92,15 @@ export default function RequestSeatForm() {
   }, []);
 
   useEffect(() => {
-    if (status === "success") successRef.current?.focus();
+    focusRoomRequestSuccess(status, successRef.current);
   }, [status]);
+
+  useEffect(() => {
+    if (!pendingInvalidField) return;
+    const control = formRef.current?.elements.namedItem(pendingInvalidField);
+    if (control instanceof HTMLElement) control.focus();
+    setPendingInvalidField(null);
+  }, [errors, pendingInvalidField]);
 
   function clearFieldError(event: SyntheticEvent<HTMLFormElement>) {
     const target = event.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
@@ -88,31 +112,20 @@ export default function RequestSeatForm() {
     });
   }
 
-  function handleInput(event: SyntheticEvent<HTMLFormElement>) {
-    if (!applicationStartedRef.current) {
-      applicationStartedRef.current = true;
-      window.dispatchEvent(new Event("partner-room:application-start"));
-    }
-    clearFieldError(event);
-  }
-
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    window.dispatchEvent(new Event("partner-room:form-submit"));
-    if (submittingRef.current) return;
 
     const form = event.currentTarget;
     const rawValues = Object.fromEntries(
       Array.from(new FormData(form).entries()).map(([key, value]) => [key, value.toString()]),
     );
-    const validation = validateSeatRequest(rawValues);
+    const validation = validateRoomRequest(rawValues);
 
     if (Object.keys(validation.errors).length > 0) {
       setErrors(validation.errors);
       setStatus("idle");
       const firstInvalidField = Object.keys(validation.errors)[0];
-      const control = form.elements.namedItem(firstInvalidField);
-      if (control instanceof HTMLElement) control.focus();
+      setPendingInvalidField(firstInvalidField);
       return;
     }
 
@@ -121,40 +134,26 @@ export default function RequestSeatForm() {
       if (control instanceof HTMLInputElement) control.value = validation.values[fieldName] ?? "";
     }
 
-    const payload = buildSeatRequestPayload(
+    const payload = buildRoomRequestPayload(
       validation.values,
       attributionRef.current,
       new Date().toISOString(),
     );
 
-    submittingRef.current = true;
     setErrors({});
     setStatus("submitting");
-
-    try {
-      const response = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(payload).toString(),
-      });
-      if (!response.ok) throw new Error(`Seat request failed with HTTP ${response.status}`);
-      window.dispatchEvent(new Event("partner-room:application-complete"));
-      setStatus("success");
-    } catch {
-      setStatus("error");
-    } finally {
-      submittingRef.current = false;
-    }
+    const submitRoomRequest = submitterRef.current;
+    if (!submitRoomRequest) return;
+    const outcome = await submitRoomRequest(payload);
+    if (outcome === "success") setStatus("success");
+    if (outcome === "error") setStatus("error");
   }
 
   if (status === "success") {
     return (
       <div className={styles.successState} ref={successRef} role="status" tabIndex={-1}>
-        <h3>Request Received</h3>
-        <p>Thank you.</p>
-        <p>I review every request personally because each founder becomes part of the room for everyone else.</p>
-        <p>You’ll receive a response within 48 hours.</p>
-        <p>If there is a strong fit, that response will include an invitation to enroll directly.</p>
+        <h3>Request received.</h3>
+        <p>We’ll review the company and follow up about whether Partner Room is the right fit.</p>
       </div>
     );
   }
@@ -163,13 +162,14 @@ export default function RequestSeatForm() {
 
   return (
     <form
+      ref={formRef}
       action="/"
       method="POST"
       name={PARTNER_ROOM_FORM_NAME}
       data-netlify="true"
       data-netlify-honeypot="bot-field"
       className={styles.requestForm}
-      onInput={handleInput}
+      onInput={clearFieldError}
       onSubmit={handleSubmit}
       noValidate
     >
@@ -208,6 +208,7 @@ export default function RequestSeatForm() {
           <select id="round" name="round" defaultValue="" required aria-invalid={Boolean(errors.round)} aria-describedby={describedBy("round")}>
             <option value="" disabled>Select a round</option>
             <option value="Series A">Series A</option>
+            <option value="Series A extension">Series A extension</option>
             <option value="Other">Other</option>
           </select>
           <FieldError field="round" errors={errors} />
@@ -216,11 +217,17 @@ export default function RequestSeatForm() {
           <label htmlFor="raise-timing">When do you expect to raise? <span aria-hidden="true">*</span></label>
           <select id="raise-timing" name="raise-timing" defaultValue="" required aria-invalid={Boolean(errors["raise-timing"])} aria-describedby={describedBy("raise-timing")}>
             <option value="" disabled>Select timing</option>
+            <option value="Now / already preparing">Now / already preparing</option>
             <option value="Within 3 months">Within 3 months</option>
-            <option value="Within 3–6 months">Within 3–6 months</option>
-            <option value="More than 6 months away">More than 6 months away</option>
+            <option value="3 to 6 months">3 to 6 months</option>
+            <option value="6+ months">6+ months</option>
+            <option value="Not sure yet">Not sure yet</option>
           </select>
           <FieldError field="raise-timing" errors={errors} />
+        </div>
+        <div className={styles.formField}>
+          <label htmlFor="raise-amount">How much capital do you expect to raise? <span>(optional)</span></label>
+          <input id="raise-amount" name="raise-amount" type="text" inputMode="text" />
         </div>
       </div>
 
@@ -232,16 +239,14 @@ export default function RequestSeatForm() {
 
       <div className={`${styles.formField} ${styles.concernField}`}>
         <label htmlFor="room-concern">What do you think the investment room may struggle to believe about your company? <span aria-hidden="true">*</span></label>
-        <p id="room-concern-hint">
-          This is the most important question in the request. If you join the room, it becomes the starting point for your founder-session pre-read.
-        </p>
+        <p id="room-concern-hint">This is the most important question in the request. It becomes the starting point for the investor pre-read.</p>
         <textarea id="room-concern" name="room-concern" rows={7} required aria-invalid={Boolean(errors["room-concern"])} aria-describedby={["room-concern-hint", describedBy("room-concern")].filter(Boolean).join(" ")} />
         <FieldError field="room-concern" errors={errors} />
       </div>
 
       <div className={styles.formField}>
-        <label htmlFor="deck-url">Deck or investor materials URL — optional</label>
-        <input id="deck-url" name="deck-url" type="text" inputMode="url" placeholder="docsend.com/view/…" aria-invalid={Boolean(errors["deck-url"])} aria-describedby={describedBy("deck-url")} />
+        <label htmlFor="deck-url">Deck or investor materials URL <span>(optional)</span></label>
+        <input id="deck-url" name="deck-url" type="text" inputMode="url" placeholder="docsend.com/view/..." aria-invalid={Boolean(errors["deck-url"])} aria-describedby={describedBy("deck-url")} />
         <FieldError field="deck-url" errors={errors} />
       </div>
 
@@ -253,9 +258,8 @@ export default function RequestSeatForm() {
 
       <div className={styles.formActions}>
         <button type="submit" disabled={status === "submitting"}>
-          {status === "submitting" ? "Sending Request…" : "Request My Seat"}
+          {status === "submitting" ? "Sending request…" : "Request a Room"}
         </button>
-        <p>6 seats · $5,000 · Response within 48 hours</p>
       </div>
     </form>
   );

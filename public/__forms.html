@@ -68,6 +68,7 @@
       netlify-honeypot="bot-field"
       hidden
     >
+      <input type="hidden" name="form-name" value="partner-room-seat-request" />
       <input type="text" name="bot-field" />
       <input type="text" name="name" />
       <input type="email" name="email" />
@@ -75,13 +76,17 @@
       <input type="url" name="company-website" />
       <select name="round">
         <option>Series A</option>
+        <option>Series A extension</option>
         <option>Other</option>
       </select>
       <select name="raise-timing">
+        <option>Now / already preparing</option>
         <option>Within 3 months</option>
-        <option>Within 3–6 months</option>
-        <option>More than 6 months away</option>
+        <option>3 to 6 months</option>
+        <option>6+ months</option>
+        <option>Not sure yet</option>
       </select>
+      <input type="text" name="raise-amount" />
       <textarea name="investor-targets"></textarea>
       <textarea name="room-concern"></textarea>
       <input type="url" name="deck-url" />
@@ -96,9 +101,37 @@
       <input
         type="hidden"
         name="subject"
-        value="Partner Room seat request"
+        value="Partner Room request"
         data-remove-prefix
       />
+    </form>
+
+    <form
+      name="partner-room-decision-architecture"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      hidden
+    >
+      <input type="hidden" name="form-name" value="partner-room-decision-architecture" />
+      <input type="hidden" name="source" value="partner-room-decision-architecture" />
+      <input type="hidden" name="tag" value="partner-room-decision-architecture" />
+      <input type="hidden" name="utm-source" />
+      <input type="hidden" name="utm-medium" />
+      <input type="hidden" name="utm-campaign" />
+      <input type="hidden" name="utm-content" />
+      <input type="hidden" name="utm-term" />
+      <input type="hidden" name="referral-url" />
+      <input type="hidden" name="landing-page-url" />
+      <input type="hidden" name="submitted-at" />
+      <input type="hidden" name="subject" value="Partner Room Decision Architecture download" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="first-name" />
+      <input type="email" name="email" />
+      <select name="role">
+        <option>Founder</option>
+        <option>Investor</option>
+        <option>Other</option>
+      </select>
     </form>
   </body>
 </html>

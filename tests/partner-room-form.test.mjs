@@ -1,20 +1,28 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 
 import {
-  buildSeatRequestPayload,
+  buildRoomRequestPayload,
   captureFirstTouchAttribution,
   normalizeHttpUrl,
-  validateSeatRequest,
+  validateRoomRequest,
 } from "../lib/partner-room-form.mjs";
+import { createRoomRequestSubmitter } from "../lib/partner-room-request-submission.mjs";
+import {
+  focusRoomRequestSuccess,
+  transitionRoomRequestToSuccess,
+} from "../lib/partner-room-request-state.mjs";
 
 const validValues = {
   name: "Amina Founder",
   email: "amina@example.com",
   company: "Signal Works",
   "company-website": "signalworks.example",
-  round: "Series A",
-  "raise-timing": "Within 3–6 months",
+  round: "Series A extension",
+  "raise-timing": "3 to 6 months",
+  "raise-amount": "$8M",
   "investor-targets": "Institutional venture funds focused on climate software.",
   "room-concern": "Whether our retention evidence is strong enough.",
   "deck-url": "docsend.com/view/example",
@@ -39,13 +47,14 @@ test("allows an optional URL to remain blank", () => {
 });
 
 test("returns human-readable errors for every missing required answer", () => {
-  const result = validateSeatRequest({
+  const result = validateRoomRequest({
     name: "",
     email: "",
     company: "",
     "company-website": "",
     round: "",
     "raise-timing": "",
+    "raise-amount": "",
     "investor-targets": "",
     "room-concern": "",
     "deck-url": "",
@@ -70,7 +79,7 @@ test("rejects malformed email and URL values without changing the answers", () =
     "company-website": "https://",
     "deck-url": "ftp://files.example.com/deck.pdf",
   };
-  const result = validateSeatRequest(values);
+  const result = validateRoomRequest(values);
 
   assert.equal(result.values.email, "not-an-email");
   assert.equal(result.values["company-website"], "https://");
@@ -82,11 +91,11 @@ test("rejects malformed email and URL values without changing the answers", () =
   });
 });
 
-test("rejects retired Seed round and Raising now timing choices", () => {
-  const result = validateSeatRequest({
+test("allows only the approved round and raise-timing choices", () => {
+  const result = validateRoomRequest({
     ...validValues,
     round: "Seed",
-    "raise-timing": "Raising now",
+    "raise-timing": "Within 3–6 months",
   });
 
   assert.deepEqual(result.errors, {
@@ -95,10 +104,28 @@ test("rejects retired Seed round and Raising now timing choices", () => {
   });
 });
 
-test("normalizes valid website and deck values before submission", () => {
-  const result = validateSeatRequest(validValues);
+test("accepts every approved round and raise-timing choice", () => {
+  const rounds = ["Series A", "Series A extension", "Other"];
+  const timings = [
+    "Now / already preparing",
+    "Within 3 months",
+    "3 to 6 months",
+    "6+ months",
+    "Not sure yet",
+  ];
+
+  for (const round of rounds) {
+    for (const timing of timings) {
+      assert.deepEqual(validateRoomRequest({ ...validValues, round, "raise-timing": timing }).errors, {});
+    }
+  }
+});
+
+test("keeps raise amount optional and normalizes valid website and deck values", () => {
+  const result = validateRoomRequest({ ...validValues, "raise-amount": "  " });
 
   assert.deepEqual(result.errors, {});
+  assert.equal(result.values["raise-amount"], "");
   assert.equal(result.values["company-website"], "https://signalworks.example/");
   assert.equal(result.values["deck-url"], "https://docsend.com/view/example");
 });
@@ -156,7 +183,7 @@ test("falls back to current attribution when session storage is malformed", () =
 });
 
 test("builds the exact Netlify notification payload", () => {
-  const validation = validateSeatRequest(validValues);
+  const validation = validateRoomRequest(validValues);
   const attribution = captureFirstTouchAttribution({
     currentUrl: "https://partnerroom.sidmofya.com/?utm_source=linkedin",
     referrer: "https://www.linkedin.com/",
@@ -164,7 +191,7 @@ test("builds the exact Netlify notification payload", () => {
   });
 
   assert.deepEqual(
-    buildSeatRequestPayload(
+    buildRoomRequestPayload(
       validation.values,
       attribution,
       "2026-08-27T17:30:00.000Z",
@@ -175,8 +202,9 @@ test("builds the exact Netlify notification payload", () => {
       email: "amina@example.com",
       company: "Signal Works",
       "company-website": "https://signalworks.example/",
-      round: "Series A",
-      "raise-timing": "Within 3–6 months",
+      round: "Series A extension",
+      "raise-timing": "3 to 6 months",
+      "raise-amount": "$8M",
       "investor-targets": "Institutional venture funds focused on climate software.",
       "room-concern": "Whether our retention evidence is strong enough.",
       "deck-url": "https://docsend.com/view/example",
@@ -188,8 +216,111 @@ test("builds the exact Netlify notification payload", () => {
       "referral-url": "https://www.linkedin.com/",
       "landing-page-url": "https://partnerroom.sidmofya.com/?utm_source=linkedin",
       "submitted-at": "2026-08-27T17:30:00.000Z",
-      subject: "Partner Room seat request — Signal Works",
+      subject: "Partner Room request — Signal Works",
       "bot-field": "",
     },
   );
+});
+
+test("keeps the static Partner Room form in exact parity with every request payload key", async () => {
+  const publicForms = await readFile(path.join(process.cwd(), "public", "__forms.html"), "utf8");
+  const partnerRoomForm = publicForms.match(
+    /<form\s+name="partner-room-seat-request"[\s\S]*?<\/form>/,
+  )?.[0];
+  const contactForm = publicForms.match(
+    /<form\s+name="contact"[\s\S]*?<\/form>/,
+  )?.[0];
+  const validation = validateRoomRequest(validValues);
+  const payload = buildRoomRequestPayload(validation.values, {}, "2026-09-03T00:00:00.000Z");
+
+  assert.ok(partnerRoomForm, "the Partner Room detection form should exist");
+  const staticFieldNames = Array.from(
+    partnerRoomForm.matchAll(/<(?:input|select|textarea)\b[^>]*\bname="([^"]+)"/g),
+    ([, name]) => name,
+  ).sort();
+
+  assert.deepEqual(staticFieldNames, Object.keys(payload).sort());
+  assert.match(partnerRoomForm, /name="form-name" value="partner-room-seat-request"/);
+  assert.match(partnerRoomForm, /name="raise-amount"/);
+  assert.ok(contactForm, "unrelated static forms should remain present");
+  assert.doesNotMatch(contactForm, /partner-room-seat-request|raise-amount/);
+});
+
+test("submits once, preserves the payload after failed responses, and dispatches only after OK", async () => {
+  let resolvePost;
+  const postedPayloads = [];
+  const successEvents = [];
+  const payload = { ...validValues, "raise-amount": " $8M " };
+  const submitter = createRoomRequestSubmitter({
+    post: (candidate) => new Promise((resolve) => {
+      postedPayloads.push(candidate);
+      resolvePost = resolve;
+    }),
+    onSuccess: () => successEvents.push("partner-room:request-submitted"),
+  });
+
+  const firstSubmission = submitter(payload);
+  assert.equal(await submitter(payload), "duplicate");
+  assert.equal(postedPayloads.length, 1);
+  assert.deepEqual(successEvents, []);
+
+  resolvePost({ ok: true });
+  assert.equal(await firstSubmission, "success");
+  assert.deepEqual(successEvents, ["partner-room:request-submitted"]);
+
+  const failedPayload = { ...payload };
+  const failedSubmitter = createRoomRequestSubmitter({
+    post: async () => ({ ok: false }),
+    onSuccess: () => successEvents.push("unexpected-success"),
+  });
+
+  assert.equal(await failedSubmitter(failedPayload), "error");
+  assert.deepEqual(failedPayload, payload);
+  assert.deepEqual(successEvents, ["partner-room:request-submitted"]);
+});
+
+test("uses a post-commit pending invalid field effect and retains answers on failure", async () => {
+  const source = await readFile(
+    path.join(process.cwd(), "components", "partner-room", "RequestRoomForm.tsx"),
+    "utf8",
+  );
+
+  assert.match(source, /const \[pendingInvalidField, setPendingInvalidField\] = useState<string \| null>\(null\)/);
+  assert.match(source, /const formRef = useRef<HTMLFormElement>\(null\)/);
+  assert.match(source, /useEffect\(\(\) => \{[\s\S]*?formRef\.current\?\.elements\.namedItem\(pendingInvalidField\)[\s\S]*?control\.focus\(\)[\s\S]*?setPendingInvalidField\(null\)[\s\S]*?\}, \[errors, pendingInvalidField\]\)/);
+  assert.match(source, /setErrors\(validation\.errors\);[\s\S]*?setPendingInvalidField\(firstInvalidField\);/);
+  assert.match(source, /aria-invalid=\{Boolean\(errors\.name\)\}/);
+  assert.match(source, /setStatus\("error"\)/);
+  assert.doesNotMatch(source, /\.reset\(/);
+});
+
+test("transitions an accepted request to success and focuses only the success state", async () => {
+  const calls = [];
+  const submitter = createRoomRequestSubmitter({
+    post: async () => ({ ok: true }),
+    onSuccess: () => transitionRoomRequestToSuccess({
+      dispatchSubmitted: () => calls.push("submitted"),
+      setStatus: (status) => calls.push(status),
+    }),
+  });
+  const successTarget = { focus: () => calls.push("focus") };
+
+  assert.equal(await submitter(validValues), "success");
+  focusRoomRequestSuccess("idle", successTarget);
+  focusRoomRequestSuccess("success", successTarget);
+
+  assert.deepEqual(calls, ["submitted", "success", "focus"]);
+});
+
+test("binds the executable success helpers to the focusable success status", async () => {
+  const source = await readFile(
+    path.join(process.cwd(), "components", "partner-room", "RequestRoomForm.tsx"),
+    "utf8",
+  );
+
+  assert.match(source, /import \{ focusRoomRequestSuccess, transitionRoomRequestToSuccess \} from "@\/lib\/partner-room-request-state\.mjs"/);
+  assert.match(source, /const successRef = useRef<HTMLDivElement>\(null\)/);
+  assert.match(source, /focusRoomRequestSuccess\(status, successRef\.current\)/);
+  assert.match(source, /transitionRoomRequestToSuccess\(\{[\s\S]*?setStatus,[\s\S]*?\}\)/);
+  assert.match(source, /<div className=\{styles\.successState\} ref=\{successRef\} role="status" tabIndex=\{-1\}>/);
 });

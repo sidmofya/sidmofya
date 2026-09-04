@@ -5,6 +5,10 @@
 
 # next.js
 /.next/
+/.next-partner-room-page-test/
+/.next-partner-room-variant-test/
+/.next-partner-room-production-main-test/
+/.next-partner-room-production-variant-test/
 /out/
 
 # production
@@ -32,3 +36,6 @@ yarn-error.log*
 
 # local git worktrees
 .worktrees/
+
+# PDF visual QA renders
+tmp/pdfs/

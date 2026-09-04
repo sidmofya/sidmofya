@@ -1,132 +1,79 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import {
-  createPartnerRoomAnalytics,
-  isSectionDepthQualified,
-  reconcileArchitectureIntersections,
-  selectActiveArchitecture,
-  toArchitectureIntersection,
-} from "../lib/partner-room-analytics.mjs";
+import { createPartnerRoomAnalytics } from "../lib/partner-room-analytics.mjs";
 
-test("emits each application boundary and allowed section depth once", () => {
+test("emits exactly the approved Partner Room conversion events", () => {
   const events = [];
   const analytics = createPartnerRoomAnalytics((name, props) => events.push({ name, props }));
 
-  analytics.trackApplicationStart();
-  analytics.trackApplicationStart();
-  analytics.trackSectionDepth("mechanism");
-  analytics.trackSectionDepth("mechanism");
-  analytics.trackApplicationComplete();
-  analytics.trackApplicationAbandon();
+  analytics.trackRequestClick("hero");
+  analytics.trackRequestSubmitted();
+  analytics.trackFrameworkClick("architectures");
+  analytics.trackFrameworkLead("Investor");
+  analytics.trackFrameworkDownload();
 
   assert.deepEqual(events, [
-    { name: "partner_room_application_start", props: undefined },
-    { name: "partner_room_section_depth", props: { section: "mechanism" } },
-    { name: "partner_room_application_complete", props: undefined },
+    { name: "partner_room_request_clicked", props: { source_section: "hero" } },
+    { name: "partner_room_request_submitted", props: undefined },
+    { name: "framework_download_clicked", props: { source_section: "architectures" } },
+    { name: "framework_lead_submitted", props: { role: "investor" } },
+    { name: "framework_download_completed", props: undefined },
   ]);
 });
 
-test("emits abandonment only once after an application starts and before it completes", () => {
+test("records every valid request and framework click but rejects unknown sources", () => {
   const events = [];
   const analytics = createPartnerRoomAnalytics((name, props) => events.push({ name, props }));
 
-  analytics.trackApplicationAbandon();
-  analytics.trackApplicationStart();
-  analytics.trackApplicationAbandon();
-  analytics.trackApplicationAbandon();
-  analytics.trackApplicationComplete();
-  analytics.trackApplicationAbandon();
+  analytics.trackRequestClick("nav");
+  analytics.trackRequestClick("nav");
+  analytics.trackRequestClick("unknown");
+  analytics.trackFrameworkClick("framework-secondary");
+  analytics.trackFrameworkClick("framework-secondary");
+  analytics.trackFrameworkClick("unrecognized");
 
   assert.deepEqual(events, [
-    { name: "partner_room_application_start", props: undefined },
-    { name: "partner_room_application_abandon", props: undefined },
-    { name: "partner_room_application_complete", props: undefined },
+    { name: "partner_room_request_clicked", props: { source_section: "nav" } },
+    { name: "partner_room_request_clicked", props: { source_section: "nav" } },
+    { name: "framework_download_clicked", props: { source_section: "framework-secondary" } },
+    { name: "framework_download_clicked", props: { source_section: "framework-secondary" } },
   ]);
 });
 
-test("tracks only the approved Partner Room section milestones", () => {
+test("emits successful submission and download boundaries only once", () => {
   const events = [];
   const analytics = createPartnerRoomAnalytics((name, props) => events.push({ name, props }));
 
-  for (const section of ["mechanism", "architectures", "founding-room", "request-seat", "failure-mode"]) {
-    analytics.trackSectionDepth(section);
-  }
+  analytics.trackRequestSubmitted();
+  analytics.trackRequestSubmitted();
+  analytics.trackFrameworkLead("Founder");
+  analytics.trackFrameworkLead("Other");
+  analytics.trackFrameworkDownload();
+  analytics.trackFrameworkDownload();
 
   assert.deepEqual(events, [
-    { name: "partner_room_section_depth", props: { section: "mechanism" } },
-    { name: "partner_room_section_depth", props: { section: "architectures" } },
-    { name: "partner_room_section_depth", props: { section: "founding-room" } },
-    { name: "partner_room_section_depth", props: { section: "request-seat" } },
+    { name: "partner_room_request_submitted", props: undefined },
+    { name: "framework_lead_submitted", props: { role: "founder" } },
+    { name: "framework_download_completed", props: undefined },
   ]);
 });
 
-test("records CTA location without collecting application data", () => {
+test("keeps framework lead properties to an optional normalized approved role", () => {
   const events = [];
   const analytics = createPartnerRoomAnalytics((name, props) => events.push({ name, props }));
 
-  analytics.trackCta("architectures");
+  analytics.trackFrameworkLead("");
 
   assert.deepEqual(events, [
-    { name: "partner_room_cta_click", props: { location: "architectures" } },
+    { name: "framework_lead_submitted", props: undefined },
   ]);
-});
 
-test("records the static form-submit CTA location without application answers", () => {
-  const events = [];
-  const analytics = createPartnerRoomAnalytics((name, props) => events.push({ name, props }));
+  const unknownRoleEvents = [];
+  createPartnerRoomAnalytics((name, props) => unknownRoleEvents.push({ name, props }))
+    .trackFrameworkLead("Operator");
 
-  analytics.trackFormSubmitCta();
-
-  assert.deepEqual(events, [
-    { name: "partner_room_cta_click", props: { location: "form-submit" } },
+  assert.deepEqual(unknownRoleEvents, [
+    { name: "framework_lead_submitted", props: undefined },
   ]);
-});
-
-test("qualifies section depth only at or above 25 percent intersection", () => {
-  assert.equal(isSectionDepthQualified({ isIntersecting: true, intersectionRatio: 0.249 }), false);
-  assert.equal(isSectionDepthQualified({ isIntersecting: false, intersectionRatio: 1 }), false);
-  assert.equal(isSectionDepthQualified({ isIntersecting: true, intersectionRatio: 0.25 }), true);
-});
-
-test("maintains and deterministically resolves active architectures across observer batches", () => {
-  let visibleArchitectures = new Map();
-
-  visibleArchitectures = reconcileArchitectureIntersections(visibleArchitectures, [
-    { architecture: "01", isIntersecting: true, intersectionRatio: 0.5 },
-  ]);
-  assert.equal(selectActiveArchitecture(visibleArchitectures), "01");
-
-  visibleArchitectures = reconcileArchitectureIntersections(visibleArchitectures, [
-    { architecture: "02", isIntersecting: true, intersectionRatio: 0.8 },
-  ]);
-  assert.equal(selectActiveArchitecture(visibleArchitectures), "02");
-
-  visibleArchitectures = reconcileArchitectureIntersections(visibleArchitectures, [
-    { architecture: "02", isIntersecting: false, intersectionRatio: 0 },
-  ]);
-  assert.equal(selectActiveArchitecture(visibleArchitectures), "01");
-
-  visibleArchitectures = reconcileArchitectureIntersections(visibleArchitectures, [
-    { architecture: "01", isIntersecting: false, intersectionRatio: 0 },
-  ]);
-  assert.equal(selectActiveArchitecture(visibleArchitectures), undefined);
-});
-
-test("adapts prototype-backed observer values without spreading entry fields", () => {
-  const observerEntry = Object.create({
-    get isIntersecting() {
-      return true;
-    },
-    get intersectionRatio() {
-      return 0.75;
-    },
-  });
-
-  assert.deepEqual({ ...observerEntry }, {});
-  assert.deepEqual(toArchitectureIntersection(observerEntry, "03"), {
-    architecture: "03",
-    isIntersecting: true,
-    intersectionRatio: 0.75,
-  });
 });

@@ -23,6 +23,15 @@ test("preserves attribution parameters when building route destinations", () => 
     }).href,
     "https://partnerroom.sidmofya.com/partner-room?utm_source=referrer",
   );
+
+  assert.equal(
+    buildPartnerRoomUrl({
+      requestUrl:
+        "https://www.sidmofya.com/decision-architecture-framework?utm_source=shared-link&utm_campaign=framework",
+      url: "https://partnerroom.sidmofya.com/decision-architecture-framework",
+    }).href,
+    "https://partnerroom.sidmofya.com/decision-architecture-framework?utm_source=shared-link&utm_campaign=framework",
+  );
 });
 
 test("serves the Partner Room site root directly", () => {
@@ -73,19 +82,6 @@ test("canonicalizes the internal route to root on the dedicated site", () => {
   );
 });
 
-test("allows the internal route while fulfilling a root rewrite", () => {
-  assert.deepEqual(
-    resolvePartnerRoomRoute({
-      hostname: "partner-room-preview.netlify.app",
-      pathname: "/partner-room",
-      method: "GET",
-      siteVariant: "partner-room",
-      isInternalRewrite: true,
-    }),
-    { type: "next" },
-  );
-});
-
 test("allows the Partner Room social image route on the dedicated site", () => {
   assert.deepEqual(
     resolvePartnerRoomRoute({
@@ -95,6 +91,107 @@ test("allows the Partner Room social image route on the dedicated site", () => {
       siteVariant: "partner-room",
     }),
     { type: "next" },
+  );
+});
+
+test("serves the canonical framework path without an internal middleware rewrite", () => {
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "partnerroom.sidmofya.com",
+      pathname: "/decision-architecture-framework",
+      method: "GET",
+    }),
+    { type: "next" },
+  );
+});
+
+test("redirects the public framework route away from ordinary production and preview hosts", () => {
+  for (const hostname of ["sidmofya.com", "www.sidmofya.com", "main-site-preview.netlify.app"]) {
+    assert.deepEqual(
+      resolvePartnerRoomRoute({
+        hostname,
+        pathname: "/decision-architecture-framework",
+        method: "GET",
+      }),
+      {
+        type: "redirect",
+        url: "https://partnerroom.sidmofya.com/decision-architecture-framework",
+      },
+      hostname,
+    );
+  }
+});
+
+test("redirects local public framework requests to the Partner Room route without main-site chrome", () => {
+  for (const hostname of ["localhost", "127.0.0.1"]) {
+    assert.deepEqual(
+      resolvePartnerRoomRoute({
+        hostname,
+        pathname: "/decision-architecture-framework",
+        method: "GET",
+        isDevelopment: true,
+      }),
+      {
+        type: "redirect",
+        pathname: "/partner-room/decision-architecture-framework",
+      },
+      hostname,
+    );
+  }
+});
+
+test("keeps the internal framework route private outside local development", () => {
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "sidmofya.com",
+      pathname: "/partner-room/decision-architecture-framework",
+      method: "GET",
+    }),
+    {
+      type: "redirect",
+      url: "https://partnerroom.sidmofya.com/decision-architecture-framework",
+    },
+  );
+
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "localhost",
+      pathname: "/partner-room/decision-architecture-framework",
+      method: "GET",
+      isDevelopment: true,
+    }),
+    { type: "next" },
+  );
+});
+
+test("allows only the generated framework PDF download on the dedicated site", () => {
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "partnerroom.sidmofya.com",
+      pathname: "/downloads/how-venture-rooms-decide.pdf",
+      method: "GET",
+    }),
+    { type: "next" },
+  );
+
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "partnerroom.sidmofya.com",
+      pathname: "/downloads/another-file.pdf",
+      method: "GET",
+    }),
+    { type: "redirect", pathname: "/" },
+  );
+});
+
+test("canonicalizes the internal framework route on the dedicated site", () => {
+  assert.deepEqual(
+    resolvePartnerRoomRoute({
+      hostname: "partnerroom.sidmofya.com",
+      pathname: "/partner-room/decision-architecture-framework",
+      method: "GET",
+    }),
+    { type: "redirect", pathname: "/" },
   );
 });
 

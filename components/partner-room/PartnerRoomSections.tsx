@@ -1,11 +1,20 @@
 import styles from "@/app/partner-room/partner-room.module.css";
-import RequestSeatForm from "./RequestSeatForm";
-import { fitCopy, foundingFacts, outcomes, partnerRoomCopy, risks } from "./content";
 import DecisionArchitectures from "./DecisionArchitectures";
+import RoomDiagram from "./RoomDiagram";
+import RoomMechanism from "./RoomMechanism";
+import RequestRoomForm from "./RequestRoomForm";
 import SameCompanyDifferentRoom from "./SameCompanyDifferentRoom";
+import {
+  companyQuestions,
+  decisionStates,
+  deliverables,
+  failureTypes,
+  partnerRoomCopy,
+  roomAttributes,
+} from "./content";
 
-export function SeatLink({ location, children = "Request a Seat" }: { location: string; children?: React.ReactNode }) {
-  return <a className={styles.primaryCta} href="#request-seat" data-cta-location={location}>{children}</a>;
+export function RoomLink({ sourceSection, children = partnerRoomCopy.navigation.primary, className = "" }: { sourceSection: string; children?: React.ReactNode; className?: string }) {
+  return <a className={`${styles.primaryCta} ${className}`} href="#request-room" data-request-source={sourceSection}>{children}</a>;
 }
 
 function SectionLabel({ number, children }: { number: string; children: React.ReactNode }) {
@@ -33,7 +42,7 @@ function CopySection({
       <div className={`${styles.sectionGrid} ${styles.composition}`}>
         <SectionLabel number={number}>{label}</SectionLabel>
         <div className={styles.readingColumnWide}>
-          <h2 id={titleId} className={`${styles.sectionTitle} ${styles.display}`} tabIndex={id === "request-seat" ? -1 : undefined}>{title}</h2>
+          <h2 id={titleId} className={`${styles.sectionTitle} ${styles.display}`} tabIndex={id === "request-room" ? -1 : undefined}>{title}</h2>
           {children}
         </div>
       </div>
@@ -41,91 +50,118 @@ function CopySection({
   );
 }
 
+function FrameworkLink({ source, children }: { source: string; children: React.ReactNode }) {
+  return <a className={styles.primaryCta} href="/decision-architecture-framework" data-framework-trigger data-framework-source={source}>{children}</a>;
+}
+
 export default function PartnerRoomSections() {
-  const { hero, failureMode, mechanism, facilitator, companyRisk, curation, founding, request } = partnerRoomCopy;
+  const copy = partnerRoomCopy;
 
   return (
     <>
       <section className={styles.hero} id="partner-room-hero" aria-labelledby="partner-room-title">
         <div className={styles.heroInner}>
-          <p className={styles.heroLabel}>Partner Room</p>
-          <h1 className={styles.display} id="partner-room-title">{hero.title}</h1>
+          <p className={styles.heroLabel}>{copy.hero.eyebrow}</p>
+          <h1 className={styles.display} id="partner-room-title">{copy.hero.title}</h1>
           <div className={styles.heroCopy}>
-            {hero.lines.map((line, index) => <p className={index === 3 ? styles.heroTurn : undefined} key={line}>{line}</p>)}
-            <p className={styles.heroPromise}>{hero.body}</p>
+            {copy.hero.opening.map((paragraph, index) => <p className={index === 3 ? styles.heroTurn : undefined} key={paragraph}>{paragraph}</p>)}
+            {copy.hero.body.map((paragraph, index) => <p className={index === 2 ? styles.heroPromise : undefined} key={paragraph}>{paragraph}</p>)}
           </div>
           <div className={styles.heroAction}>
-            <SeatLink location="hero" />
-            <p>{hero.schedule}</p>
+            <RoomLink sourceSection="hero">{copy.hero.cta}</RoomLink>
+            <p>{copy.hero.metadata}</p>
           </div>
-          <p className={styles.commercialLine}>{hero.commercial}</p>
         </div>
       </section>
 
-      <CopySection id="failure-mode" number="01" label="The failure mode" title={failureMode.title}>
-        {failureMode.paragraphs.map((paragraph, index) => <p className={index === 4 ? styles.lead : undefined} key={paragraph}>{paragraph}</p>)}
+      <CopySection id="failure-mode" number="01" label={copy.failureMode.label} title={copy.failureMode.title}>
+        {copy.failureMode.paragraphs.map((paragraph, index) => <p className={index === 4 || index === 6 ? styles.lead : undefined} key={paragraph}>{paragraph}</p>)}
       </CopySection>
 
-      <CopySection id="mechanism" number="02" label="The mechanism" title={mechanism.title} className={`${styles.section} ${styles.chamber}`}>
-        {mechanism.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        <ol className={styles.process} aria-label="Founder to investment decision process">
-          {mechanism.process.map((step, index) => <li className={styles.processStep} key={step}><span className={styles.processNumber}>{String(index + 1).padStart(2, "0")}</span><span>{step}</span></li>)}
-        </ol>
+      <CopySection id="mechanism" number="02" label={copy.mechanism.label} title={copy.mechanism.title} className={`${styles.section} ${styles.chamber}`}>
+        {copy.mechanism.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        <RoomMechanism />
       </CopySection>
 
-      <CopySection id="who-runs-room" number="03" label="Who runs the room" title={facilitator.title}>
-        {facilitator.paragraphs.map((paragraph, index) => <p className={index === 2 ? styles.lead : undefined} key={paragraph}>{paragraph}</p>)}
+      <aside className={`${styles.section} ${styles.chamber} ${styles.realityCallout}`} aria-label="Partner Room reality">
+        <blockquote className={`${styles.realityStatement} ${styles.composition}`}>
+          {copy.reality.map((line) => <p key={line}>{line}</p>)}
+        </blockquote>
+      </aside>
+
+      <CopySection id="decision-discipline" number="" label={copy.decisionDiscipline.label} title={copy.decisionDiscipline.title}>
+        {copy.decisionDiscipline.paragraphs.slice(0, 3).map((paragraph, index) => <p className={index === 2 ? styles.lead : undefined} key={paragraph}>{paragraph}</p>)}
+        <ul className={styles.decisionStates} aria-label={copy.decisionDiscipline.title}>
+          {decisionStates.map((decision) => <li data-decision-state={decision.state} key={decision.state}><strong>{decision.state}</strong><p>{decision.description}</p></li>)}
+        </ul>
+        {copy.decisionDiscipline.paragraphs.slice(3).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+      </CopySection>
+
+      <CopySection id="who-runs-room" number="03" label={copy.facilitator.label} title={copy.facilitator.title}>
+        {copy.facilitator.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        <p className={styles.lead}>{copy.facilitator.clarification}</p>
       </CopySection>
 
       <DecisionArchitectures />
-      <div className={`${styles.architectureCta} ${styles.composition}`}><SeatLink location="architectures" /></div>
+
+      <CopySection id="decision-architecture-framework" number="" label="" title={copy.frameworkPrimary.title}>
+        <div className={styles.frameworkBlock}>
+          {copy.frameworkPrimary.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          <FrameworkLink source="architectures">{copy.frameworkPrimary.cta}</FrameworkLink>
+          <p>{copy.frameworkPrimary.support}</p>
+        </div>
+      </CopySection>
+
       <SameCompanyDifferentRoom />
 
-      <CopySection id="company-risk" number="06" label="What happens to your company" title={companyRisk.title}>
-        {companyRisk.paragraphs.slice(0, 3).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        <div className={styles.outcomeList}>
-          {risks.map((risk, index) => <article key={risk.title}><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{risk.title}</h3><p>{risk.description}</p></div></article>)}
+      <CopySection id="your-company" number="06" label={copy.yourCompany.label} title={copy.yourCompany.title}>
+        {copy.yourCompany.paragraphs.slice(0, 4).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        <ol className={styles.questionField}>{companyQuestions.map((question) => <li key={question}>{question}</li>)}</ol>
+        <p>{copy.yourCompany.paragraphs[4]}</p>
+        <div className={styles.failureTypes}>
+          {failureTypes.map((failure) => <article data-failure-type={failure.number} key={failure.number}><span>{failure.number}</span><div><h3>{failure.title}</h3>{failure.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div></article>)}
         </div>
-        <p>{companyRisk.paragraphs[3]}</p>
+        {copy.yourCompany.paragraphs.slice(5).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
       </CopySection>
 
-      <CopySection id="outcomes" number="07" label="What you leave with" title="Judgment you can carry into the raise.">
-        <div className={styles.outcomeList}>
-          {outcomes.map((outcome) => <article key={outcome.number}><span>{outcome.number}</span><div><h3>{outcome.title}</h3>{outcome.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div></article>)}
+      <CopySection id="deliverables" number="07" label={copy.deliverables.label} title={copy.deliverables.title}>
+        {copy.deliverables.paragraphs.slice(0, 2).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        <div className={styles.deliverableList}>
+          {deliverables.map((deliverable) => <article data-deliverable={deliverable.number} key={deliverable.number}><span>{deliverable.number}</span><div><h3>{deliverable.title}</h3>{deliverable.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div></article>)}
+        </div>
+        {copy.deliverables.paragraphs.slice(2).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+      </CopySection>
+
+      <CopySection id="fit" number="08" label={copy.fit.label} title={copy.fit.title}>
+        {copy.fit.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        <blockquote className={styles.fitStatement}>{copy.fit.callout}</blockquote>
+      </CopySection>
+
+      <CopySection id="room" number="09" label={copy.room.label} title={copy.room.title} className={`${styles.section} ${styles.chamber}`}>
+        <ol className={styles.roomDocket}>{roomAttributes.map((attribute, index) => <li data-room-attribute={attribute} key={attribute}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{attribute}</li>)}</ol>
+        {copy.room.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        <RoomDiagram />
+        <RoomLink sourceSection="room" className={styles.roomRequestCta}>{copy.room.cta}</RoomLink>
+      </CopySection>
+
+      <CopySection id="curation" number="10" label={copy.curation.label} title={copy.curation.title}>
+        {copy.curation.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        <h3>{copy.curation.confidentiality.title}</h3>
+        {copy.curation.confidentiality.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        <h3>{copy.curation.preparation.title}</h3>
+        {copy.curation.preparation.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+      </CopySection>
+
+      <CopySection id="framework-secondary" number="" label="" title={copy.frameworkSecondary.title}>
+        <div className={styles.frameworkBlock}>
+          {copy.frameworkSecondary.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          <FrameworkLink source="framework-secondary">{copy.frameworkSecondary.cta}</FrameworkLink>
         </div>
       </CopySection>
 
-      <CopySection id="fit" number="08" label="Timing and fit" title="Who This Is For">
-        <p>{fitCopy.lead}</p>
-        <p>{fitCopy.evidence}</p>
-        <p>{fitCopy.participation}</p>
-        <p>{fitCopy.exclusion}</p>
-        <blockquote className={styles.fitStatement}>{fitCopy.statement}</blockquote>
-        <p className={styles.lead}>{fitCopy.founding}</p>
-      </CopySection>
-
-      <CopySection id="founding-room" number="09" label="The Founding Room" title="The Founding Room" className={`${styles.section} ${styles.chamber} ${styles.foundingSection}`}>
-        <p className={styles.lead}>{founding.date}</p>
-        <div className={styles.foundingFacts} aria-label="Founding Room facts">
-          {foundingFacts.map((fact, index) => <p key={fact}><span>{String(index + 1).padStart(2, "0")}</span>{fact}</p>)}
-        </div>
-        <div className={styles.foundingCopy}>
-          {founding.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        </div>
-        <SeatLink location="founding-room" />
-      </CopySection>
-
-      <CopySection id="curation" number="10" label="Curation and confidentiality" title={curation.title}>
-        {curation.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        <p className={styles.lead}>Confidentiality</p>
-        <p>{curation.confidentiality}</p>
-        <p className={styles.lead}>Preparation</p>
-        <p>{curation.preparation}</p>
-      </CopySection>
-
-      <CopySection id="request-seat" number="11" label="The request" title={request.title} className={`${styles.section} ${styles.requestSection}`}>
-        <div className={styles.requestIntro}>{request.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
-        <RequestSeatForm />
+      <CopySection id="request-room" number="11" label={copy.request.label} title={copy.request.title} className={`${styles.section} ${styles.chamber} ${styles.requestSection}`}>
+        <div className={styles.requestIntro}>{copy.request.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+        <RequestRoomForm />
       </CopySection>
     </>
   );
