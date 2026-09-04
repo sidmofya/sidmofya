@@ -245,6 +245,8 @@ test("renders the accessible framework dialog and the internal inline capture ro
   assert.match(homeHtml, /id="framework-dialog-title"[^>]*>Download the Decision Architecture Framework</);
 
   assert.equal(routeResponse.status, 200);
+  assert.match(routeHtml, /<main[^>]*id="partner-room-main"/);
+  assert.match(routeHtml, /href="\/">Back to Partner Room</);
   assert.match(routeHtml, /Six Ways Venture Firms Make the Same Decision Differently/);
   assert.match(routeHtml, /<form[^>]*name="partner-room-decision-architecture"/);
   assert.match(routeHtml, /Send me the framework/);
@@ -255,17 +257,17 @@ test("keeps each Netlify capture schema limited to its intended fields", async (
   const schema = (name) => forms.match(new RegExp(`<form[^>]*name="${name}"[\\s\\S]*?<\\/form>`))?.[0] ?? "";
   const requestSchema = schema("partner-room-seat-request");
   const frameworkSchema = schema("partner-room-decision-architecture");
-  const fieldNames = (markup) => [...markup.matchAll(/\bname="([^"]+)"/g)].map((match) => match[1]);
+  const controlNames = (markup) => [...markup.matchAll(/<(?:input|select|textarea)\b[^>]*\bname="([^"]+)"/g)].map((match) => match[1]);
+
+  const routeResponse = await fetch(`${baseUrl}/partner-room/decision-architecture-framework`);
+  const routeHtml = await routeResponse.text();
+  const liveSchema = routeHtml.match(/<form[^>]*name="partner-room-decision-architecture"[\s\S]*?<\/form>/)?.[0] ?? "";
 
   assert.ok(requestSchema, "the room request schema should remain independently detectable");
   assert.ok(frameworkSchema, "the framework schema should be independently detectable");
-  assert.deepEqual(fieldNames(frameworkSchema), [
-    "partner-room-decision-architecture",
+  assert.equal(routeResponse.status, 200);
+  assert.deepEqual(controlNames(frameworkSchema), [
     "form-name",
-    "bot-field",
-    "first-name",
-    "email",
-    "role",
     "source",
     "tag",
     "utm-source",
@@ -277,7 +279,13 @@ test("keeps each Netlify capture schema limited to its intended fields", async (
     "landing-page-url",
     "submitted-at",
     "subject",
+    "bot-field",
+    "first-name",
+    "email",
+    "role",
   ]);
+  assert.deepEqual(controlNames(liveSchema), controlNames(frameworkSchema));
+  assert.doesNotMatch(liveSchema, /noValidate/);
   assert.doesNotMatch(frameworkSchema, /\b(?:phone|revenue|funding|stage|availability|deck)\b/i);
 });
 

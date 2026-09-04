@@ -3,14 +3,28 @@
 import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent, type SyntheticEvent } from "react";
 import styles from "@/app/partner-room/partner-room.module.css";
 import FrameworkCapture from "./FrameworkCapture";
+import { createFrameworkDialogController } from "@/lib/partner-room-framework-dialog.mjs";
 
 export default function FrameworkDialog() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLAnchorElement | null>(null);
+  const controllerRef = useRef<ReturnType<typeof createFrameworkDialogController> | null>(null);
   const [sourceSection, setSourceSection] = useState("framework-primary");
-  const [captureKey, setCaptureKey] = useState(0);
 
   useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const controller = createFrameworkDialogController({
+      dialog,
+      root: document.documentElement,
+      body: document.body,
+      setSource: setSourceSection,
+      focusInside: () => window.requestAnimationFrame(() => {
+        if (dialog.open) dialog.querySelector<HTMLInputElement>('input[name="first-name"]')?.focus();
+      }),
+    });
+    controllerRef.current = controller;
+
     function openFromTrigger(event: MouseEvent) {
       const target = event.target;
       if (!(target instanceof Element)) return;
@@ -19,36 +33,31 @@ export default function FrameworkDialog() {
 
       event.preventDefault();
       triggerRef.current = trigger;
-      setSourceSection(trigger.dataset.frameworkSource || "framework-primary");
-      setCaptureKey((current) => current + 1);
-
-      const dialog = dialogRef.current;
-      if (!dialog || dialog.open) return;
-      dialog.showModal();
-      window.requestAnimationFrame(() => {
-        dialog.querySelector<HTMLInputElement>('input[name="first-name"]')?.focus();
-      });
+      controller.open(trigger, trigger.dataset.frameworkSource || "framework-primary");
     }
 
     document.addEventListener("click", openFromTrigger);
-    return () => document.removeEventListener("click", openFromTrigger);
+    return () => {
+      document.removeEventListener("click", openFromTrigger);
+      controller.dispose();
+      controllerRef.current = null;
+    };
   }, []);
 
   function closeDialog() {
-    if (dialogRef.current?.open) dialogRef.current.close();
+    controllerRef.current?.close();
   }
 
   function handleCancel(event: SyntheticEvent<HTMLDialogElement>) {
-    event.preventDefault();
-    closeDialog();
+    controllerRef.current?.handleCancel(event);
   }
 
   function handleClose() {
-    triggerRef.current?.focus();
+    controllerRef.current?.handleClose();
   }
 
   function handleBackdropClick(event: ReactMouseEvent<HTMLDialogElement>) {
-    if (event.target === event.currentTarget) closeDialog();
+    controllerRef.current?.handleBackdropClick(event.target, event.currentTarget);
   }
 
   return (
@@ -70,7 +79,7 @@ export default function FrameworkDialog() {
             Close
           </button>
         </div>
-        <FrameworkCapture key={captureKey} presentation="dialog" sourceSection={sourceSection} />
+        <FrameworkCapture presentation="dialog" sourceSection={sourceSection} />
       </div>
     </dialog>
   );

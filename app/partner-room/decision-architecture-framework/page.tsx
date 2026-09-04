@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "@/app/partner-room/partner-room.module.css";
 import FrameworkCapture from "@/components/partner-room/FrameworkCapture";
 import { partnerRoomCopy } from "@/components/partner-room/content";
@@ -12,10 +13,10 @@ export default function DecisionArchitectureFrameworkPage() {
   const framework = partnerRoomCopy.frameworkPrimary;
 
   return (
-    <main className={styles.frameworkRoute}>
+    <main className={styles.frameworkRoute} id="partner-room-main">
       <header className={styles.frameworkRouteHeader}>
-        <a className={styles.brand} href="/partner-room">MOTIF 54 / PARTNER ROOM</a>
-        <a href="/partner-room">Back to Partner Room</a>
+        <Link className={styles.brand} href="/">MOTIF 54 / PARTNER ROOM</Link>
+        <Link href="/">Back to Partner Room</Link>
       </header>
       <section className={styles.frameworkRouteContent} aria-labelledby="framework-route-title">
         <p className={styles.sectionLabel}>PARTNER ROOM</p>
