@@ -232,6 +232,52 @@ test("renders room-request and framework links as server-rendered progressive-en
   }
 });
 
+test("renders the Request a Room form without retired seat-application details", async () => {
+  const response = await fetch(`${baseUrl}/partner-room`);
+  const html = await response.text();
+
+  assert.equal(response.status, 200);
+  const requestMarkup = html.slice(html.indexOf('id="request-room"'));
+
+  for (const label of [
+    "Name",
+    "Email",
+    "Company name",
+    "Company website",
+    "What round are you preparing for?",
+    "When do you expect to raise?",
+    "How much capital do you expect to raise?",
+    "Which investors or types of investors are you likely to approach?",
+    "What do you think the investment room may struggle to believe about your company?",
+    "Deck or investor materials URL",
+    "This is the most important question in the request. It becomes the starting point for the investor pre-read.",
+    "Request a Room",
+  ]) {
+    assert.match(requestMarkup, new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+
+  assert.match(requestMarkup, /<option value="Series A">Series A<\/option>/);
+  assert.match(requestMarkup, /<option value="Series A extension">Series A extension<\/option>/);
+  assert.match(requestMarkup, /<option value="Other">Other<\/option>/);
+  assert.match(requestMarkup, /<option value="Now \/ already preparing">Now \/ already preparing<\/option>/);
+  assert.match(requestMarkup, /<option value="Within 3 months">Within 3 months<\/option>/);
+  assert.match(requestMarkup, /<option value="3 to 6 months">3 to 6 months<\/option>/);
+  assert.match(requestMarkup, /<option value="6\+ months">6\+ months<\/option>/);
+  assert.match(requestMarkup, /<option value="Not sure yet">Not sure yet<\/option>/);
+
+  for (const forbidden of [
+    /type="file"/i,
+    /Request My Seat/i,
+    /6 seats/i,
+    /\$5,000/i,
+    /response within 48 hours/i,
+    /calendar/i,
+    /urgency/i,
+  ]) {
+    assert.doesNotMatch(requestMarkup, forbidden);
+  }
+});
+
 test("preserves the existing homepage through the main route group", async () => {
   const response = await fetch(baseUrl);
   const html = await response.text();

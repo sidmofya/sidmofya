@@ -2,10 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import {
-  buildSeatRequestPayload,
+  buildRoomRequestPayload,
   captureFirstTouchAttribution,
   normalizeHttpUrl,
-  validateSeatRequest,
+  validateRoomRequest,
 } from "../lib/partner-room-form.mjs";
 
 const validValues = {
@@ -13,8 +13,9 @@ const validValues = {
   email: "amina@example.com",
   company: "Signal Works",
   "company-website": "signalworks.example",
-  round: "Series A",
-  "raise-timing": "Within 3–6 months",
+  round: "Series A extension",
+  "raise-timing": "3 to 6 months",
+  "raise-amount": "$8M",
   "investor-targets": "Institutional venture funds focused on climate software.",
   "room-concern": "Whether our retention evidence is strong enough.",
   "deck-url": "docsend.com/view/example",
@@ -39,13 +40,14 @@ test("allows an optional URL to remain blank", () => {
 });
 
 test("returns human-readable errors for every missing required answer", () => {
-  const result = validateSeatRequest({
+  const result = validateRoomRequest({
     name: "",
     email: "",
     company: "",
     "company-website": "",
     round: "",
     "raise-timing": "",
+    "raise-amount": "",
     "investor-targets": "",
     "room-concern": "",
     "deck-url": "",
@@ -70,7 +72,7 @@ test("rejects malformed email and URL values without changing the answers", () =
     "company-website": "https://",
     "deck-url": "ftp://files.example.com/deck.pdf",
   };
-  const result = validateSeatRequest(values);
+  const result = validateRoomRequest(values);
 
   assert.equal(result.values.email, "not-an-email");
   assert.equal(result.values["company-website"], "https://");
@@ -82,11 +84,11 @@ test("rejects malformed email and URL values without changing the answers", () =
   });
 });
 
-test("rejects retired Seed round and Raising now timing choices", () => {
-  const result = validateSeatRequest({
+test("allows only the approved round and raise-timing choices", () => {
+  const result = validateRoomRequest({
     ...validValues,
     round: "Seed",
-    "raise-timing": "Raising now",
+    "raise-timing": "Within 3–6 months",
   });
 
   assert.deepEqual(result.errors, {
@@ -95,10 +97,28 @@ test("rejects retired Seed round and Raising now timing choices", () => {
   });
 });
 
-test("normalizes valid website and deck values before submission", () => {
-  const result = validateSeatRequest(validValues);
+test("accepts every approved round and raise-timing choice", () => {
+  const rounds = ["Series A", "Series A extension", "Other"];
+  const timings = [
+    "Now / already preparing",
+    "Within 3 months",
+    "3 to 6 months",
+    "6+ months",
+    "Not sure yet",
+  ];
+
+  for (const round of rounds) {
+    for (const timing of timings) {
+      assert.deepEqual(validateRoomRequest({ ...validValues, round, "raise-timing": timing }).errors, {});
+    }
+  }
+});
+
+test("keeps raise amount optional and normalizes valid website and deck values", () => {
+  const result = validateRoomRequest({ ...validValues, "raise-amount": "  " });
 
   assert.deepEqual(result.errors, {});
+  assert.equal(result.values["raise-amount"], "");
   assert.equal(result.values["company-website"], "https://signalworks.example/");
   assert.equal(result.values["deck-url"], "https://docsend.com/view/example");
 });
@@ -156,7 +176,7 @@ test("falls back to current attribution when session storage is malformed", () =
 });
 
 test("builds the exact Netlify notification payload", () => {
-  const validation = validateSeatRequest(validValues);
+  const validation = validateRoomRequest(validValues);
   const attribution = captureFirstTouchAttribution({
     currentUrl: "https://partnerroom.sidmofya.com/?utm_source=linkedin",
     referrer: "https://www.linkedin.com/",
@@ -164,7 +184,7 @@ test("builds the exact Netlify notification payload", () => {
   });
 
   assert.deepEqual(
-    buildSeatRequestPayload(
+    buildRoomRequestPayload(
       validation.values,
       attribution,
       "2026-08-27T17:30:00.000Z",
@@ -175,8 +195,9 @@ test("builds the exact Netlify notification payload", () => {
       email: "amina@example.com",
       company: "Signal Works",
       "company-website": "https://signalworks.example/",
-      round: "Series A",
-      "raise-timing": "Within 3–6 months",
+      round: "Series A extension",
+      "raise-timing": "3 to 6 months",
+      "raise-amount": "$8M",
       "investor-targets": "Institutional venture funds focused on climate software.",
       "room-concern": "Whether our retention evidence is strong enough.",
       "deck-url": "https://docsend.com/view/example",
@@ -188,7 +209,7 @@ test("builds the exact Netlify notification payload", () => {
       "referral-url": "https://www.linkedin.com/",
       "landing-page-url": "https://partnerroom.sidmofya.com/?utm_source=linkedin",
       "submitted-at": "2026-08-27T17:30:00.000Z",
-      subject: "Partner Room seat request — Signal Works",
+      subject: "Partner Room request — Signal Works",
       "bot-field": "",
     },
   );
