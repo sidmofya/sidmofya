@@ -3,6 +3,12 @@ import Section from "@/components/Section";
 import CTAButton from "@/components/CTAButton";
 import OfferCard from "@/components/OfferCard";
 import { visibleOffers } from "@/lib/offers";
+import PartnerRoomPage from "@/app/partner-room/page";
+import { metadata as partnerRoomMetadata } from "@/app/partner-room/layout";
+
+export function generateMetadata() {
+  return process.env.SITE_VARIANT === "partner-room" ? partnerRoomMetadata : {};
+}
 
 const briefingOffer = {
   title: "Sovereign Stack Briefing",
@@ -27,6 +33,10 @@ const publicOfferTitles: Record<string, string> = {
 };
 
 export default function Home() {
+  if (process.env.SITE_VARIANT === "partner-room") {
+    return <PartnerRoomPage />;
+  }
+
   return (
     <>
       {/* 1. Hero */}
