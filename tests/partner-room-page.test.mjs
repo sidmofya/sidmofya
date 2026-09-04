@@ -92,6 +92,7 @@ test("keeps desktop company evidence fixed with narrow and short viewport resets
 
 test("keeps the sticky site header and seat CTA visible across responsive rules", async () => {
   const css = await readFile(path.join(process.cwd(), "app", "partner-room", "partner-room.module.css"), "utf8");
+  const page = await readFile(path.join(process.cwd(), "app", "partner-room", "page.tsx"), "utf8");
   const headerRule = css.match(/\.siteHeader\s*\{([^}]*)\}/)?.[1] ?? "";
   const responsiveStart = css.indexOf("@media (max-width: 900px)");
   const responsiveEnd = css.indexOf("@media (prefers-reduced-motion: reduce)");
@@ -106,6 +107,8 @@ test("keeps the sticky site header and seat CTA visible across responsive rules"
   assert.doesNotMatch(responsiveRules, /\.headerInner \.primaryCta\s*\{[^}]*display:\s*none/);
   assert.match(mobileRules, /\.headerInner\s*\{[^}]*gap:\s*0\.5rem/);
   assert.match(mobileRules, /\.headerInner \.primaryCta\s*\{[^}]*white-space:\s*nowrap/);
+  assert.match(mobileRules, /\.headerSecondary\s*\{[^}]*display:\s*none/);
+  assert.match(page, /className=\{styles\.headerSecondary\}[^>]*href="#how-rooms-decide"/);
   assert.match(mobileRules, /\.brand\s*\{[^}]*white-space:\s*nowrap/);
 });
 
@@ -121,10 +124,12 @@ test("stacks decision-room layouts and preserves accessible request controls on 
   const motionStart = css.indexOf("@media (prefers-reduced-motion: reduce)");
   const motionRules = css.slice(motionStart);
   const architectureRule = narrowRules.match(/\.architecture\s*\{([^}]*)\}/)?.[1] ?? "";
+  const processDescriptionRule = narrowRules.match(/\.processStep\s*>\s*p\s*\{([^}]*)\}/)?.[1] ?? "";
   const roomCtaRule = mobileRules.match(/\.roomRequestCta\s*\{([^}]*)\}/)?.[1] ?? "";
 
   assert.match(architectureRule, /display:\s*block/);
   assert.doesNotMatch(architectureRule, /grid-template-columns/);
+  assert.match(processDescriptionRule, /grid-column:\s*2/);
   assert.match(sections, /className=\{styles\.roomRequestCta\}/);
   assert.match(roomCtaRule, /width:\s*100%/);
   assert.match(roomCtaRule, /min-height:\s*2\.75rem/);

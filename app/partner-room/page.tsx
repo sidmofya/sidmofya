@@ -10,7 +10,7 @@ export default function PartnerRoomPage() {
       <header className={styles.siteHeader}>
         <div className={styles.headerInner}>
           <a className={styles.brand} href="#partner-room-main" aria-label={navigation.brand}>{navigation.brand}</a>
-          <a href="#how-rooms-decide">{navigation.secondary}</a>
+          <a className={styles.headerSecondary} href="#how-rooms-decide">{navigation.secondary}</a>
           <RoomLink sourceSection="nav" />
         </div>
       </header>

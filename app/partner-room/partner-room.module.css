@@ -1320,6 +1320,10 @@
     border-bottom: 0;
   }
 
+  .processStep > p {
+    grid-column: 2;
+  }
+
   .architecture {
     display: block;
   }
@@ -1389,6 +1393,10 @@
     font-size: 0.625rem;
     letter-spacing: 0.06em;
     white-space: nowrap;
+  }
+
+  .headerSecondary {
+    display: none;
   }
 
   .brand {

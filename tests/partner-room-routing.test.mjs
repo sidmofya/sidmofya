@@ -85,14 +85,14 @@ test("allows the Partner Room social image route on the dedicated site", () => {
   );
 });
 
-test("rewrites the public framework path to the internal framework page", () => {
+test("serves the canonical framework path without an internal middleware rewrite", () => {
   assert.deepEqual(
     resolvePartnerRoomRoute({
       hostname: "partnerroom.sidmofya.com",
       pathname: "/decision-architecture-framework",
       method: "GET",
     }),
-    { type: "rewrite", pathname: "/partner-room/decision-architecture-framework" },
+    { type: "next" },
   );
 });
 

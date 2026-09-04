@@ -109,19 +109,19 @@ test("serves the social image directly on the dedicated variant", async () => {
   assert.equal(response.headers.get("content-type"), "image/png");
 });
 
-test("serves the public framework route through its internal page without dropping attribution", async () => {
+test("serves the canonical framework page directly without dropping attribution", async () => {
   const response = await fetch(`${baseUrl}/decision-architecture-framework?utm_source=shared-link`, {
     redirect: "manual",
   });
   const html = await response.text();
 
   assert.equal(response.status, 200);
-  assert.equal(
-    response.headers.get("x-middleware-rewrite"),
-    "/partner-room/decision-architecture-framework?utm_source=shared-link",
-  );
+  assert.equal(response.headers.get("x-middleware-rewrite"), null);
+  assert.match(html, /<title>Decision Architecture Framework \| Partner Room<\/title>/);
+  assert.match(html, /href="\/">Back to Partner Room</);
   assert.match(html, /Six Ways Venture Firms Make the Same Decision Differently/);
   assert.match(html, /name="partner-room-decision-architecture"/);
+  assert.doesNotMatch(html, /The Meeting Goes Well\. The Answer Is Still No\./);
 });
 
 test("serves the exact framework PDF without redirecting", async () => {

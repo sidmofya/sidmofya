@@ -86,14 +86,31 @@ Partner Room is deployed from this repository as a second Netlify site. Its rout
 1. In Netlify, choose **Add new site → Import an existing project** and select this repository's `main` branch.
 2. Keep the build command and publish directory from `netlify.toml`.
 3. Under **Site configuration → Environment variables**, add `SITE_VARIANT=partner-room` and `NEXT_PUBLIC_PLAUSIBLE_DOMAIN=partnerroom.sidmofya.com` for the Partner Room site only. Keep `SITE_VARIANT=partner-room` enabled for Production, Deploy Previews, and Branch deploys. Plausible is optional in Deploy Previews and Branch deploys, so `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` may be limited to Production when preview analytics are not needed.
-4. Deploy once, then confirm the generated `netlify.app` URL serves Partner Room at `/` and redirects every other public route back to `/`.
+4. Deploy once, then confirm the generated `netlify.app` URL serves Partner Room at `/`, serves `/decision-architecture-framework` and `/downloads/how-venture-rooms-decide.pdf` directly, and redirects unrelated public routes back to `/`.
 5. Under **Domain management**, attach `partnerroom.sidmofya.com`. If DNS is managed elsewhere, add a CNAME from `partnerroom` to the new site's `netlify.app` hostname and wait for Netlify to provision SSL.
-6. Under **Forms**, confirm `partner-room-seat-request` was detected from `public/__forms.html`.
+6. Under **Forms**, confirm both `partner-room-seat-request` and `partner-room-decision-architecture` were detected from `public/__forms.html`. If either form is missing, do not launch: verify its static detection schema matches the live form and redeploy.
 7. Under **Site configuration → Forms → Form notifications**, add an email notification for new `partner-room-seat-request` submissions to `sid@cxbventures.com`.
+8. Add a separate email notification for new `partner-room-decision-architecture` submissions to the appropriate operator address. This notification alerts the operator to the captured lead; the site does not send the framework to the submitter by email. Do not claim framework email delivery unless a transactional email provider and its credentials are added and verified separately.
 
-Plausible receives only the approved Partner Room journey events. No form answers are sent to analytics.
+The canonical field-guide landing page is `https://partnerroom.sidmofya.com/decision-architecture-framework`. Its public PDF is `https://partnerroom.sidmofya.com/downloads/how-venture-rooms-decide.pdf`.
 
-After the production domain and notification are active, submit one real request at `https://partnerroom.sidmofya.com`. The existing requirement to verify a real Netlify form submission and notification email remains in force before launch: treat the launch as complete only after the request appears in Netlify Forms and the notification reaches `sid@cxbventures.com`.
+When `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` is configured, Plausible receives exactly these Partner Room events:
+
+- `partner_room_request_clicked` with the non-PII `source_section` property.
+- `partner_room_request_submitted` with no properties.
+- `framework_download_clicked` with the non-PII `source_section` property.
+- `framework_lead_submitted` with only the optional non-PII `role` property (`founder`, `investor`, or `other`).
+- `framework_download_completed` with no properties.
+
+Names, email addresses, company names, entered URLs, attribution values, and free-text form answers must not be sent to analytics.
+
+After publishing and enabling notifications, test both forms on the deployed production domain; localhost submissions do not verify Netlify capture:
+
+1. Submit one real room request at `https://partnerroom.sidmofya.com`. Confirm it appears under **Forms → partner-room-seat-request** and that its notification reaches `sid@cxbventures.com`.
+2. Submit one real framework lead from `https://partnerroom.sidmofya.com/decision-architecture-framework`. Confirm it appears under **Forms → partner-room-decision-architecture**, its notification reaches the configured operator, and the captured submission contains both `source=partner-room-decision-architecture` and `tag=partner-room-decision-architecture`.
+3. From the successful framework state, download the PDF and confirm the response is the expected field guide. This verifies direct browser delivery only; no email delivery is implied.
+
+Treat launch as complete only after both deployed submissions, both Netlify records, the configured notifications, the framework source/tag values, and the PDF download have been verified.
 
 The main production site redirects `/partner-room` to the canonical Partner Room subdomain. Local development keeps `/partner-room` directly accessible.
 
