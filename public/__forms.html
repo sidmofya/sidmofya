@@ -13,48 +13,55 @@
       Every field on the live form MUST also appear here, with the same
       `name` attribute, or Netlify will drop it from submissions.
     -->
-    <form name="work-with-me" data-netlify="true" netlify-honeypot="bot-field" hidden>
+
+    <!-- 23° South: Selected Writing & Frameworks request modal. -->
+    <form name="work-request" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="organization" />
+      <input type="text" name="work" />
+    </form>
+
+    <!--
+      KwaZuri pre-launch interest. Kept as its own form so this permission
+      stays scoped to KwaZuri and is never merged with other enquiries.
+    -->
+    <form name="kwazuri-interest" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="bot-field" />
+      <input type="email" name="email" />
+      <input type="hidden" name="tag" value="kwazuri_interest" />
+    </form>
+
+    <!-- Speaking & Executive Briefings enquiry. -->
+    <form name="speaking-inquiry" data-netlify="true" netlify-honeypot="bot-field" hidden>
       <input type="text" name="bot-field" />
       <input type="text" name="name" />
       <input type="email" name="email" />
       <input type="text" name="organization" />
       <input type="text" name="role" />
-      <input type="radio" name="sprint" value="Speaking / Executive Briefing" />
-      <input type="radio" name="sprint" value="Sovereign Stack Briefing" />
-      <input type="radio" name="sprint" value="Market Legibility Sprint" />
-      <input type="radio" name="sprint" value="Room-to-Results Sprint" />
-      <input type="radio" name="sprint" value="ReInvention, referral only" />
-      <input type="radio" name="sprint" value="Not sure" />
-      <textarea name="message"></textarea>
-      <textarea name="stakes"></textarea>
-      <textarea name="involved"></textarea>
-      <textarea name="valuable"></textarea>
+      <input type="text" name="event-type" />
+      <input type="text" name="audience" />
+      <textarea name="decision"></textarea>
       <select name="timing">
-        <option>Urgent</option>
-        <option>Next 30 days</option>
+        <option>Date confirmed</option>
+        <option>Within 3 months</option>
+        <option>3–6 months out</option>
+        <option>More than 6 months away</option>
         <option>Exploring</option>
-      </select>
-      <select name="budget">
-        <option>Under $2,500</option>
-        <option>$2,500–$5,000</option>
-        <option>$5,000–$10,000</option>
-        <option>$10,000–$25,000</option>
-        <option>Not sure</option>
       </select>
       <textarea name="anything-else"></textarea>
     </form>
 
-    <form
-      name="sovereign-geometry-waitlist"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      hidden
-    >
+    <!-- General contact. -->
+    <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
       <input type="text" name="bot-field" />
       <input type="text" name="name" />
       <input type="email" name="email" />
+      <textarea name="message"></textarea>
     </form>
 
+    <!-- Partner Room (separate hostname; unchanged). -->
     <form
       name="partner-room-seat-request"
       data-netlify="true"
@@ -67,12 +74,10 @@
       <input type="text" name="company" />
       <input type="url" name="company-website" />
       <select name="round">
-        <option>Seed</option>
         <option>Series A</option>
         <option>Other</option>
       </select>
       <select name="raise-timing">
-        <option>Raising now</option>
         <option>Within 3 months</option>
         <option>Within 3–6 months</option>
         <option>More than 6 months away</option>

@@ -14,9 +14,9 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "66px 72px",
-          background: "#0A0A0C",
-          color: "#F4F4F2",
+          padding: "62px 72px 68px",
+          background: "#f6f1e8",
+          color: "#1a1815",
           fontFamily: "Georgia, serif",
         }}
       >
@@ -24,47 +24,40 @@ export default function OpenGraphImage() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "16px",
+            gap: "12px",
             fontFamily: "Arial, sans-serif",
-            fontSize: 20,
+            fontSize: 18,
             fontWeight: 700,
-            letterSpacing: "0.14em",
+            letterSpacing: "0.16em",
             textTransform: "uppercase",
           }}
         >
-          <span>MOTIF 54</span>
-          <span style={{ color: "#817F88" }}>/</span>
-          <span>Partner Room</span>
+          MOTIF 54 / PARTNER ROOM
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
           <div
             style={{
-              maxWidth: 930,
-              fontSize: 64,
-              letterSpacing: "-0.035em",
-              lineHeight: 1.02,
+              maxWidth: 1010,
+              fontSize: 70,
+              letterSpacing: "-0.04em",
+              lineHeight: 0.98,
             }}
           >
             Your Series A is decided in a room you will never be in.
           </div>
-          <div style={{ width: 160, height: 4, background: "#D08A5A" }} />
+          <div style={{ width: 150, height: 4, background: "#a45a2a" }} />
         </div>
 
         <div
           style={{
-            display: "flex",
-            gap: "34px",
             fontFamily: "Arial, sans-serif",
-            fontSize: 20,
-            fontWeight: 700,
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
+            fontSize: 28,
+            color: "#5c5751",
+            letterSpacing: "-0.01em",
           }}
         >
-          <span>6 Founders</span>
-          <span style={{ color: "#817F88" }}>6 Rooms</span>
-          <span style={{ color: "#817F88" }}>6 Decisions</span>
+          Five rooms as an investor. One as the founder.
         </div>
       </div>
     ),
