@@ -289,3 +289,14 @@ test("uses a post-commit pending invalid field effect and retains answers on fai
   assert.match(source, /setStatus\("error"\)/);
   assert.doesNotMatch(source, /\.reset\(/);
 });
+
+test("renders and focuses a programmatic success status after an accepted request", async () => {
+  const source = await readFile(
+    path.join(process.cwd(), "components", "partner-room", "RequestRoomForm.tsx"),
+    "utf8",
+  );
+
+  assert.match(source, /const successRef = useRef<HTMLDivElement>\(null\)/);
+  assert.match(source, /useEffect\(\(\) => \{\s*if \(status === "success"\) successRef\.current\?\.focus\(\);?\s*\}, \[status\]\)/);
+  assert.match(source, /<div className=\{styles\.successState\} ref=\{successRef\} role="status" tabIndex=\{-1\}>/);
+});
