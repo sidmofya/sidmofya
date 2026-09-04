@@ -122,6 +122,25 @@ test("stacks decision-room layouts and preserves accessible request controls on 
   assert.match(motionRules, /transition:\s*none\s*!important/);
 });
 
+test("keeps request CTA forwarding, request-chamber surfaces, and motion opt-out explicit", async () => {
+  const css = await readFile(path.join(process.cwd(), "app", "partner-room", "partner-room.module.css"), "utf8");
+  const sections = await readFile(path.join(process.cwd(), "components", "partner-room", "PartnerRoomSections.tsx"), "utf8");
+  const roomLinkEnd = sections.indexOf("function SectionLabel");
+  const roomLink = sections.slice(sections.indexOf("export function RoomLink"), roomLinkEnd);
+  const motionRules = css.slice(css.indexOf("@media (prefers-reduced-motion: reduce)"));
+
+  assert.match(roomLink, /className=\{`\$\{styles\.primaryCta\} \$\{className\}`\}/);
+  assert.match(sections, /<RoomLink sourceSection="room" className=\{styles\.roomRequestCta\}/);
+  assert.match(css, /\.requestSection \.formField label\s*\{[^}]*color:\s*var\(--color-bg\)/);
+  assert.match(css, /\.requestSection \.formField label span\s*\{[^}]*color:\s*var\(--color-copper-soft\)/);
+  assert.match(css, /\.requestSection \.formField > p:not\(\.fieldError\)\s*\{[^}]*color:\s*var\(--color-bg\)/);
+  assert.match(css, /\.requestSection \.fieldError\s*\{[^}]*color:\s*var\(--color-copper-soft\)/);
+  assert.match(css, /\.requestSection \.formError,[\s\S]*?background:\s*var\(--color-bg-elev\)/);
+  assert.match(motionRules, /scroll-behavior:\s*auto\s*!important/);
+  assert.match(motionRules, /animation:\s*none\s*!important/);
+  assert.match(motionRules, /transition:\s*none\s*!important/);
+});
+
 test("renders the complete v4 decision-room narrative in its public order", async () => {
   const response = await fetch(`${baseUrl}/partner-room`);
   const html = await response.text();
