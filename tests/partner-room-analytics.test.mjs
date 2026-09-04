@@ -9,14 +9,14 @@ test("emits exactly the approved Partner Room conversion events", () => {
 
   analytics.trackRequestClick("hero");
   analytics.trackRequestSubmitted();
-  analytics.trackFrameworkClick("framework-primary");
+  analytics.trackFrameworkClick("architectures");
   analytics.trackFrameworkLead("Investor");
   analytics.trackFrameworkDownload();
 
   assert.deepEqual(events, [
     { name: "partner_room_request_clicked", props: { source_section: "hero" } },
     { name: "partner_room_request_submitted", props: undefined },
-    { name: "framework_download_clicked", props: { source_section: "framework-primary" } },
+    { name: "framework_download_clicked", props: { source_section: "architectures" } },
     { name: "framework_lead_submitted", props: { role: "investor" } },
     { name: "framework_download_completed", props: undefined },
   ]);
@@ -31,7 +31,7 @@ test("records every valid request and framework click but rejects unknown source
   analytics.trackRequestClick("unknown");
   analytics.trackFrameworkClick("framework-secondary");
   analytics.trackFrameworkClick("framework-secondary");
-  analytics.trackFrameworkClick("architectures");
+  analytics.trackFrameworkClick("unrecognized");
 
   assert.deepEqual(events, [
     { name: "partner_room_request_clicked", props: { source_section: "nav" } },

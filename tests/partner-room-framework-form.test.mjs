@@ -160,7 +160,7 @@ test("updates trigger source, restores focus, and restores scroll styles across 
     focusInside: () => calls.push("focus-inside"),
   });
 
-  controller.open(primary, "framework-primary");
+  controller.open(primary, "architectures");
   assert.equal(root.style.overflow, "hidden");
   assert.equal(body.style.overflow, "hidden");
   controller.open(secondary, "framework-secondary");
@@ -170,32 +170,32 @@ test("updates trigger source, restores focus, and restores scroll styles across 
   controller.handleClose();
   assert.equal(root.style.overflow, "clip");
   assert.equal(body.style.overflow, "scroll");
-  controller.open(primary, "framework-primary");
+  controller.open(primary, "architectures");
   let cancelled = false;
   controller.handleCancel({ preventDefault: () => { cancelled = true; } });
   controller.handleClose();
   assert.equal(cancelled, true);
   assert.equal(root.style.overflow, "clip");
   assert.equal(body.style.overflow, "scroll");
-  controller.open(primary, "framework-primary");
+  controller.open(primary, "architectures");
   controller.dispose();
 
   assert.equal(root.style.overflow, "clip");
   assert.equal(body.style.overflow, "scroll");
   assert.deepEqual(calls, [
-    "source:framework-primary",
+    "source:architectures",
     "show",
     "focus-inside",
     "source:framework-secondary",
     "focus-inside",
     "close",
     "focus-secondary",
-    "source:framework-primary",
+    "source:architectures",
     "show",
     "focus-inside",
     "close",
     "focus-primary",
-    "source:framework-primary",
+    "source:architectures",
     "show",
     "focus-inside",
   ]);

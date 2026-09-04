@@ -107,7 +107,7 @@ export default function PartnerRoomSections() {
       <CopySection id="decision-architecture-framework" number="" label="" title={copy.frameworkPrimary.title}>
         <div className={styles.frameworkBlock}>
           {copy.frameworkPrimary.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          <FrameworkLink source="framework-primary">{copy.frameworkPrimary.cta}</FrameworkLink>
+          <FrameworkLink source="architectures">{copy.frameworkPrimary.cta}</FrameworkLink>
           <p>{copy.frameworkPrimary.support}</p>
         </div>
       </CopySection>

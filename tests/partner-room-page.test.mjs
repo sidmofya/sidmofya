@@ -238,7 +238,7 @@ test("renders room-request and framework links as server-rendered progressive-en
       `${source} should provide a room-request link`,
     );
   }
-  for (const source of ["framework-primary", "framework-secondary"]) {
+  for (const source of ["architectures", "framework-secondary"]) {
     assert.match(
       html,
       new RegExp(`href="/decision-architecture-framework" data-framework-trigger(?:="true")? data-framework-source="${source}"`),
@@ -254,7 +254,7 @@ test("renders the accessible framework dialog and the internal inline capture ro
   const routeHtml = await routeResponse.text();
 
   assert.equal(homeResponse.status, 200);
-  assert.match(homeHtml, /data-framework-source="framework-primary"/);
+  assert.match(homeHtml, /data-framework-source="architectures"/);
   assert.match(homeHtml, /data-framework-source="framework-secondary"/);
   assert.match(homeHtml, /<dialog[^>]*aria-labelledby="framework-dialog-title"/);
   assert.match(homeHtml, /id="framework-dialog-title"[^>]*>Download the Decision Architecture Framework</);

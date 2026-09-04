@@ -3,6 +3,10 @@
 import { useEffect } from "react";
 import styles from "@/app/partner-room/partner-room.module.css";
 import { createPartnerRoomAnalytics } from "@/lib/partner-room-analytics.mjs";
+import {
+  emitPlausible,
+  installPartnerRoomEventRouting,
+} from "@/lib/partner-room-enhancements.mjs";
 import FrameworkDialog from "./FrameworkDialog";
 
 type Plausible = (name: string, options?: { props?: Record<string, string> }) => void;
@@ -33,60 +37,17 @@ function selectActiveArchitecture(visibleArchitectures: Map<string, number>) {
 export default function PartnerRoomEnhancements() {
   useEffect(() => {
     const analytics = createPartnerRoomAnalytics((name, props) => {
-      (window as typeof window & { plausible?: Plausible }).plausible?.(name, props ? { props } : undefined);
+      emitPlausible((window as typeof window & { plausible?: Plausible }).plausible, name, props);
     });
     const architectureContainer = document.getElementById("architectures");
     const architectureElements = Array.from(document.querySelectorAll<HTMLElement>("[data-architecture]"));
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    function handleRequestClick(event: MouseEvent) {
-      const target = event.target;
-      if (!(target instanceof Element)) return;
-      const link = target.closest<HTMLAnchorElement>("a[data-request-source]");
-      if (!link) return;
-
-      analytics.trackRequestClick(link.dataset.requestSource ?? "");
-      if (link.getAttribute("href") !== "#request-room") return;
-
-      const requestSection = document.getElementById("request-room");
-      const requestHeading = document.getElementById("request-room-title");
-      if (!requestSection || !requestHeading) return;
-
-      event.preventDefault();
-      requestHeading.focus({ preventScroll: true });
-      requestSection.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-      window.history.replaceState(null, "", "#request-room");
-    }
-
-    function handleFrameworkClick(event: MouseEvent) {
-      const target = event.target;
-      if (!(target instanceof Element)) return;
-      const trigger = target.closest<HTMLElement>("[data-framework-trigger]");
-      if (!trigger) return;
-
-      analytics.trackFrameworkClick(trigger.dataset.frameworkSource ?? "");
-    }
-
-    function handleRequestSubmitted() {
-      analytics.trackRequestSubmitted();
-    }
-
-    function handleFrameworkLead(event: Event) {
-      const role = event instanceof CustomEvent && typeof event.detail?.role === "string"
-        ? event.detail.role
-        : undefined;
-      analytics.trackFrameworkLead(role);
-    }
-
-    function handleFrameworkDownload() {
-      analytics.trackFrameworkDownload();
-    }
-
-    document.addEventListener("click", handleRequestClick);
-    document.addEventListener("click", handleFrameworkClick);
-    window.addEventListener("partner-room:request-submitted", handleRequestSubmitted);
-    window.addEventListener("partner-room:framework-lead-submitted", handleFrameworkLead);
-    window.addEventListener("partner-room:framework-download-completed", handleFrameworkDownload);
+    const removeAnalyticsRouting = installPartnerRoomEventRouting({
+      document,
+      window,
+      analytics,
+      prefersReducedMotion: () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    });
 
     let architectureObserver: IntersectionObserver | undefined;
     let revealObserver: IntersectionObserver | undefined;
@@ -131,11 +92,7 @@ export default function PartnerRoomEnhancements() {
     }
 
     return () => {
-      document.removeEventListener("click", handleRequestClick);
-      document.removeEventListener("click", handleFrameworkClick);
-      window.removeEventListener("partner-room:request-submitted", handleRequestSubmitted);
-      window.removeEventListener("partner-room:framework-lead-submitted", handleFrameworkLead);
-      window.removeEventListener("partner-room:framework-download-completed", handleFrameworkDownload);
+      removeAnalyticsRouting();
       architectureObserver?.disconnect();
       revealObserver?.disconnect();
       architectureContainer?.removeAttribute("data-active-architecture");

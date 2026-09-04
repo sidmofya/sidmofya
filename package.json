@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node --test --test-concurrency=1 tests/partner-room-routing.test.mjs tests/partner-room-form.test.mjs tests/partner-room-framework-form.test.mjs tests/partner-room-analytics.test.mjs tests/partner-room-page.test.mjs tests/partner-room-variant.test.mjs tests/partner-room-pdf.test.mjs",
+    "test": "node --test --test-concurrency=1 tests/partner-room-routing.test.mjs tests/partner-room-form.test.mjs tests/partner-room-framework-form.test.mjs tests/partner-room-analytics.test.mjs tests/partner-room-enhancements.test.mjs tests/partner-room-page.test.mjs tests/partner-room-variant.test.mjs tests/partner-room-pdf.test.mjs",
     "verify:framework": "node scripts/run_partner_room_python.mjs scripts/verify_partner_room_framework.py output/pdf/how-venture-rooms-decide.pdf"
   },
   "dependencies": {

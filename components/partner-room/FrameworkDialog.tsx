@@ -9,7 +9,7 @@ export default function FrameworkDialog() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLAnchorElement | null>(null);
   const controllerRef = useRef<ReturnType<typeof createFrameworkDialogController> | null>(null);
-  const [sourceSection, setSourceSection] = useState("framework-primary");
+  const [sourceSection, setSourceSection] = useState("architectures");
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -33,7 +33,7 @@ export default function FrameworkDialog() {
 
       event.preventDefault();
       triggerRef.current = trigger;
-      controller.open(trigger, trigger.dataset.frameworkSource || "framework-primary");
+      controller.open(trigger, trigger.dataset.frameworkSource || "architectures");
     }
 
     document.addEventListener("click", openFromTrigger);
