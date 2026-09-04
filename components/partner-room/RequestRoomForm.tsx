@@ -9,6 +9,7 @@ import {
   validateRoomRequest,
 } from "@/lib/partner-room-form.mjs";
 import { createRoomRequestSubmitter } from "@/lib/partner-room-request-submission.mjs";
+import { focusRoomRequestSuccess, transitionRoomRequestToSuccess } from "@/lib/partner-room-request-state.mjs";
 import styles from "@/app/partner-room/partner-room.module.css";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -61,7 +62,10 @@ export default function RequestRoomForm() {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams(payload).toString(),
       }),
-      onSuccess: () => window.dispatchEvent(new CustomEvent("partner-room:request-submitted")),
+      onSuccess: () => transitionRoomRequestToSuccess({
+        dispatchSubmitted: () => window.dispatchEvent(new CustomEvent("partner-room:request-submitted")),
+        setStatus,
+      }),
     });
   }
 
@@ -88,7 +92,7 @@ export default function RequestRoomForm() {
   }, []);
 
   useEffect(() => {
-    if (status === "success") successRef.current?.focus();
+    focusRoomRequestSuccess(status, successRef.current);
   }, [status]);
 
   useEffect(() => {

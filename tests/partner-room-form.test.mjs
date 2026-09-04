@@ -10,6 +10,10 @@ import {
   validateRoomRequest,
 } from "../lib/partner-room-form.mjs";
 import { createRoomRequestSubmitter } from "../lib/partner-room-request-submission.mjs";
+import {
+  focusRoomRequestSuccess,
+  transitionRoomRequestToSuccess,
+} from "../lib/partner-room-request-state.mjs";
 
 const validValues = {
   name: "Amina Founder",
@@ -290,13 +294,33 @@ test("uses a post-commit pending invalid field effect and retains answers on fai
   assert.doesNotMatch(source, /\.reset\(/);
 });
 
-test("renders and focuses a programmatic success status after an accepted request", async () => {
+test("transitions an accepted request to success and focuses only the success state", async () => {
+  const calls = [];
+  const submitter = createRoomRequestSubmitter({
+    post: async () => ({ ok: true }),
+    onSuccess: () => transitionRoomRequestToSuccess({
+      dispatchSubmitted: () => calls.push("submitted"),
+      setStatus: (status) => calls.push(status),
+    }),
+  });
+  const successTarget = { focus: () => calls.push("focus") };
+
+  assert.equal(await submitter(validValues), "success");
+  focusRoomRequestSuccess("idle", successTarget);
+  focusRoomRequestSuccess("success", successTarget);
+
+  assert.deepEqual(calls, ["submitted", "success", "focus"]);
+});
+
+test("binds the executable success helpers to the focusable success status", async () => {
   const source = await readFile(
     path.join(process.cwd(), "components", "partner-room", "RequestRoomForm.tsx"),
     "utf8",
   );
 
+  assert.match(source, /import \{ focusRoomRequestSuccess, transitionRoomRequestToSuccess \} from "@\/lib\/partner-room-request-state\.mjs"/);
   assert.match(source, /const successRef = useRef<HTMLDivElement>\(null\)/);
-  assert.match(source, /useEffect\(\(\) => \{\s*if \(status === "success"\) successRef\.current\?\.focus\(\);?\s*\}, \[status\]\)/);
+  assert.match(source, /focusRoomRequestSuccess\(status, successRef\.current\)/);
+  assert.match(source, /transitionRoomRequestToSuccess\(\{[\s\S]*?setStatus,[\s\S]*?\}\)/);
   assert.match(source, /<div className=\{styles\.successState\} ref=\{successRef\} role="status" tabIndex=\{-1\}>/);
 });
