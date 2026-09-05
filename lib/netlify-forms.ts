@@ -10,6 +10,19 @@ export function encode(data: Record<string, string>) {
     .join("&");
 }
 
+export async function postEncodedForm(
+  body: string,
+  fetchImpl: typeof fetch = fetch,
+) {
+  const response = await fetchImpl("/__forms.html", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body,
+  });
+
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+}
+
 /** Posts a form's fields back to the origin for Netlify to capture. */
 export async function submitToNetlify(formName: string, form: HTMLFormElement) {
   const body: Record<string, string> = { "form-name": formName };
@@ -18,11 +31,5 @@ export async function submitToNetlify(formName: string, form: HTMLFormElement) {
     body[key] = value.toString();
   });
 
-  const response = await fetch("/", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: encode(body),
-  });
-
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  await postEncodedForm(encode(body));
 }
