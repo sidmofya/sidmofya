@@ -65,7 +65,7 @@ export default function PartnerRoomSections() {
           <h1 className={styles.display} id="partner-room-title">{copy.hero.title}</h1>
           <div className={styles.heroCopy}>
             {copy.hero.opening.map((paragraph, index) => <p className={index === 3 ? styles.heroTurn : undefined} key={paragraph}>{paragraph}</p>)}
-            {copy.hero.body.map((paragraph, index) => <p className={index === 2 ? styles.heroPromise : undefined} key={paragraph}>{paragraph}</p>)}
+            {copy.hero.body.map((paragraph, index) => <p className={index === 1 ? styles.heroPivot : index === 2 ? styles.heroPromise : undefined} key={paragraph}>{paragraph}</p>)}
           </div>
           <div className={styles.heroAction}>
             <RoomLink sourceSection="hero">{copy.hero.cta}</RoomLink>
@@ -146,9 +146,9 @@ export default function PartnerRoomSections() {
 
       <CopySection id="curation" number="10" label={copy.curation.label} title={copy.curation.title}>
         {copy.curation.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        <h3>{copy.curation.confidentiality.title}</h3>
+        <h3 className={styles.curationSubhead}>{copy.curation.confidentiality.title}</h3>
         {copy.curation.confidentiality.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        <h3>{copy.curation.preparation.title}</h3>
+        <h3 className={styles.curationSubhead}>{copy.curation.preparation.title}</h3>
         {copy.curation.preparation.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
       </CopySection>
 

@@ -180,7 +180,7 @@ test("renders the complete v4 decision-room narrative in its public order", asyn
     "Before Your Series A Is Actually on the Line.",
     "Judgment You Can Carry Into the Raise.",
     "One Company. Five Investors. One Decision Room.",
-    "The Room Is the Product.",
+    "The Room Quality is What Matters",
   ];
   for (const text of required) {
     assert.match(html, new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
@@ -214,7 +214,7 @@ test("renders the complete v4 decision-room narrative in its public order", asyn
     "Judgment You Can Carry Into the Raise.",
     "Who This Is For",
     "One Company. Five Investors. One Decision Room.",
-    "The Room Is the Product.",
+    "The Room Quality is What Matters",
     "Not ready for a room yet?",
     "Request a Room",
   ];
@@ -232,6 +232,18 @@ test("renders the complete v4 decision-room narrative in its public order", asyn
   assert.equal((html.match(/data-room-judgment=/g) ?? []).length, 3);
   assert.equal((html.match(/data-failure-type=/g) ?? []).length, 3);
   assert.equal((html.match(/data-room-attribute=/g) ?? []).length, 8);
+});
+
+test("renders the requested editorial breaks in the hero and curation section", async () => {
+  const response = await fetch(`${baseUrl}/partner-room`);
+  const html = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.match(
+    html,
+    /Most founders learn what happened next from a one-line email\.<\/p><p class="[^"]*heroPivot[^"]*">Partner Room changes one thing:<\/p>/,
+  );
+  assert.equal((html.match(/<h3 class="[^"]*curationSubhead[^"]*">(?:CONFIDENTIALITY|PREPARATION)<\/h3>/g) ?? []).length, 2);
 });
 test("renders room-request and framework links as server-rendered progressive-enhancement hooks", async () => {
   const response = await fetch(`${baseUrl}/partner-room`);

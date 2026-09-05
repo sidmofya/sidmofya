@@ -237,6 +237,10 @@
   color: var(--color-ink);
 }
 
+.heroPivot {
+  padding-top: 1.62em;
+}
+
 .heroPromise {
   padding-top: 1.5rem;
   color: var(--color-ink);
@@ -312,6 +316,15 @@
 
 .chamber .lead {
   color: var(--color-bg);
+}
+
+.curationSubhead {
+  margin: 3rem 0 1.35rem;
+  color: var(--color-ink);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  line-height: 1.35;
 }
 
 .sectionTitle {
