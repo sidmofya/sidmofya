@@ -294,6 +294,16 @@ test("uses a post-commit pending invalid field effect and retains answers on fai
   assert.doesNotMatch(source, /\.reset\(/);
 });
 
+test("posts the room request to the static Netlify form detector", async () => {
+  const source = await readFile(
+    path.join(process.cwd(), "components", "partner-room", "RequestRoomForm.tsx"),
+    "utf8",
+  );
+
+  assert.match(source, /fetch\("\/__forms\.html"/);
+  assert.doesNotMatch(source, /fetch\("\/"/);
+});
+
 test("transitions an accepted request to success and focuses only the success state", async () => {
   const calls = [];
   const submitter = createRoomRequestSubmitter({

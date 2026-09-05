@@ -20,6 +20,15 @@ import {
   downloadFrameworkPdf,
 } from "../lib/partner-room-framework-download.mjs";
 
+test("posts the framework form to the static Netlify form detector", async () => {
+  const source = await readFile(
+    path.join(process.cwd(), "components", "partner-room", "FrameworkCapture.tsx"),
+    "utf8",
+  );
+  assert.match(source, /fetch\("\/__forms\.html"/);
+  assert.doesNotMatch(source, /fetch\("\/"/);
+});
+
 test("rejects missing framework lead details", () => {
   assert.deepEqual(validateFrameworkLead({ "first-name": "", email: "", role: "" }).errors, {
     "first-name": "Please enter your first name.",

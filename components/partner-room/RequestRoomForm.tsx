@@ -57,7 +57,7 @@ export default function RequestRoomForm() {
 
   if (!submitterRef.current) {
     submitterRef.current = createRoomRequestSubmitter({
-      post: (payload: Record<string, string>) => fetch("/", {
+      post: (payload: Record<string, string>) => fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams(payload).toString(),
