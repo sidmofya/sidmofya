@@ -26,11 +26,11 @@ test("emails the framework and upserts the HubSpot contact", async () => {
   const calls = [];
   const result = await deliverFrameworkLead({
     data: {
-      "form-name": FRAMEWORK_FORM_NAME,
       "first-name": "  Ada  ",
       email: " ADA@example.com ",
       role: "Founder",
       source: FRAMEWORK_FORM_NAME,
+      tag: FRAMEWORK_FORM_NAME,
     },
     fetchImpl: async (url, options) => {
       calls.push({ url, options });
