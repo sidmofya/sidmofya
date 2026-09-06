@@ -47,7 +47,11 @@ const profile: { label: string; value: string | null }[] = [
   },
   { label: "Contracting entity", value: "CXB Ventures LLC (California, USA)" },
   { label: "Location", value: "San Francisco Bay Area, California, USA" },
-  { label: "Availability", value: null },
+  {
+    label: "Countries of residence",
+    value: "Zambia, United Kingdom, United States, Tanzania",
+  },
+  { label: "Availability", value: "By arrangement" },
 ];
 
 type Assignment = {
@@ -75,10 +79,19 @@ const sectors = [
   "Institutional decision-making and governance",
 ];
 
+// JURISDICTIONS means where work has actually been delivered — the field a bid
+// lead scans to see whether Sid has operated in their country. It is not where
+// he has lived; residency is carried separately in `profile` above.
 const jurisdictions = [
   "Zambia",
   "Democratic Republic of the Congo",
   "United States",
+];
+
+const languages = [
+  "English — fluent",
+  "Bemba — fluent",
+  "Swahili — conversational",
 ];
 
 // Drawn from /about. The degree designation and years are not stated anywhere
@@ -86,8 +99,12 @@ const jurisdictions = [
 const qualifications: { entity: string; detail: string; pending?: string }[] = [
   {
     entity: "University of Sheffield",
-    detail: "Chemical Engineering",
-    pending: "confirm degree and year",
+    detail: "BEng Chemical Process Engineering, 2002",
+  },
+  {
+    entity: "MBA, 2010",
+    detail: "",
+    pending: "awarding institution",
   },
   { entity: "Kauffman Fellows", detail: "Kauffman Fellow" },
   { entity: "Draper Venture Network", detail: "Executive Director (former)" },
@@ -213,10 +230,11 @@ export default function Page() {
 
         <section className="mt-16">
           <h2 className={headingClass}>Languages</h2>
-          <p className="text-[var(--color-ink)]">
-            English (fluent).{" "}
-            <Pending>add further languages and levels</Pending>
-          </p>
+          <ul className="space-y-2 text-[var(--color-ink)]">
+            {languages.map((language) => (
+              <li key={language}>{language}</li>
+            ))}
+          </ul>
         </section>
 
         <section className="mt-16 border-t border-[var(--color-rule)] pt-8">
