@@ -106,7 +106,11 @@ export default function Home() {
 
   return (
     <>
-      {/* Still asks for nothing directly. The offers immediately below are the CTA. */}
+      {/*
+        The bodies of work lead. One quiet commercial line keeps what is
+        currently for sale on the first screen without turning the hero into
+        a pitch; it jumps to the offers block below the doors.
+      */}
       <section className="px-6 md:px-10 pt-20 md:pt-32 pb-16 md:pb-24">
         <div className="mx-auto max-w-[72rem]">
           <div className="max-w-3xl">
@@ -118,6 +122,11 @@ export default function Home() {
               Sid Mofya is a Zambian builder and writer based in Silicon Valley,
               working across capital, infrastructure and story.
             </p>
+            <p className="mt-8">
+              <Link href="#working-with-sid" className="link-copper font-medium">
+                Partner Room and executive briefings are booking for Q4 →
+              </Link>
+            </p>
             <p className="mt-10 text-[0.8125rem] uppercase tracking-[0.18em] text-[var(--color-ink-muted)]">
               Build · Publish · Imagine
             </p>
@@ -125,46 +134,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Two live offers. The first thing on the page that can be bought. */}
-      <Section divider className="!py-14 md:!py-20">
-        <div className="grid gap-10 md:grid-cols-[18rem_1fr] md:gap-16">
-          <div>
-            <p className="eyebrow">Working with Sid</p>
-          </div>
-          <div>
-            {liveOffers.map((offer) => (
-              <div
-                key={offer.name}
-                className="border-t border-[var(--color-rule)] py-7 first:border-t-0 first:pt-0"
-              >
-                <h2 className="h-card text-[var(--color-ink)]">{offer.name}</h2>
-                <p className="mt-3 max-w-2xl text-[var(--color-ink-muted)]">
-                  {offer.line}
-                </p>
-                <p className="mt-4">
-                  {offer.external ? (
-                    <a
-                      href={offer.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="link-copper font-medium"
-                    >
-                      {offer.cta} ↗
-                      <span className="sr-only">(opens in a new tab)</span>
-                    </a>
-                  ) : (
-                    <Link href={offer.href} className="link-copper font-medium">
-                      {offer.cta} →
-                    </Link>
-                  )}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* The three doors: the wider body of work, below the offers. */}
+      {/* The three doors: who he is, before what he sells. */}
       <section className="px-6 md:px-10 pt-8 pb-8">
         <div className="mx-auto max-w-[72rem]">
           {bodiesOfWork.map((work, index) => (
@@ -208,6 +178,49 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* Two live offers: the only things on the page that can be bought. */}
+      <Section
+        id="working-with-sid"
+        divider
+        className="scroll-mt-20 !py-14 md:!py-20"
+      >
+        <div className="grid gap-10 md:grid-cols-[18rem_1fr] md:gap-16">
+          <div>
+            <p className="eyebrow">Working with Sid</p>
+          </div>
+          <div>
+            {liveOffers.map((offer) => (
+              <div
+                key={offer.name}
+                className="border-t border-[var(--color-rule)] py-7 first:border-t-0 first:pt-0"
+              >
+                <h2 className="h-card text-[var(--color-ink)]">{offer.name}</h2>
+                <p className="mt-3 max-w-2xl text-[var(--color-ink-muted)]">
+                  {offer.line}
+                </p>
+                <p className="mt-4">
+                  {offer.external ? (
+                    <a
+                      href={offer.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="link-copper font-medium"
+                    >
+                      {offer.cta} ↗
+                      <span className="sr-only">(opens in a new tab)</span>
+                    </a>
+                  ) : (
+                    <Link href={offer.href} className="link-copper font-medium">
+                      {offer.cta} →
+                    </Link>
+                  )}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Section>
 
       {/* Rooms held: the proof, lifted from /speaking so both read one source. */}
       <Section divider>
