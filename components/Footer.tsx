@@ -16,7 +16,32 @@ export default function Footer() {
             Sid Mofya
           </Link>
 
+          {/* The fuller map. The nav carries the offers; this keeps 23° South
+              and KwaZuri discoverable without putting them beside the offers. */}
           <nav className="grid grid-cols-2 gap-x-12 gap-y-3">
+            <a
+              href={siteConfig.partnerRoomUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={linkClass}
+            >
+              Partner Room <span aria-hidden="true">↗</span>
+            </a>
+            <Link href="/speaking" className={linkClass}>
+              Speaking
+            </Link>
+            <Link href="/now" className={linkClass}>
+              Now
+            </Link>
+            <Link href="/about" className={linkClass}>
+              About
+            </Link>
+            <Link href="/23-south" className={linkClass}>
+              23° South
+            </Link>
+            <Link href="/kwazuri" className={linkClass}>
+              KwaZuri
+            </Link>
             <a
               href={siteConfig.motif54Url}
               target="_blank"
@@ -25,18 +50,6 @@ export default function Footer() {
             >
               MOTIF 54 <span aria-hidden="true">↗</span>
             </a>
-            <Link href="/23-south" className={linkClass}>
-              23° South
-            </Link>
-            <Link href="/kwazuri" className={linkClass}>
-              KwaZuri
-            </Link>
-            <Link href="/speaking" className={linkClass}>
-              Speaking
-            </Link>
-            <Link href="/about" className={linkClass}>
-              About
-            </Link>
             <a
               href={siteConfig.linkedinUrl}
               target="_blank"
