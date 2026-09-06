@@ -29,10 +29,17 @@ export default function Page() {
 
       <Section className="!pt-6 !pb-24 md:!pb-32">
         <div className="prose-narrow text-[var(--color-ink)]">
-          <h2 className="h-card !mt-0 mb-3">Forms</h2>
+          <h2 className="h-card !mt-0 mb-3">Who operates this site</h2>
           <p>
-            This site has four forms. Each one collects only the fields shown on
-            screen when you submit it:
+            sidmofya.com and Partner Room are operated by CXB Ventures LLC, a
+            California limited liability company. That is the entity responsible
+            for the information described below.
+          </p>
+
+          <h2 className="h-card mb-3">Forms</h2>
+          <p>
+            There are six forms across sidmofya.com and Partner Room. Each one
+            collects only the fields shown on screen when you submit it:
           </p>
           <ul className="mt-4 space-y-2 list-disc pl-5">
             <li>
@@ -50,6 +57,17 @@ export default function Page() {
             </li>
             <li>
               <strong>Contact</strong>: name, email and your message.
+            </li>
+            <li>
+              <strong>Request a Room</strong> (Partner Room): name, email,
+              company and website, the round and its timing, the amount you are
+              raising, the investors you are targeting, what you think a room
+              would struggle to believe, and a link to your deck if you give one.
+            </li>
+            <li>
+              <strong>Decision Architecture Framework</strong> (Partner Room):
+              first name, email, and whether you are a founder, an investor or
+              something else, so the field guide can be sent to you.
             </li>
           </ul>
           <p className="mt-4">

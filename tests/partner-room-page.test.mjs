@@ -546,9 +546,9 @@ test("renders the approved footer destinations without another request CTA", asy
   const footer = html.match(/<footer[\s\S]*?<\/footer>/)?.[0] ?? "";
 
   assert.equal(response.status, 200);
-  assert.match(footer, /href="https:\/\/motif54\.com"[^>]*>MOTIF 54</);
+  assert.match(footer, /href="https:\/\/sidmofya\.com"[^>]*>Sid Mofya</);
   assert.match(footer, /href="\/decision-architecture-framework"[^>]*>Decision Architecture Framework</);
-  assert.match(footer, /href="https:\/\/motif54\.com\/privacy"[^>]*>Privacy</);
-  assert.match(footer, /href="https:\/\/motif54\.com\/terms"[^>]*>Terms</);
+  assert.match(footer, /href="https:\/\/sidmofya\.com\/privacy"[^>]*>Privacy</);
+  assert.match(footer, /href="https:\/\/sidmofya\.com\/terms"[^>]*>Terms</);
   assert.doesNotMatch(footer, /href="\#request-room"|data-request-source|Request a Room/);
 });

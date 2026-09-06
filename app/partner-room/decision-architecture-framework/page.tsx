@@ -18,7 +18,7 @@ export default function DecisionArchitectureFrameworkPage() {
   return (
     <main className={styles.frameworkRoute} id="partner-room-main">
       <header className={styles.frameworkRouteHeader}>
-        <Link className={styles.brand} href="/">MOTIF 54 / PARTNER ROOM</Link>
+        <Link className={styles.brand} href="/">{partnerRoomCopy.navigation.brand}</Link>
         <Link href="/">Back to Partner Room</Link>
       </header>
       <section className={styles.frameworkRouteContent} aria-labelledby="framework-route-title">
