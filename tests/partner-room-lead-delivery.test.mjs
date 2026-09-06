@@ -50,7 +50,7 @@ test("emails the framework and upserts the HubSpot contact", async () => {
     reply_to: "sid@sidmofya.com",
     to: ["ada@example.com"],
     subject: "How Venture Rooms Decide",
-    text: "Ada,\n\nYour copy of How Venture Rooms Decide is ready:\nhttps://partnerroom.sidmofya.com/downloads/how-venture-rooms-decide.pdf\n\nSid Mofya\nPartner Room / MOTIF 54",
+    text: "Ada,\n\nYour copy of How Venture Rooms Decide is ready:\nhttps://partnerroom.sidmofya.com/downloads/how-venture-rooms-decide.pdf\n\nSid Mofya\nPartner Room",
   });
 
   const hubspot = calls.find((call) => call.url.includes("api.hubapi.com"));

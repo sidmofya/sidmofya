@@ -96,7 +96,7 @@ export const roomAttributes = [
 ] as const;
 
 export const partnerRoomCopy = {
-  navigation: { brand: "MOTIF 54 / PARTNER ROOM", secondary: "How Rooms Decide", primary: "Request a Room" },
+  navigation: { brand: "PARTNER ROOM", secondary: "How Rooms Decide", primary: "Request a Room" },
   hero: {
     eyebrow: "PARTNER ROOM",
     title: "Your Series A is decided in a room you will never be in.",
@@ -120,5 +120,5 @@ export const partnerRoomCopy = {
   curation: { label: "Curation and confidentiality", title: "The Room Quality is What Matters", paragraphs: ["The quality of Partner Room depends heavily on who is in it.", "Investors are selected for relevance, not celebrity.", "The aim is to assemble five people capable of forming serious independent judgments about the company and disagreeing usefully when those judgments diverge.", "We avoid material conflicts and do not knowingly seat a directly competitive or conflicted investor without the founder’s knowledge."], confidentiality: { title: "CONFIDENTIALITY", paragraphs: ["You decide what evidence enters the room.", "Materials are distributed only to invited participants for the purpose of Partner Room and should not be redistributed.", "Venture firms differ in their ability to sign NDAs. If your company requires additional confidentiality terms, those requirements need to be agreed before the room is confirmed."] }, preparation: { title: "PREPARATION", paragraphs: ["Before the room, the investors receive a concise pre-read.", "Its starting point is one question:", "What do you think the investment room will struggle to believe about your company?", "Partner Room works best when the hardest part of the investment case is on the table from the beginning."] } },
   frameworkSecondary: { title: "Not ready for a room yet?", paragraphs: ["Start with the framework behind it.", "Learn six recurring ways venture firms form conviction, resolve disagreement and make investment decisions."], cta: "Download the Decision Architecture Framework" },
   request: { label: "The request", title: "Request a Room", paragraphs: ["For founders preparing for an institutional Series A.", "We use these answers to determine whether your company is at the right moment for Partner Room and what kind of investor panel would produce the most useful judgment."] },
-  footer: { tagline: "Decision rooms for consequential capital.", links: ["MOTIF 54", "Privacy", "Terms", "Decision Architecture Framework"] },
+  footer: { tagline: "Decision rooms for consequential capital.", links: ["Sid Mofya", "Privacy", "Terms", "Decision Architecture Framework"] },
 } as const;

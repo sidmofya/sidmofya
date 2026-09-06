@@ -57,7 +57,7 @@ EXPECTED_METADATA = {
     "title": "HOW VENTURE ROOMS DECIDE",
     "subtitle": "Six recurring architectures of investment judgment",
     "author": "Sid Mofya",
-    "imprint": "Partner Room / MOTIF 54",
+    "imprint": "Partner Room",
 }
 
 
@@ -89,7 +89,7 @@ def _draw_cover(pdf: canvas.Canvas, document: BaseDocTemplate) -> None:
     pdf.line(BODY_LEFT, PAGE_HEIGHT - 58, PAGE_WIDTH - BODY_RIGHT, PAGE_HEIGHT - 58)
     pdf.setFont(BODY_BOLD, 8)
     pdf.setFillColor(COPPER)
-    pdf.drawString(BODY_LEFT, PAGE_HEIGHT - 47, "PARTNER ROOM / MOTIF 54")
+    pdf.drawString(BODY_LEFT, PAGE_HEIGHT - 47, "PARTNER ROOM")
     pdf.setFont(BODY_FONT, 7.5)
     pdf.setFillColor(MUTED_INK)
     pdf.drawRightString(PAGE_WIDTH - BODY_RIGHT, 42, "DECISION ARCHITECTURE FIELD GUIDE")
@@ -105,7 +105,7 @@ def _draw_body(pdf: canvas.Canvas, document: BaseDocTemplate) -> None:
     pdf.line(BODY_LEFT, 42, PAGE_WIDTH - BODY_RIGHT, 42)
     pdf.setFont(BODY_BOLD, 7.2)
     pdf.setFillColor(COPPER)
-    pdf.drawString(BODY_LEFT, PAGE_HEIGHT - 39, "PARTNER ROOM / MOTIF 54")
+    pdf.drawString(BODY_LEFT, PAGE_HEIGHT - 39, "PARTNER ROOM")
     pdf.setFont(BODY_FONT, 7.2)
     pdf.setFillColor(MUTED_INK)
     pdf.drawRightString(
@@ -131,7 +131,7 @@ def _draw_closing(pdf: canvas.Canvas, document: BaseDocTemplate) -> None:
     pdf.line(BODY_LEFT, 58, PAGE_WIDTH - BODY_RIGHT, 58)
     pdf.setFont(BODY_BOLD, 8)
     pdf.setFillColor(COPPER_SOFT)
-    pdf.drawString(BODY_LEFT, PAGE_HEIGHT - 47, "PARTNER ROOM / MOTIF 54")
+    pdf.drawString(BODY_LEFT, PAGE_HEIGHT - 47, "PARTNER ROOM")
     pdf.setFont(BODY_FONT, 7.5)
     pdf.setFillColor(PAPER)
     pdf.drawRightString(PAGE_WIDTH - BODY_RIGHT, 43, "HOW VENTURE ROOMS DECIDE")

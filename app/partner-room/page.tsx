@@ -21,10 +21,10 @@ export default function PartnerRoomPage() {
           <p>{footer.tagline}</p>
         </div>
         <nav className={styles.footerLinks} aria-label={navigation.brand}>
-          <a href="https://motif54.com" rel="noopener">{footer.links[0]}</a>
+          <a href="https://sidmofya.com" rel="noopener">{footer.links[0]}</a>
           <a href="/decision-architecture-framework">{footer.links[3]}</a>
-          <a href="https://motif54.com/privacy" rel="noopener">{footer.links[1]}</a>
-          <a href="https://motif54.com/terms" rel="noopener">{footer.links[2]}</a>
+          <a href="https://sidmofya.com/privacy" rel="noopener">{footer.links[1]}</a>
+          <a href="https://sidmofya.com/terms" rel="noopener">{footer.links[2]}</a>
         </nav>
       </footer>
     </>

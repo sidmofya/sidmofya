@@ -8,7 +8,7 @@ export const siteConfig = {
   linkedinUrl: "https://www.linkedin.com/in/sidmofya",
   sovereignTeaUrl:
     "https://www.linkedin.com/newsletters/sovereign-tea-6995822130919550977/",
-  contactEmail: "sid.mofya@gmail.com",
+  contactEmail: "sid@sidmofya.com",
   kwazuriSignupTag: "kwazuri_interest",
 } as const;
 
