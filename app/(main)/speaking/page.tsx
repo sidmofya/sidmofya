@@ -68,6 +68,25 @@ const formats = [
   "Leadership offsite",
 ];
 
+// The boardroom format, broken out as its own offer. Deliberately no price here.
+const boardSteps = [
+  {
+    number: "01",
+    label: "Before",
+    body: "A short discovery with the chair or convenor, plus the papers. I arrive knowing what is actually contested.",
+  },
+  {
+    number: "02",
+    label: "The room",
+    body: "I hold the session, surface the disagreement underneath the polite version, and push the conversation toward judgment.",
+  },
+  {
+    number: "03",
+    label: "After",
+    body: "A written synthesis: what was decided, what remains open, what has to be true for the open items to close.",
+  },
+];
+
 export default function Page() {
   return (
     <>
@@ -309,6 +328,55 @@ export default function Page() {
             Sid can hold a demanding room as moderator, shaping the conversation in real time and
             making the substance land for the audience.
           </p>
+        </div>
+      </Section>
+
+      {/* Boards and ICs: the boardroom line item promoted to a named offer. */}
+      <Section divider className="bg-[var(--color-bg-elev)] !py-16 md:!py-24">
+        <div className="grid gap-10 md:grid-cols-[18rem_1fr] md:gap-16">
+          <div>
+            <div className="eyebrow mb-3">The room, not the stage</div>
+            <h2 className="h-section text-[var(--color-ink)]">
+              Boards and investment committees
+            </h2>
+          </div>
+          <div className="prose-narrow text-[var(--color-ink)]">
+            <p>
+              Some rooms are not looking for a talk. They have a live question — an
+              allocation, a partnership, a strategy that has stopped moving — and the
+              people in the room cannot lead the conversation and participate in it at
+              the same time.
+            </p>
+            <p>
+              I convene and facilitate that session, and I write up what the room
+              decided and what it left unresolved.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-12 grid gap-4 md:mt-16 sm:grid-cols-3">
+          {boardSteps.map((step) => (
+            <div
+              key={step.number}
+              className="border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 md:p-7"
+            >
+              <div className="flex items-baseline gap-3">
+                <span className="font-display text-xl tabular-nums text-[var(--color-copper)]">
+                  {step.number}
+                </span>
+                <span className="eyebrow">{step.label}</span>
+              </div>
+              <p className="mt-4 text-[var(--color-ink)]">{step.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-10 max-w-2xl text-[var(--color-ink-muted)]">
+          Best for boards, investment committees, family offices and leadership teams
+          with a decision in front of them.
+        </p>
+        <div className="mt-8">
+          <CTAButton href="#request-a-briefing">Request a briefing</CTAButton>
         </div>
       </Section>
 

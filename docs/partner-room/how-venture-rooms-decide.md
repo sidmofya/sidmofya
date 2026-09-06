@@ -2,7 +2,7 @@
 title: HOW VENTURE ROOMS DECIDE
 subtitle: Six recurring architectures of investment judgment
 author: Sid Mofya
-imprint: Partner Room / MOTIF 54
+imprint: Partner Room
 ---
 
 <!-- template: cover -->
@@ -12,7 +12,7 @@ imprint: Partner Room / MOTIF 54
 
 By Sid Mofya
 
-Partner Room / MOTIF 54
+Partner Room
 
 > Your Series A is decided in a room you will never be in.
 
