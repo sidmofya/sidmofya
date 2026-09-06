@@ -68,6 +68,9 @@ export default function Footer() {
           <Link href="/privacy" className="hover:text-[var(--color-copper)]">
             Privacy
           </Link>
+          <Link href="/terms" className="hover:text-[var(--color-copper)]">
+            Terms
+          </Link>
           <Link href="/contact" className="hover:text-[var(--color-copper)]">
             Contact
           </Link>
