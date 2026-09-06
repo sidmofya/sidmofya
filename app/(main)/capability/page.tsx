@@ -62,14 +62,74 @@ type Assignment = {
   dates: string | null;
 };
 
-// ASSIGNMENTS — Sid supplies these. Replace both placeholder rows below, then
-// add one object per assignment, most recent first. Keep entries factual and
-// short enough to scan: no descriptions, no outcomes, no adjectives.
+// ASSIGNMENTS — clients are anonymised to descriptors at Sid's instruction.
+// Keep them that way unless he confirms a client may be named; a descriptor can
+// always be replaced by a name, but a name cannot be taken back once indexed.
+//
+// Dates are outstanding for every row. They are a column a bid lead reads for
+// recency and duration, so they render as visible placeholders rather than being
+// estimated. Fill them in as "Mon YYYY – Mon YYYY", most recent row first.
 const assignments: Assignment[] = [
-  { client: null, jurisdiction: null, sector: null, role: null, dates: null },
-  { client: null, jurisdiction: null, sector: null, role: null, dates: null },
+  {
+    client: "Continental intergovernmental organisation",
+    jurisdiction: "Multi-country (Africa)",
+    sector: "Venture capital and private capital formation",
+    role: "Design of a diaspora investment marketplace",
+    dates: null,
+  },
+  {
+    client: "Donor-funded enterprise development programme",
+    jurisdiction: "Multi-country (Africa)",
+    sector: "Enterprise development",
+    role: "Programme to train 100,000 entrepreneurs",
+    dates: null,
+  },
+  {
+    client: "South East Asian energy company",
+    jurisdiction: "United States",
+    sector: "Energy and power",
+    role: "Cross-border strategy; design and establishment of a venture fund",
+    dates: null,
+  },
+  {
+    client: "US media technology company",
+    jurisdiction: "United States",
+    sector: "Technology and intellectual property",
+    role: "Innovation strategy and IP commercialisation analysis",
+    dates: null,
+  },
+  {
+    client: null,
+    jurisdiction: "Tanzania",
+    sector: "Institutional decision-making and governance",
+    role: "Forensic investigation into financial irregularities, and remediation",
+    dates: null,
+  },
+  {
+    client: "US-headquartered organisation",
+    jurisdiction: "Tanzania",
+    sector: "Government and corporate relations",
+    role: "In-country representation to government and corporates",
+    dates: null,
+  },
+  {
+    client: "Mineral exploration company",
+    jurisdiction: "Zambia",
+    sector: "Critical minerals and mining",
+    role: "Mandate to secure project funding",
+    dates: null,
+  },
+  {
+    client: null,
+    jurisdiction: "United Kingdom",
+    sector: "Energy and power",
+    role: "Energy project development and fundraising",
+    dates: null,
+  },
 ];
 
+// Every value used in the assignments table above must appear here, or a reader
+// sees a sector claimed in one place and absent from the other.
 const sectors = [
   "Energy and power",
   "Critical minerals and mining",
@@ -77,6 +137,9 @@ const sectors = [
   "Digital and telecommunications infrastructure",
   "Venture capital and private capital formation",
   "Institutional decision-making and governance",
+  "Enterprise development",
+  "Technology and intellectual property",
+  "Government and corporate relations",
 ];
 
 // JURISDICTIONS means where work has actually been delivered — the field a bid
@@ -110,11 +173,7 @@ const qualifications: { entity: string; detail: string; pending?: string }[] = [
     entity: "University of Sheffield",
     detail: "BEng Chemical Process Engineering, 2002",
   },
-  {
-    entity: "MBA, 2010",
-    detail: "",
-    pending: "awarding institution",
-  },
+  { entity: "Acton School of Business", detail: "MBA, 2010" },
   { entity: "Kauffman Fellows", detail: "Kauffman Fellow" },
   { entity: "Draper Venture Network", detail: "Executive Director (former)" },
   { entity: "Royal Dutch Shell", detail: "Technologist (former)" },
