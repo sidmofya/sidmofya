@@ -81,11 +81,20 @@ const sectors = [
 
 // JURISDICTIONS means where work has actually been delivered — the field a bid
 // lead scans to see whether Sid has operated in their country. It is not where
-// he has lived; residency is carried separately in `profile` above.
+// he has lived; residency is carried separately in `profile` above, though the
+// two overlap for Zambia, the UK, the US and Tanzania.
+//
+// DRC is deliberately absent. The DRC Investment Forum on /speaking was hosted
+// in the United States, so it is not evidence of work delivered in DRC. Add it
+// only against an actual DRC assignment.
 const jurisdictions = [
-  "Zambia",
-  "Democratic Republic of the Congo",
+  "Kenya",
+  "Rwanda",
+  "South Africa",
+  "Tanzania",
+  "United Kingdom",
   "United States",
+  "Zambia",
 ];
 
 const languages = [
@@ -199,8 +208,8 @@ export default function Page() {
                 <li key={jurisdiction}>{jurisdiction}</li>
               ))}
             </ul>
-            <p className="mt-4 text-[0.875rem]">
-              <Pending>confirm the full list before use in a bid</Pending>
+            <p className="mt-4 text-[0.875rem] text-[var(--color-ink-muted)]">
+              Countries where work has been delivered.
             </p>
           </section>
         </div>
