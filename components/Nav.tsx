@@ -6,12 +6,14 @@ import { siteConfig } from "@/lib/site";
 
 type NavItem = { label: string; href: string; external?: boolean };
 
+// Offers first, then the map. 23° South and KwaZuri stay live and reachable
+// from /now and the footer; they no longer compete with the offers up here.
 const navItems: NavItem[] = [
-  { label: "MOTIF 54", href: siteConfig.motif54Url, external: true },
-  { label: "23° South", href: "/23-south" },
-  { label: "KwaZuri", href: "/kwazuri" },
+  { label: "Partner Room", href: siteConfig.partnerRoomUrl, external: true },
   { label: "Speaking", href: "/speaking" },
+  { label: "Now", href: "/now" },
   { label: "About", href: "/about" },
+  { label: "MOTIF 54", href: siteConfig.motif54Url, external: true },
 ];
 
 const linkBase =

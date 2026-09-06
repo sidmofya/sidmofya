@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Section from "@/components/Section";
 import CTAButton from "@/components/CTAButton";
 import SpeakingInquiryForm from "@/components/SpeakingInquiryForm";
+import { testimonials, venues } from "@/lib/speaking";
 
 const description =
   "Sid Mofya briefs boards, investors, founders, and leadership teams on The Sovereign Stack: how AI, energy, minerals, capital, and culture are rewriting power, risk, and opportunity.";
@@ -24,18 +25,6 @@ const ADIS_VIDEO_ID = "uUJo_7UiFzA";
 
 // Headshot lives in public/. Delivered separately; reference is stable.
 const HEADSHOT_SRC = "/sid-mofya.jpg";
-
-const venues = [
-  "MIT",
-  "African Diaspora Investment Symposium",
-  "Draper Venture Network LP Day",
-  "Zambia US Roadshow",
-  "DRC Investment Forum",
-  "Mobile World Congress (4YFN)",
-  "TEC de Monterrey",
-  "Deutsche Bank",
-  "Telefonica",
-];
 
 const credentials = [
   "Founder, MOTIF 54",
@@ -95,34 +84,6 @@ const boardSteps = [
     number: "03",
     label: "After",
     body: "A written synthesis: what was decided, what remains open, what has to be true for the open items to close.",
-  },
-];
-
-type Testimonial = {
-  quote: string;
-  name: string;
-  title: string;
-};
-
-// Add a third quote (e.g. Almaz Negash) by appending one entry here. No markup change needed.
-const testimonials: Testimonial[] = [
-  {
-    quote:
-      "Sid spoke at our annual summit and absolutely delivered. He brought original thinking that actually shifted how people in the room see opportunities, not just the usual talking points you hear at every conference. His frameworks on sovereignty and global capital flows hit hard. We had LPs and founders coming up afterward asking for intros. What makes Sid different is he doesn't just present information, he changes how you think about entire markets. Would book him again in a heartbeat.",
-    name: "Alon Goren",
-    title: "DGH Ventures",
-  },
-  {
-    quote:
-      "Sid moderated a high-level conversation on investment in Africa for us, holding a room that included Zambia's Ambassador to the US and the Minister of Transport. He kept a demanding panel focused and made the substance land for the audience. A real asset to any serious convening.",
-    name: "Rajen Ranchhod",
-    title: "Honorary Consul of Zambia to the State of California",
-  },
-  {
-    quote:
-      "Sid moderated one of the most engaged sessions at ADIS. He drew real substance out of Tammy and Eva and kept the room with him from start to finish. I'd have him back without hesitation.",
-    name: "Almaz Negash",
-    title: "CEO & Founder, African Diaspora Network",
   },
 ];
 

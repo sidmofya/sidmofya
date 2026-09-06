@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/23-south",
     "/kwazuri",
     "/speaking",
+    "/now",
     "/about",
     "/contact",
     "/privacy",

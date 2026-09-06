@@ -5,6 +5,7 @@
 export const siteConfig = {
   url: "https://sidmofya.com",
   motif54Url: "https://motif54.com",
+  partnerRoomUrl: "https://partnerroom.sidmofya.com",
   linkedinUrl: "https://www.linkedin.com/in/sidmofya",
   sovereignTeaUrl:
     "https://www.linkedin.com/newsletters/sovereign-tea-6995822130919550977/",
