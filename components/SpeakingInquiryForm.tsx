@@ -50,6 +50,32 @@ export default function SpeakingInquiryForm() {
       />
 
       <div>
+        <label htmlFor="sp-budget-status" className={labelBase}>
+          Has this been budgeted, or are you still scoping it?
+        </label>
+        <select
+          id="sp-budget-status"
+          name="budget-status"
+          className={inputBase}
+          defaultValue=""
+        >
+          <option value="" disabled>
+            Select
+          </option>
+          <option>Budgeted</option>
+          <option>Still scoping</option>
+          <option>Not sure</option>
+        </select>
+      </div>
+
+      <Field
+        id="sp-prior-facilitator"
+        name="prior-facilitator"
+        label="Have you brought in an outside facilitator or speaker for a room like this before?"
+        optional
+      />
+
+      <div>
         <label htmlFor="sp-timing" className={labelBase}>
           Timing
         </label>
