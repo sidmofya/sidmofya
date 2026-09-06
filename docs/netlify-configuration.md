@@ -21,14 +21,37 @@ Work through Part A now. Part B only applies after the four `feat/*` branches ar
 
 ## Part A — check and fix now
 
-### A1. Form notifications are probably broken entirely (highest priority)
+### A1. Point form notifications at the right address
 
-`DEPLOY.md` in this repo documents an email notification wired to a form named **`work-with-me`**, notifying **`sid@motif54.com`**.
+> **Scope narrowed, 6 Sep 2026.** This section originally read "form
+> notifications are probably broken entirely" and warned of possibly lost leads.
+> Submission counts have since been read directly from the Netlify API and
+> **`work-with-me` has zero submissions on both sites.** Nobody ever submitted
+> through the stale form, so nothing was lost through it. What remains is
+> hygiene: make sure notifications point at the current address and cover the
+> forms that are actually in use.
+
+`DEPLOY.md` in this repo documents an email notification wired to a form named
+**`work-with-me`**, notifying **`sid@motif54.com`**.
 
 Both of those are now wrong:
 
 - **The form no longer exists.** `/work-with-me` is a permanent redirect to `/contact` (see `next.config.ts`). The current form is named `contact`. A notification attached to `work-with-me` receives nothing.
 - **The address is wrong.** The site's contact address is now `sid@sidmofya.com`, and the privacy policy tells people to email that address to have their data removed.
+
+**Submission counts as at 6 Sep 2026.** Anything not listed has zero.
+
+| Site | Form | Submissions | Last |
+|---|---|---|---|
+| sidmofya.com | `contact` | 8 | 5 Sep |
+| sidmofya.com | `speaking-inquiry` | 1 | 5 Sep |
+| sidmofya.com | `kwazuri-interest` | 1 | 5 Sep |
+| sidmofya.com | `work-request` | 1 | 5 Sep |
+| sidmofya.com | `book-signup` (legacy) | 1 | 22 May |
+| partnerroom | `partner-room-decision-architecture` | **6** | 5 Sep |
+
+The four main-site entries within two minutes of each other on 5 Sep are almost
+certainly one test sweep during that day's deploy, not four enquiries.
 
 The live forms, exactly as named in `public/__forms.html`:
 
@@ -48,7 +71,16 @@ The live forms, exactly as named in `public/__forms.html`:
 3. Delete or repoint any notification attached to `work-with-me`.
 4. Ensure there is a **New form submission** email notification to `sid@sidmofya.com` for each of: `contact`, `speaking-inquiry`, `work-request`, `kwazuri-interest`.
 5. Repeat on the **Partner Room** site for `partner-room-seat-request` and `partner-room-decision-architecture`.
-6. Check Forms → submissions on both sites for entries received but never notified. Report roughly how many and how far back — these may be leads that were never seen.
+6. Ask Sid whether he actually received **8** emails from `contact`. That single
+   answer settles whether notifications have been working. If fewer, the missing
+   submissions are still readable in Forms → `contact`.
+
+**Do not delete the orphaned forms.** Both sites carry forms from earlier
+versions — `work-with-me`, `sovereign-geometry-waitlist`, `kwa-zuri-signup` — and
+the Partner Room site carries duplicates of every main-site form because both
+build from the same `public/__forms.html`. They are clutter, not a fault.
+Deleting a form discards the submissions attached to it, including the 8 contact
+enquiries if the wrong one goes.
 
 ### A2. Environment variables
 
@@ -68,7 +100,14 @@ Confirm and report the current value and scope of each.
 
 Do not print secret values back. Report only whether each exists and which deploy contexts it covers.
 
-### A3. Partner Room framework delivery will throw if secrets are missing
+### A3. Partner Room framework delivery — highest priority, real leads involved
+
+> **Six people have requested the field guide** (`partner-room-decision-architecture`,
+> most recent 5 Sep 2026). These are founders on the near-cash offer. A recorded
+> submission does **not** prove a PDF was sent — delivery runs through Resend and
+> HubSpot and fails if either credential is missing. **Establish whether all six
+> received their copy, and whether all six reached HubSpot.** This is the item
+> with money attached; do it before the cosmetic checks.
 
 `netlify/functions/partner-room-leads.mjs` runs on submissions to `partner-room-decision-architecture` and emails the field-guide PDF via Resend, then upserts the lead into HubSpot.
 
@@ -178,9 +217,12 @@ The one intentional exception: the facilitator biography still reads "Founder of
 1. Every notification found on both sites, before and after any change.
 2. Which environment variables exist, on which site, in which deploy contexts. No secret values.
 3. Whether the delivery-credentials error has ever fired, and whether Resend's domain is verified.
-4. Any submissions received but never notified, with rough dates.
-5. Anything changed, listed one line each.
-6. Anything that looked wrong but was left alone, and why.
+4. **Whether all six field-guide requesters received their PDF, and whether all
+   six reached HubSpot.** Name the ones that did not.
+5. Whether both sites deploy automatically from `main`, and what triggered their
+   most recent deploy.
+6. Anything changed, listed one line each.
+7. Anything that looked wrong but was left alone, and why.
 
 ## Do not
 
