@@ -66,9 +66,11 @@ function EntryList({ entries }: { entries: Entry[] }) {
 const profile: { label: string; value: string | null }[] = [
   { label: "Name", value: "Sid Mofya" },
   {
+    // Full stop after Kafwego, not a comma: with a comma the three trailing
+    // roles read as further titles held at Kafwego rather than standalone ones.
     label: "Current roles",
     value:
-      "Founder, MOTIF 54. Co-founder, CopperCloud. Strategy and Finance Lead, Kafwego Resources (Zambia), 2025–present. Independent adviser and facilitator.",
+      "Founder, MOTIF 54. Co-founder, CopperCloud. Strategy and Finance Lead, Kafwego Resources (Zambia). Independent adviser, board member and facilitator.",
   },
   { label: "Contracting entity", value: "CXB Ventures LLC (California, USA)" },
   { label: "Location", value: "San Francisco Bay Area, California, USA" },
@@ -159,22 +161,37 @@ const assignments: Assignment[] = [
   },
 ];
 
-// Every value used in the assignments table above must appear here, or a reader
-// sees a sector claimed in one place and absent from the other.
-const sectors = [
-  "Energy and power",
-  "Critical minerals and mining",
-  "AI and compute infrastructure",
-  "Venture capital and private capital formation",
-  "Institutional decision-making and governance",
-  "Enterprise development",
-  "Technology and intellectual property",
-  "Government and corporate relations",
+// Each sector carries where that work has been delivered — the pairing a bid
+// lead actually wants, since "do they do energy?" and "do they do energy in our
+// region?" are different questions.
+//
+// Scope is broader than the assignments table above, because it also reflects
+// in-house roles such as the Draper Venture Network. The note rendered beneath
+// the list says so, rather than leaving a reader to find the mismatch.
+//
+// Digital and telecommunications infrastructure was removed: nothing evidenced it.
+const sectors: { name: string; scope: string }[] = [
+  { name: "Energy and power", scope: "United Kingdom, United States, Korea" },
+  { name: "Critical minerals and mining", scope: "Zambia" },
+  { name: "AI and compute infrastructure", scope: "Zambia" },
+  {
+    name: "Venture capital and private capital formation",
+    scope: "United States, Africa, global",
+  },
+  {
+    name: "Institutional decision-making and governance",
+    scope: "Tanzania, Kenya, Rwanda, global",
+  },
+  { name: "Enterprise development", scope: "Africa, global" },
+  {
+    name: "Technology and intellectual property",
+    scope: "United States, Zambia, global",
+  },
+  {
+    name: "Government and corporate relations",
+    scope: "United States, United Kingdom, Tanzania, Zambia",
+  },
 ];
-
-// Digital and telecommunications infrastructure was removed: no assignment
-// evidenced it, and a sector claimed here but absent from the table above is
-// exactly what a bid lead cross-references and finds wanting.
 
 // JURISDICTIONS means where work has actually been delivered — the field a bid
 // lead scans to see whether Sid has operated in their country. It is not where
@@ -186,6 +203,7 @@ const sectors = [
 // only against an actual DRC assignment.
 const jurisdictions = [
   "Kenya",
+  "Korea",
   "Rwanda",
   "South Africa",
   "Tanzania",
@@ -305,11 +323,20 @@ export default function Page() {
         <div className="mt-16 grid gap-12 sm:grid-cols-2">
           <section>
             <h2 className={headingClass}>Sectors</h2>
-            <ul className="space-y-2 text-[var(--color-ink)]">
+            <ul className="space-y-3">
               {sectors.map((sector) => (
-                <li key={sector}>{sector}</li>
+                <li key={sector.name}>
+                  <span className="text-[var(--color-ink)]">{sector.name}</span>
+                  <span className="block text-[0.875rem] text-[var(--color-ink-muted)]">
+                    {sector.scope}
+                  </span>
+                </li>
               ))}
             </ul>
+            <p className="mt-4 text-[0.875rem] text-[var(--color-ink-muted)]">
+              Sector scope reflects both the assignments above and prior in-house
+              roles.
+            </p>
           </section>
 
           <section>
