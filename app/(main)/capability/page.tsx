@@ -74,10 +74,9 @@ const profile: { label: string; value: string | null }[] = [
   },
   { label: "Contracting entity", value: "CXB Ventures LLC (California, USA)" },
   { label: "Location", value: "San Francisco Bay Area, California, USA" },
-  {
-    label: "Countries of residence",
-    value: "Zambia, United Kingdom, United States, Tanzania",
-  },
+  // Countries of residence was removed: the Jurisdictions primary tier now says
+  // "lived and worked" and lists the same four, so this repeated the claim in a
+  // weaker place, far from the sector evidence.
   { label: "Availability", value: "By arrangement" },
 ];
 
@@ -176,16 +175,16 @@ const sectors: { name: string; scope: string }[] = [
   { name: "AI and compute infrastructure", scope: "Zambia" },
   {
     name: "Venture capital and private capital formation",
-    scope: "United States, South Africa, Africa, global",
+    scope: "United States, South Africa, Africa",
   },
   {
     name: "Institutional decision-making and governance",
-    scope: "Tanzania, Kenya, Rwanda, global",
+    scope: "Tanzania, Kenya, Rwanda",
   },
-  { name: "Enterprise development", scope: "South Africa, Africa, global" },
+  { name: "Enterprise development", scope: "South Africa, Africa" },
   {
     name: "Technology and intellectual property",
-    scope: "United States, Zambia, global",
+    scope: "United States, Zambia",
   },
   {
     name: "Government and corporate relations",
@@ -194,23 +193,22 @@ const sectors: { name: string; scope: string }[] = [
 ];
 
 // JURISDICTIONS means where work has actually been delivered — the field a bid
-// lead scans to see whether Sid has operated in their country. It is not where
-// he has lived; residency is carried separately in `profile` above, though the
-// two overlap for Zambia, the UK, the US and Tanzania.
+// lead scans to see whether Sid has operated in their country.
+//
+// Tiered on purpose. A flat list gave Korea, one in-house engagement years ago,
+// the same weight as Zambia, where the work is current and continuous — which
+// discounts the strong entries to the level of the weak ones. Tiering keeps
+// every country a procurement filter might search for while making depth
+// legible. "Lived and worked" is the differentiator that matters most for this
+// work, so it leads.
 //
 // DRC is deliberately absent. The DRC Investment Forum on /speaking was hosted
 // in the United States, so it is not evidence of work delivered in DRC. Add it
 // only against an actual DRC assignment.
-const jurisdictions = [
-  "Kenya",
-  "Korea",
-  "Rwanda",
-  "South Africa",
-  "Tanzania",
-  "United Kingdom",
-  "United States",
-  "Zambia",
-];
+const jurisdictions = {
+  primary: ["Zambia", "Tanzania", "United States", "United Kingdom"],
+  other: ["Kenya", "Rwanda", "South Africa", "Korea"],
+};
 
 const languages = [
   "English — fluent",
@@ -246,7 +244,14 @@ const certifications: Entry[] = [
 
 const professionalHistory: Entry[] = [
   { entity: "MOTIF 54", detail: "Founder" },
-  { entity: "Draper Venture Network", detail: "Executive Director (former)" },
+  {
+    // The multi-region claim lives here, once, attached to the thing that
+    // evidences it — rather than as "global" repeated across four sector rows,
+    // where it read as padding and weakened the concrete entries beside it.
+    entity: "Draper Venture Network",
+    detail:
+      "Executive Director (former); an alliance of more than twenty venture firms across multiple regions",
+  },
   { entity: "Royal Dutch Shell", detail: "Technologist (former)" },
 ];
 
@@ -341,14 +346,22 @@ export default function Page() {
 
           <section>
             <h2 className={headingClass}>Jurisdictions</h2>
-            <ul className="space-y-2 text-[var(--color-ink)]">
-              {jurisdictions.map((jurisdiction) => (
+            <p className={labelClass}>Primary</p>
+            <ul className="mt-2 space-y-2 text-[var(--color-ink)]">
+              {jurisdictions.primary.map((jurisdiction) => (
                 <li key={jurisdiction}>{jurisdiction}</li>
               ))}
             </ul>
-            <p className="mt-4 text-[0.875rem] text-[var(--color-ink-muted)]">
-              Countries where work has been delivered.
+            <p className="mt-2 text-[0.875rem] text-[var(--color-ink-muted)]">
+              Lived and worked.
             </p>
+
+            <p className={`${labelClass} mt-6`}>Also delivered</p>
+            <ul className="mt-2 space-y-2 text-[var(--color-ink)]">
+              {jurisdictions.other.map((jurisdiction) => (
+                <li key={jurisdiction}>{jurisdiction}</li>
+              ))}
+            </ul>
           </section>
         </div>
 
