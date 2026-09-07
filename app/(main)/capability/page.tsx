@@ -70,6 +70,13 @@ type Assignment = {
 // checking with him first.
 const assignments: Assignment[] = [
   {
+    client: "National industrial research agency",
+    jurisdiction: "Zambia",
+    sector: "AI and compute infrastructure",
+    role: "Digital transformation, modernisation and data sovereignty; engaged via CopperCloud",
+    dates: "July 2026 - present",
+  },
+  {
     client: "Mineral exploration company",
     jurisdiction: "Zambia",
     sector: "Critical minerals and mining",
@@ -105,7 +112,7 @@ const assignments: Assignment[] = [
     dates: "2018 - 2020",
   },
   {
-    client: null,
+    client: "US public health NGO",
     jurisdiction: "Tanzania",
     sector: "Institutional decision-making and governance",
     role: "Forensic investigation into financial irregularities, and remediation",
@@ -119,7 +126,7 @@ const assignments: Assignment[] = [
     dates: "2010 - 2014",
   },
   {
-    client: null,
+    client: "National government agency",
     jurisdiction: "United Kingdom",
     sector: "Energy and power",
     role: "Energy project development and fundraising",
@@ -133,13 +140,16 @@ const sectors = [
   "Energy and power",
   "Critical minerals and mining",
   "AI and compute infrastructure",
-  "Digital and telecommunications infrastructure",
   "Venture capital and private capital formation",
   "Institutional decision-making and governance",
   "Enterprise development",
   "Technology and intellectual property",
   "Government and corporate relations",
 ];
+
+// Digital and telecommunications infrastructure was removed: no assignment
+// evidenced it, and a sector claimed here but absent from the table above is
+// exactly what a bid lead cross-references and finds wanting.
 
 // JURISDICTIONS means where work has actually been delivered — the field a bid
 // lead scans to see whether Sid has operated in their country. It is not where
