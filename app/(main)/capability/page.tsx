@@ -70,7 +70,7 @@ const profile: { label: string; value: string | null }[] = [
     // roles read as further titles held at Kafwego rather than standalone ones.
     label: "Current roles",
     value:
-      "Founder, MOTIF 54. Co-founder, CopperCloud. Strategy and Finance Lead, Kafwego Resources (Zambia). Independent adviser, board member and facilitator.",
+      "Founder, MOTIF 54. Co-founder, CopperCloud. Strategy and Finance Lead, Kafwego Resources (Zambia). Independent adviser and facilitator.",
   },
   { label: "Contracting entity", value: "CXB Ventures LLC (California, USA)" },
   { label: "Location", value: "San Francisco Bay Area, California, USA" },
@@ -176,13 +176,13 @@ const sectors: { name: string; scope: string }[] = [
   { name: "AI and compute infrastructure", scope: "Zambia" },
   {
     name: "Venture capital and private capital formation",
-    scope: "United States, Africa, global",
+    scope: "United States, South Africa, Africa, global",
   },
   {
     name: "Institutional decision-making and governance",
     scope: "Tanzania, Kenya, Rwanda, global",
   },
-  { name: "Enterprise development", scope: "Africa, global" },
+  { name: "Enterprise development", scope: "South Africa, Africa, global" },
   {
     name: "Technology and intellectual property",
     scope: "United States, Zambia, global",
