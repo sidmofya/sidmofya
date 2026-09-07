@@ -66,16 +66,17 @@ function EntryList({ entries }: { entries: Entry[] }) {
 const profile: { label: string; value: string | null }[] = [
   { label: "Name", value: "Sid Mofya" },
   {
+    // Full stop after Kafwego, not a comma: with a comma the three trailing
+    // roles read as further titles held at Kafwego rather than standalone ones.
     label: "Current roles",
     value:
-      "Founder, MOTIF 54. Co-founder, CopperCloud. Strategy and Finance Lead, Kafwego Resources (Zambia), 2025–present. Independent adviser and facilitator.",
+      "Founder, MOTIF 54. Co-founder, CopperCloud. Strategy and Finance Lead, Kafwego Resources (Zambia). Independent adviser and facilitator.",
   },
   { label: "Contracting entity", value: "CXB Ventures LLC (California, USA)" },
   { label: "Location", value: "San Francisco Bay Area, California, USA" },
-  {
-    label: "Countries of residence",
-    value: "Zambia, United Kingdom, United States, Tanzania",
-  },
+  // Countries of residence was removed: the Jurisdictions primary tier now says
+  // "lived and worked" and lists the same four, so this repeated the claim in a
+  // weaker place, far from the sector evidence.
   { label: "Availability", value: "By arrangement" },
 ];
 
@@ -159,40 +160,55 @@ const assignments: Assignment[] = [
   },
 ];
 
-// Every value used in the assignments table above must appear here, or a reader
-// sees a sector claimed in one place and absent from the other.
-const sectors = [
-  "Energy and power",
-  "Critical minerals and mining",
-  "AI and compute infrastructure",
-  "Venture capital and private capital formation",
-  "Institutional decision-making and governance",
-  "Enterprise development",
-  "Technology and intellectual property",
-  "Government and corporate relations",
+// Each sector carries where that work has been delivered — the pairing a bid
+// lead actually wants, since "do they do energy?" and "do they do energy in our
+// region?" are different questions.
+//
+// Scope is broader than the assignments table above, because it also reflects
+// in-house roles such as the Draper Venture Network. The note rendered beneath
+// the list says so, rather than leaving a reader to find the mismatch.
+//
+// Digital and telecommunications infrastructure was removed: nothing evidenced it.
+const sectors: { name: string; scope: string }[] = [
+  { name: "Energy and power", scope: "United Kingdom, United States, Korea" },
+  { name: "Critical minerals and mining", scope: "Zambia" },
+  { name: "AI and compute infrastructure", scope: "Zambia" },
+  {
+    name: "Venture capital and private capital formation",
+    scope: "United States, South Africa, Africa",
+  },
+  {
+    name: "Institutional decision-making and governance",
+    scope: "Tanzania, Kenya, Rwanda",
+  },
+  { name: "Enterprise development", scope: "South Africa, Africa" },
+  {
+    name: "Technology and intellectual property",
+    scope: "United States, Zambia",
+  },
+  {
+    name: "Government and corporate relations",
+    scope: "United States, United Kingdom, Tanzania, Zambia",
+  },
 ];
 
-// Digital and telecommunications infrastructure was removed: no assignment
-// evidenced it, and a sector claimed here but absent from the table above is
-// exactly what a bid lead cross-references and finds wanting.
-
 // JURISDICTIONS means where work has actually been delivered — the field a bid
-// lead scans to see whether Sid has operated in their country. It is not where
-// he has lived; residency is carried separately in `profile` above, though the
-// two overlap for Zambia, the UK, the US and Tanzania.
+// lead scans to see whether Sid has operated in their country.
+//
+// Tiered on purpose. A flat list gave Korea, one in-house engagement years ago,
+// the same weight as Zambia, where the work is current and continuous — which
+// discounts the strong entries to the level of the weak ones. Tiering keeps
+// every country a procurement filter might search for while making depth
+// legible. "Lived and worked" is the differentiator that matters most for this
+// work, so it leads.
 //
 // DRC is deliberately absent. The DRC Investment Forum on /speaking was hosted
 // in the United States, so it is not evidence of work delivered in DRC. Add it
 // only against an actual DRC assignment.
-const jurisdictions = [
-  "Kenya",
-  "Rwanda",
-  "South Africa",
-  "Tanzania",
-  "United Kingdom",
-  "United States",
-  "Zambia",
-];
+const jurisdictions = {
+  primary: ["Zambia", "Tanzania", "United States", "United Kingdom"],
+  other: ["Kenya", "Rwanda", "South Africa", "Korea"],
+};
 
 const languages = [
   "English — fluent",
@@ -228,7 +244,14 @@ const certifications: Entry[] = [
 
 const professionalHistory: Entry[] = [
   { entity: "MOTIF 54", detail: "Founder" },
-  { entity: "Draper Venture Network", detail: "Executive Director (former)" },
+  {
+    // The multi-region claim lives here, once, attached to the thing that
+    // evidences it — rather than as "global" repeated across four sector rows,
+    // where it read as padding and weakened the concrete entries beside it.
+    entity: "Draper Venture Network",
+    detail:
+      "Executive Director (former); an alliance of more than twenty venture firms across multiple regions",
+  },
   { entity: "Royal Dutch Shell", detail: "Technologist (former)" },
 ];
 
@@ -305,23 +328,40 @@ export default function Page() {
         <div className="mt-16 grid gap-12 sm:grid-cols-2">
           <section>
             <h2 className={headingClass}>Sectors</h2>
-            <ul className="space-y-2 text-[var(--color-ink)]">
+            <ul className="space-y-3">
               {sectors.map((sector) => (
-                <li key={sector}>{sector}</li>
+                <li key={sector.name}>
+                  <span className="text-[var(--color-ink)]">{sector.name}</span>
+                  <span className="block text-[0.875rem] text-[var(--color-ink-muted)]">
+                    {sector.scope}
+                  </span>
+                </li>
               ))}
             </ul>
+            <p className="mt-4 text-[0.875rem] text-[var(--color-ink-muted)]">
+              Sector scope reflects both the assignments above and prior in-house
+              roles.
+            </p>
           </section>
 
           <section>
             <h2 className={headingClass}>Jurisdictions</h2>
-            <ul className="space-y-2 text-[var(--color-ink)]">
-              {jurisdictions.map((jurisdiction) => (
+            <p className={labelClass}>Primary</p>
+            <ul className="mt-2 space-y-2 text-[var(--color-ink)]">
+              {jurisdictions.primary.map((jurisdiction) => (
                 <li key={jurisdiction}>{jurisdiction}</li>
               ))}
             </ul>
-            <p className="mt-4 text-[0.875rem] text-[var(--color-ink-muted)]">
-              Countries where work has been delivered.
+            <p className="mt-2 text-[0.875rem] text-[var(--color-ink-muted)]">
+              Lived and worked.
             </p>
+
+            <p className={`${labelClass} mt-6`}>Also delivered</p>
+            <ul className="mt-2 space-y-2 text-[var(--color-ink)]">
+              {jurisdictions.other.map((jurisdiction) => (
+                <li key={jurisdiction}>{jurisdiction}</li>
+              ))}
+            </ul>
           </section>
         </div>
 
