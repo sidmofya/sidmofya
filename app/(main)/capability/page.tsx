@@ -38,6 +38,31 @@ function Pending({ children }: { children: React.ReactNode }) {
   return <span className="text-[var(--color-ink-muted)] italic">[{children}]</span>;
 }
 
+/** Two-column rows shared by Qualifications and Professional history. */
+function EntryList({ entries }: { entries: Entry[] }) {
+  return (
+    <dl>
+      {entries.map((row) => (
+        <div
+          key={row.entity}
+          className="border-t border-[var(--color-rule)] py-4 grid gap-1 sm:grid-cols-[20rem_1fr] sm:gap-8"
+        >
+          <dt className="text-[var(--color-ink)]">{row.entity}</dt>
+          <dd className="text-[var(--color-ink-muted)]">
+            {row.detail}
+            {row.pending && (
+              <>
+                {" "}
+                <Pending>{row.pending}</Pending>
+              </>
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 const profile: { label: string; value: string | null }[] = [
   { label: "Name", value: "Sid Mofya" },
   {
@@ -175,18 +200,24 @@ const languages = [
   "Swahili — conversational",
 ];
 
-// Degrees and years supplied by Sid; the professional history is drawn from
-// /about. Nothing here is inferred.
-const qualifications: { entity: string; detail: string; pending?: string }[] = [
+// Degrees, awards and dates supplied by Sid. Professional history is drawn from
+// /about. Nothing here is inferred. Most recent first.
+type Entry = { entity: string; detail: string; pending?: string };
+
+const qualifications: Entry[] = [
+  { entity: "African Diaspora Luminaire Award", detail: "2026" },
+  { entity: "Kauffman Fellows", detail: "Kauffman Fellow, 2016" },
+  { entity: "Acton School of Business", detail: "MBA, 2010; Acton Fellowship, 2009" },
   {
     entity: "University of Sheffield",
     detail: "BEng Chemical Process Engineering, 2002",
   },
-  { entity: "Acton School of Business", detail: "MBA, 2010" },
-  { entity: "Kauffman Fellows", detail: "Kauffman Fellow" },
+];
+
+const professionalHistory: Entry[] = [
+  { entity: "MOTIF 54", detail: "Founder" },
   { entity: "Draper Venture Network", detail: "Executive Director (former)" },
   { entity: "Royal Dutch Shell", detail: "Technologist (former)" },
-  { entity: "MOTIF 54", detail: "Founder" },
 ];
 
 export default function Page() {
@@ -283,26 +314,13 @@ export default function Page() {
         </div>
 
         <section className="mt-16">
-          <h2 className={headingClass}>Qualifications</h2>
-          <dl>
-            {qualifications.map((row) => (
-              <div
-                key={row.entity}
-                className="border-t border-[var(--color-rule)] py-4 grid gap-1 sm:grid-cols-[20rem_1fr] sm:gap-8"
-              >
-                <dt className="text-[var(--color-ink)]">{row.entity}</dt>
-                <dd className="text-[var(--color-ink-muted)]">
-                  {row.detail}
-                  {row.pending && (
-                    <>
-                      {" "}
-                      <Pending>{row.pending}</Pending>
-                    </>
-                  )}
-                </dd>
-              </div>
-            ))}
-          </dl>
+          <h2 className={headingClass}>Qualifications and awards</h2>
+          <EntryList entries={qualifications} />
+        </section>
+
+        <section className="mt-16">
+          <h2 className={headingClass}>Professional history</h2>
+          <EntryList entries={professionalHistory} />
         </section>
 
         <section className="mt-16">
