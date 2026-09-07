@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Section from "@/components/Section";
 import { siteConfig } from "@/lib/site";
+import data from "@/data/profile.json";
 
 const description =
   "Capability statement for Sid Mofya: roles, assignments, sectors, jurisdictions, qualifications and languages.";
@@ -38,6 +39,8 @@ function Pending({ children }: { children: React.ReactNode }) {
   return <span className="text-[var(--color-ink-muted)] italic">[{children}]</span>;
 }
 
+type Entry = { entity: string; detail: string; pending?: string };
+
 /** Two-column rows shared by Qualifications and Professional history. */
 function EntryList({ entries }: { entries: Entry[] }) {
   return (
@@ -63,197 +66,49 @@ function EntryList({ entries }: { entries: Entry[] }) {
   );
 }
 
-const profile: { label: string; value: string | null }[] = [
-  { label: "Name", value: "Sid Mofya" },
-  {
-    // Full stop after Kafwego, not a comma: with a comma the three trailing
-    // roles read as further titles held at Kafwego rather than standalone ones.
-    label: "Current roles",
-    value:
-      "Founder, MOTIF 54. Co-founder, CopperCloud. Strategy and Finance Lead, Kafwego Resources (Zambia). Independent adviser and facilitator.",
-  },
-  { label: "Contracting entity", value: "CXB Ventures LLC (California, USA)" },
-  { label: "Location", value: "San Francisco Bay Area, California, USA" },
-  // Countries of residence was removed: the Jurisdictions primary tier now says
-  // "lived and worked" and lists the same four, so this repeated the claim in a
-  // weaker place, far from the sector evidence.
-  { label: "Availability", value: "By arrangement" },
+// All data comes from data/profile.json, which is shared with the generated CV
+// (scripts/generate_cv.py). Edit that file, not this one, so the public page and
+// the document Sid sends to bid leads cannot drift apart.
+const profile: { label: string; value: string }[] = [
+  { label: "Name", value: data.name },
+  { label: "Current roles", value: data.currentRoles },
+  { label: "Contracting entity", value: data.contractingEntity },
+  { label: "Location", value: data.location },
+  { label: "Availability", value: data.availability },
 ];
 
 type Assignment = {
-  client: string | null;
-  jurisdiction: string | null;
-  sector: string | null;
-  role: string | null;
-  dates: string | null;
+  client: string;
+  jurisdiction: string;
+  sector: string;
+  role: string;
+  dates: string;
 };
 
-// ASSIGNMENTS — most recent first.
+// Client engagements only. Roles that were full-time employment — the Henry M.
+// Jackson Foundation, the UK Ministry of Justice — sit under Professional
+// history instead. They were previously listed here under a column headed
+// "Client", which a bid reviewer would have read as consultancy and questioned.
 //
-// Public-sector clients are named with Sid's consent. Commercial clients are
-// anonymised to descriptors: a descriptor can be replaced by a name later, but a
-// name cannot be withdrawn once indexed. Do not name a commercial client without
-// checking with him first.
-const assignments: Assignment[] = [
-  {
-    client: "National industrial research agency",
-    jurisdiction: "Zambia",
-    sector: "AI and compute infrastructure",
-    role: "Digital transformation, modernisation and data sovereignty; engaged via CopperCloud",
-    dates: "July 2026 - present",
-  },
-  {
-    client: "Mineral exploration company",
-    jurisdiction: "Zambia",
-    sector: "Critical minerals and mining",
-    role: "Mandate to secure project funding",
-    dates: "July 2026",
-  },
-  {
-    client: "African Union and European Union",
-    jurisdiction: "Multi-country (Africa)",
-    sector: "Venture capital and private capital formation",
-    role: "Design of a diaspora investment marketplace",
-    dates: "Nov 2021 - Dec 2024",
-  },
-  {
-    client: "South East Asian energy company",
-    jurisdiction: "United States",
-    sector: "Energy and power",
-    role: "Cross-border strategy; design and establishment of a venture fund",
-    dates: "2021 - 2023",
-  },
-  {
-    client: "US media technology company",
-    jurisdiction: "United States",
-    sector: "Technology and intellectual property",
-    role: "Innovation strategy and IP commercialisation analysis",
-    dates: "2021 - 2022",
-  },
-  {
-    client: "United States Department of State",
-    jurisdiction: "Multi-country (Africa)",
-    sector: "Enterprise development",
-    role: "Partnership to train 100,000 African entrepreneurs",
-    dates: "2018 - 2020",
-  },
-  {
-    client: "US public health NGO",
-    jurisdiction: "Tanzania",
-    sector: "Institutional decision-making and governance",
-    role: "Forensic investigation into financial irregularities, and remediation",
-    dates: "2014",
-  },
-  {
-    client: "US-headquartered organisation",
-    jurisdiction: "Tanzania",
-    sector: "Government and corporate relations",
-    role: "In-country representation to government and corporates",
-    dates: "2010 - 2014",
-  },
-  {
-    client: "National government agency",
-    jurisdiction: "United Kingdom",
-    sector: "Energy and power",
-    role: "Energy project development and fundraising",
-    dates: "Sept 2008 - Aug 2009",
-  },
-];
+// A consequence: two sectors (institutional decision-making and governance,
+// government and corporate relations) are now evidenced by employment rather
+// than by a row in this table. The note under Sectors points there.
+const assignments: Assignment[] = data.assignments;
+const sectors: { name: string; scope: string }[] = data.sectors;
+const jurisdictions = data.jurisdictions;
+const languages: string[] = data.languages;
+const qualifications: Entry[] = data.qualifications;
+const certifications: Entry[] = data.certifications;
 
-// Each sector carries where that work has been delivered — the pairing a bid
-// lead actually wants, since "do they do energy?" and "do they do energy in our
-// region?" are different questions.
-//
-// Scope is broader than the assignments table above, because it also reflects
-// in-house roles such as the Draper Venture Network. The note rendered beneath
-// the list says so, rather than leaving a reader to find the mismatch.
-//
-// Digital and telecommunications infrastructure was removed: nothing evidenced it.
-const sectors: { name: string; scope: string }[] = [
-  { name: "Energy and power", scope: "United Kingdom, United States, Korea" },
-  { name: "Critical minerals and mining", scope: "Zambia" },
-  { name: "AI and compute infrastructure", scope: "Zambia" },
-  {
-    name: "Venture capital and private capital formation",
-    scope: "United States, South Africa, Africa",
-  },
-  {
-    name: "Institutional decision-making and governance",
-    scope: "Tanzania, Kenya, Rwanda",
-  },
-  { name: "Enterprise development", scope: "South Africa, Africa" },
-  {
-    name: "Technology and intellectual property",
-    scope: "United States, Zambia",
-  },
-  {
-    name: "Government and corporate relations",
-    scope: "United States, United Kingdom, Tanzania, Zambia",
-  },
-];
-
-// JURISDICTIONS means where work has actually been delivered — the field a bid
-// lead scans to see whether Sid has operated in their country.
-//
-// Tiered on purpose. A flat list gave Korea, one in-house engagement years ago,
-// the same weight as Zambia, where the work is current and continuous — which
-// discounts the strong entries to the level of the weak ones. Tiering keeps
-// every country a procurement filter might search for while making depth
-// legible. "Lived and worked" is the differentiator that matters most for this
-// work, so it leads.
-//
-// DRC is deliberately absent. The DRC Investment Forum on /speaking was hosted
-// in the United States, so it is not evidence of work delivered in DRC. Add it
-// only against an actual DRC assignment.
-const jurisdictions = {
-  primary: ["Zambia", "Tanzania", "United States", "United Kingdom"],
-  other: ["Kenya", "Rwanda", "South Africa", "Korea"],
-};
-
-const languages = [
-  "English — fluent",
-  "Bemba — fluent",
-  "Swahili — conversational",
-];
-
-// Degrees, awards and dates supplied by Sid. Professional history is drawn from
-// /about. Nothing here is inferred. Most recent first.
-type Entry = { entity: string; detail: string; pending?: string };
-
-const qualifications: Entry[] = [
-  { entity: "African Diaspora Luminaire Award", detail: "2026" },
-  { entity: "Kauffman Fellows", detail: "Kauffman Fellow, 2016" },
-  {
-    entity: "Acton School of Business",
-    detail: "MBA, 2010; Acton Fellowship, 2009; valedictorian of graduating class",
-  },
-  {
-    entity: "University of Sheffield",
-    detail: "BEng Chemical Process Engineering, 2002",
-  },
-];
-
-// Year obtained, not a currency claim. Sid has not confirmed either is still
-// active, and PRINCE2 Practitioner in particular requires renewal — so these
-// state when they were earned and nothing more. If a bid asks for a *current*
-// certification, check before answering yes.
-const certifications: Entry[] = [
-  { entity: "PRINCE2 Practitioner", detail: "Certified 2009" },
-  { entity: "Project Management Institute", detail: "Member from 2012" },
-];
-
-const professionalHistory: Entry[] = [
-  { entity: "MOTIF 54", detail: "Founder" },
-  {
-    // The multi-region claim lives here, once, attached to the thing that
-    // evidences it — rather than as "global" repeated across four sector rows,
-    // where it read as padding and weakened the concrete entries beside it.
-    entity: "Draper Venture Network",
-    detail:
-      "Executive Director (former); an alliance of more than twenty venture firms across multiple regions",
-  },
-  { entity: "Royal Dutch Shell", detail: "Technologist (former)" },
-];
+// Only the employment entries carrying a capabilitySummary surface here. The CV
+// lists the full history; this page shows the three that establish standing
+// without turning into a CV itself.
+const professionalHistory: Entry[] = data.employment
+  .filter((role) => Boolean(role.capabilitySummary))
+  .map((role) => ({
+    entity: role.employer,
+    detail: role.capabilitySummary as string,
+  }));
 
 export default function Page() {
   return (
@@ -339,8 +194,8 @@ export default function Page() {
               ))}
             </ul>
             <p className="mt-4 text-[0.875rem] text-[var(--color-ink-muted)]">
-              Sector scope reflects both the assignments above and prior in-house
-              roles.
+              Sector scope reflects both the assignments above and the roles held
+              under Professional history below.
             </p>
           </section>
 
