@@ -1,0 +1,206 @@
+{
+  "_comment": "Single source of truth for /capability and the generated CV. The page imports it; scripts/generate_cv.py reads it. Edit here, not in either consumer, so the two cannot drift. Employment entries carrying `capabilitySummary` also render on /capability; the rest appear only on the CV.",
+
+  "name": "Sid Mofya",
+  "location": "San Francisco Bay Area, California, USA",
+  "contractingEntity": "CXB Ventures LLC (California, USA)",
+  "availability": "By arrangement",
+  "currentRoles": "Founder, MOTIF 54. Co-founder, CopperCloud. Strategy and Finance Lead, Kafwego Resources (Zambia). Independent adviser and facilitator.",
+
+  "employment": [
+    {
+      "employer": "MOTIF 54",
+      "title": "Founder",
+      "dates": "Jan 2024 - present",
+      "location": "San Francisco Bay Area",
+      "summary": "Operates at the intersection of minerals, energy and compute, upstream of capital deployment. Helps allocators and operators frame long-cycle decisions where physical constraints, institutional capacity and sovereignty are inseparable.",
+      "capabilitySummary": "Founder"
+    },
+    {
+      "employer": "CopperCloud",
+      "title": "Co-founder",
+      "dates": "2025 - present",
+      "location": "Zambia and United States",
+      "summary": "Compute infrastructure for Africa's AI economy, built so a buyer's claims about where and how their workload ran can be independently verified."
+    },
+    {
+      "employer": "Kafwego Resources",
+      "title": "Strategy and Finance Lead",
+      "dates": "2025 - present",
+      "location": "Zambia",
+      "summary": "Strategy and capital formation for mineral resource development."
+    },
+    {
+      "employer": "Various organisations",
+      "title": "Strategic adviser and board adviser",
+      "dates": "Jan 2018 - present",
+      "location": "United States, Zambia and multi-region",
+      "summary": "Board and advisory roles across technology and investment: Expeditionary (human-AI high-stakes negotiation), Whipsmart Ventures (deep tech investing), Tesseract Icons (intellectual property with cultural icons), JEGO Technologies (electric vehicles for Africa), African Diaspora Investment Fund (mobilising diaspora capital), and BongoHive (technology hub, board). Previously Restless Development, Kalene Education Fund and LIONS@frica."
+    },
+    {
+      "employer": "African Union",
+      "title": "Investment Expert (contract)",
+      "dates": "Nov 2021 - Dec 2024",
+      "location": "Addis Ababa, Ethiopia (remote)",
+      "summary": "Designed financial architecture for mobilising African diaspora capital into technology and infrastructure, aligning supranational funding frameworks with on-the-ground execution constraints across jurisdictions."
+    },
+    {
+      "employer": "Draper Venture Network",
+      "title": "Executive Director",
+      "dates": "Jan 2021 - Aug 2023",
+      "location": "San Francisco Bay Area",
+      "summary": "Led strategy for a global alliance of independent venture capital firms representing more than $2.5B in collective AUM and hundreds of operating companies. Capital coordination, fund architecture and shared infrastructure across jurisdictions; designed network systems for cross-border co-investment and platform-based syndication.",
+      "capabilitySummary": "Executive Director (former); an alliance of more than twenty venture firms across multiple regions"
+    },
+    {
+      "employer": "Draper Venture Network",
+      "title": "Strategic Partnerships",
+      "dates": "Aug 2014 - Dec 2020",
+      "location": "San Francisco Bay Area",
+      "summary": "Led the professionalisation of the network's operating model, from informal alliance to coordinated value-creation system. Structured cross-border intelligence sharing and alignment across US, European and Asian member funds."
+    },
+    {
+      "employer": "The Henry M. Jackson Foundation for the Advancement of Military Medicine",
+      "title": "Corporate Liaison",
+      "dates": "2010 - 2014",
+      "location": "Dar es Salaam, Tanzania",
+      "summary": "Managed operational deployment and government liaison for large international programmes in Tanzania. Regulatory navigation, public-sector coordination, and execution across US funding bodies and national institutions."
+    },
+    {
+      "employer": "UK Ministry of Justice",
+      "title": "Energy Manager",
+      "dates": "2008 - 2010",
+      "location": "London, United Kingdom",
+      "summary": "National energy programme spanning governance, capital allocation and execution."
+    },
+    {
+      "employer": "Shell",
+      "title": "Process Technologist and Technical Auditor",
+      "dates": "2002 - 2008",
+      "location": "Cheshire, United Kingdom",
+      "summary": "Industrial systems, process integrity and large-scale operational risk.",
+      "capabilitySummary": "Technologist (former)"
+    },
+    {
+      "employer": "Online World Technology",
+      "title": "Co-founder and CEO",
+      "dates": "1999 - 2002",
+      "location": "Chingola, Zambia",
+      "summary": "Early-stage internet venture in Zambia during the first wave of commercial connectivity."
+    }
+  ],
+
+  "qualifications": [
+    { "entity": "African Diaspora Luminaire Award", "detail": "2026" },
+    { "entity": "Kauffman Fellows", "detail": "Kauffman Fellow, Class 19" },
+    {
+      "entity": "Acton School of Business",
+      "detail": "MBA, 2010; Acton Fellowship, 2009; valedictorian of graduating class"
+    },
+    {
+      "entity": "University of Sheffield",
+      "detail": "BEng Chemical Process Engineering, 2002"
+    }
+  ],
+
+  "certifications": [
+    { "entity": "PRINCE2 Practitioner", "detail": "Certified 2009" },
+    { "entity": "Project Management Institute", "detail": "Member from 2012" }
+  ],
+
+  "languages": ["English — fluent", "Bemba — fluent", "Swahili — conversational"],
+
+  "jurisdictions": {
+    "primary": ["Zambia", "Tanzania", "United States", "United Kingdom"],
+    "other": ["Kenya", "Rwanda", "South Africa", "Korea"]
+  },
+
+  "sectors": [
+    { "name": "Energy and power", "scope": "United Kingdom, United States, Korea" },
+    { "name": "Critical minerals and mining", "scope": "Zambia" },
+    { "name": "AI and compute infrastructure", "scope": "Zambia" },
+    {
+      "name": "Venture capital and private capital formation",
+      "scope": "United States, South Africa, Africa"
+    },
+    {
+      "name": "Institutional decision-making and governance",
+      "scope": "Tanzania, Kenya, Rwanda"
+    },
+    { "name": "Enterprise development", "scope": "South Africa, Africa" },
+    {
+      "name": "Technology and intellectual property",
+      "scope": "United States, Zambia"
+    },
+    {
+      "name": "Government and corporate relations",
+      "scope": "United States, United Kingdom, Tanzania, Zambia"
+    }
+  ],
+
+  "assignments": [
+    {
+      "client": "National industrial research agency",
+      "jurisdiction": "Zambia",
+      "sector": "AI and compute infrastructure",
+      "role": "Digital transformation, modernisation and data sovereignty; engaged via CopperCloud",
+      "dates": "July 2026 - present"
+    },
+    {
+      "client": "Mineral exploration company",
+      "jurisdiction": "Zambia",
+      "sector": "Critical minerals and mining",
+      "role": "Mandate to secure project funding",
+      "dates": "July 2026"
+    },
+    {
+      "client": "African Union and European Union",
+      "jurisdiction": "Multi-country (Africa)",
+      "sector": "Venture capital and private capital formation",
+      "role": "Design of a diaspora investment marketplace",
+      "dates": "Nov 2021 - Dec 2024"
+    },
+    {
+      "client": "South East Asian energy company",
+      "jurisdiction": "United States",
+      "sector": "Energy and power",
+      "role": "Cross-border strategy; design and establishment of a venture fund",
+      "dates": "2021 - 2023"
+    },
+    {
+      "client": "US media technology company",
+      "jurisdiction": "United States",
+      "sector": "Technology and intellectual property",
+      "role": "Innovation strategy and IP commercialisation analysis",
+      "dates": "2021 - 2022"
+    },
+    {
+      "client": "United States Department of State",
+      "jurisdiction": "Multi-country (Africa)",
+      "sector": "Enterprise development",
+      "role": "Partnership to train 100,000 African entrepreneurs",
+      "dates": "2018 - 2020"
+    },
+    {
+      "client": "US public health NGO",
+      "jurisdiction": "Tanzania",
+      "sector": "Institutional decision-making and governance",
+      "role": "Forensic investigation into financial irregularities, and remediation",
+      "dates": "2014"
+    },
+    {
+      "client": "US-headquartered organisation",
+      "jurisdiction": "Tanzania",
+      "sector": "Government and corporate relations",
+      "role": "In-country representation to government and corporates",
+      "dates": "2010 - 2014"
+    },
+    {
+      "client": "National government agency",
+      "jurisdiction": "United Kingdom",
+      "sector": "Energy and power",
+      "role": "Energy project development and fundraising",
+      "dates": "Sept 2008 - Aug 2009"
+    }
+  ]
+}
