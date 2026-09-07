@@ -85,6 +85,14 @@ type Assignment = {
   dates: string;
 };
 
+// Client engagements only. Roles that were full-time employment — the Henry M.
+// Jackson Foundation, the UK Ministry of Justice — sit under Professional
+// history instead. They were previously listed here under a column headed
+// "Client", which a bid reviewer would have read as consultancy and questioned.
+//
+// A consequence: two sectors (institutional decision-making and governance,
+// government and corporate relations) are now evidenced by employment rather
+// than by a row in this table. The note under Sectors points there.
 const assignments: Assignment[] = data.assignments;
 const sectors: { name: string; scope: string }[] = data.sectors;
 const jurisdictions = data.jurisdictions;
@@ -186,8 +194,8 @@ export default function Page() {
               ))}
             </ul>
             <p className="mt-4 text-[0.875rem] text-[var(--color-ink-muted)]">
-              Sector scope reflects both the assignments above and prior in-house
-              roles.
+              Sector scope reflects both the assignments above and the roles held
+              under Professional history below.
             </p>
           </section>
 

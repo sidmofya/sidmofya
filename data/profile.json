@@ -1,12 +1,10 @@
 {
   "_comment": "Single source of truth for /capability and the generated CV. The page imports it; scripts/generate_cv.py reads it. Edit here, not in either consumer, so the two cannot drift. Employment entries carrying `capabilitySummary` also render on /capability; the rest appear only on the CV.",
-
   "name": "Sid Mofya",
   "location": "San Francisco Bay Area, California, USA",
   "contractingEntity": "CXB Ventures LLC (California, USA)",
   "availability": "By arrangement",
   "currentRoles": "Founder, MOTIF 54. Co-founder, CopperCloud. Strategy and Finance Lead, Kafwego Resources (Zambia). Independent adviser and facilitator.",
-
   "employment": [
     {
       "employer": "MOTIF 54",
@@ -50,7 +48,7 @@
       "dates": "Jan 2021 - Aug 2023",
       "location": "San Francisco Bay Area",
       "summary": "Led strategy for a global alliance of independent venture capital firms representing more than $2.5B in collective AUM and hundreds of operating companies. Capital coordination, fund architecture and shared infrastructure across jurisdictions; designed network systems for cross-border co-investment and platform-based syndication.",
-      "capabilitySummary": "Executive Director (former); an alliance of more than twenty venture firms across multiple regions"
+      "capabilitySummary": "Executive Director (former); a global alliance of independent venture firms representing more than $2.5B in collective AUM"
     },
     {
       "employer": "Draper Venture Network",
@@ -64,14 +62,16 @@
       "title": "Corporate Liaison",
       "dates": "2010 - 2014",
       "location": "Dar es Salaam, Tanzania",
-      "summary": "Managed operational deployment and government liaison for large international programmes in Tanzania. Regulatory navigation, public-sector coordination, and execution across US funding bodies and national institutions."
+      "summary": "Managed operational deployment and government liaison for large international programmes in Tanzania. Regulatory navigation, public-sector coordination, and execution across US funding bodies and national institutions.",
+      "capabilitySummary": "Corporate Liaison (former); government liaison and programme deployment, Tanzania"
     },
     {
       "employer": "UK Ministry of Justice",
       "title": "Energy Manager",
       "dates": "2008 - 2010",
       "location": "London, United Kingdom",
-      "summary": "National energy programme spanning governance, capital allocation and execution."
+      "summary": "National energy programme spanning governance, capital allocation and execution. Sabbatical taken during the role to attend business school.",
+      "capabilitySummary": "Energy Manager (former); national energy programme, United Kingdom"
     },
     {
       "employer": "Royal Dutch Shell",
@@ -89,10 +89,15 @@
       "summary": "Early-stage internet venture in Zambia during the first wave of commercial connectivity."
     }
   ],
-
   "qualifications": [
-    { "entity": "African Diaspora Luminaire Award", "detail": "2026" },
-    { "entity": "Kauffman Fellows", "detail": "Kauffman Fellow, Class 19" },
+    {
+      "entity": "African Diaspora Luminaire Award",
+      "detail": "2026"
+    },
+    {
+      "entity": "Kauffman Fellows",
+      "detail": "Kauffman Fellow, Class 19; awarded 2016 on completion of the two-year programme"
+    },
     {
       "entity": "Acton School of Business",
       "detail": "MBA, 2010; Acton Fellowship, 2009; valedictorian of graduating class"
@@ -102,23 +107,48 @@
       "detail": "BEng Chemical Process Engineering, 2002"
     }
   ],
-
   "certifications": [
-    { "entity": "PRINCE2 Practitioner", "detail": "Certified 2009" },
-    { "entity": "Project Management Institute", "detail": "Member from 2012" }
+    {
+      "entity": "PRINCE2 Practitioner",
+      "detail": "Certified 2009"
+    },
+    {
+      "entity": "Project Management Institute",
+      "detail": "Member from 2012"
+    }
   ],
-
-  "languages": ["English — fluent", "Bemba — fluent", "Swahili — conversational"],
-
+  "languages": [
+    "English — fluent",
+    "Bemba — fluent",
+    "Swahili — conversational"
+  ],
   "jurisdictions": {
-    "primary": ["Zambia", "Tanzania", "United States", "United Kingdom"],
-    "other": ["Kenya", "Rwanda", "South Africa", "Korea"]
+    "primary": [
+      "Zambia",
+      "Tanzania",
+      "United States",
+      "United Kingdom"
+    ],
+    "other": [
+      "Kenya",
+      "Rwanda",
+      "South Africa",
+      "Korea"
+    ]
   },
-
   "sectors": [
-    { "name": "Energy and power", "scope": "United Kingdom, United States, Korea" },
-    { "name": "Critical minerals and mining", "scope": "Zambia" },
-    { "name": "AI and compute infrastructure", "scope": "Zambia" },
+    {
+      "name": "Energy and power",
+      "scope": "United Kingdom, United States, Korea"
+    },
+    {
+      "name": "Critical minerals and mining",
+      "scope": "Zambia"
+    },
+    {
+      "name": "AI and compute infrastructure",
+      "scope": "Zambia"
+    },
     {
       "name": "Venture capital and private capital formation",
       "scope": "United States, South Africa, Africa"
@@ -127,7 +157,10 @@
       "name": "Institutional decision-making and governance",
       "scope": "Tanzania, Kenya, Rwanda"
     },
-    { "name": "Enterprise development", "scope": "South Africa, Africa" },
+    {
+      "name": "Enterprise development",
+      "scope": "South Africa, Africa"
+    },
     {
       "name": "Technology and intellectual property",
       "scope": "United States, Zambia"
@@ -137,7 +170,6 @@
       "scope": "United States, United Kingdom, Tanzania, Zambia"
     }
   ],
-
   "assignments": [
     {
       "client": "National industrial research agency",
@@ -180,27 +212,6 @@
       "sector": "Enterprise development",
       "role": "Partnership to train 100,000 African entrepreneurs",
       "dates": "2018 - 2020"
-    },
-    {
-      "client": "US public health NGO",
-      "jurisdiction": "Tanzania",
-      "sector": "Institutional decision-making and governance",
-      "role": "Forensic investigation into financial irregularities, and remediation",
-      "dates": "2014"
-    },
-    {
-      "client": "US-headquartered organisation",
-      "jurisdiction": "Tanzania",
-      "sector": "Government and corporate relations",
-      "role": "In-country representation to government and corporates",
-      "dates": "2010 - 2014"
-    },
-    {
-      "client": "National government agency",
-      "jurisdiction": "United Kingdom",
-      "sector": "Energy and power",
-      "role": "Energy project development and fundraising",
-      "dates": "Sept 2008 - Aug 2009"
     }
   ]
 }
