@@ -207,11 +207,23 @@ type Entry = { entity: string; detail: string; pending?: string };
 const qualifications: Entry[] = [
   { entity: "African Diaspora Luminaire Award", detail: "2026" },
   { entity: "Kauffman Fellows", detail: "Kauffman Fellow, 2016" },
-  { entity: "Acton School of Business", detail: "MBA, 2010; Acton Fellowship, 2009" },
+  {
+    entity: "Acton School of Business",
+    detail: "MBA, 2010; Acton Fellowship, 2009; valedictorian of graduating class",
+  },
   {
     entity: "University of Sheffield",
     detail: "BEng Chemical Process Engineering, 2002",
   },
+];
+
+// Year obtained, not a currency claim. Sid has not confirmed either is still
+// active, and PRINCE2 Practitioner in particular requires renewal — so these
+// state when they were earned and nothing more. If a bid asks for a *current*
+// certification, check before answering yes.
+const certifications: Entry[] = [
+  { entity: "PRINCE2 Practitioner", detail: "Certified 2009" },
+  { entity: "Project Management Institute", detail: "Member from 2012" },
 ];
 
 const professionalHistory: Entry[] = [
@@ -319,6 +331,11 @@ export default function Page() {
         </section>
 
         <section className="mt-16">
+          <h2 className={headingClass}>Certifications and memberships</h2>
+          <EntryList entries={certifications} />
+        </section>
+
+        <section className="mt-16">
           <h2 className={headingClass}>Professional history</h2>
           <EntryList entries={professionalHistory} />
         </section>
@@ -334,13 +351,14 @@ export default function Page() {
 
         <section className="mt-16 border-t border-[var(--color-rule)] pt-8">
           <h2 className={headingClass}>Documents and contact</h2>
-          <p>
-            <a href="/cv.pdf" className="link-copper font-medium">
-              Download one-page CV (PDF)
-            </a>
-          </p>
-          <p className="mt-3 text-[0.875rem]">
-            <Pending>cv.pdf not yet supplied; this link 404s until it is</Pending>
+          {/*
+            The CV is sent on request rather than published. Formal bids demand
+            their own template anyway, and a public CV would carry named clients
+            this page deliberately anonymises.
+          */}
+          <p className="text-[var(--color-ink)]">
+            Full CV, including named clients and detailed employment history,
+            available on request.
           </p>
           <p className="mt-6 text-[var(--color-ink)]">
             <a href={`mailto:${siteConfig.contactEmail}`} className="link-copper">
