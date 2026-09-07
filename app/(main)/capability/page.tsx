@@ -43,7 +43,7 @@ const profile: { label: string; value: string | null }[] = [
   {
     label: "Current roles",
     value:
-      "Founder, MOTIF 54. Co-founder, CopperCloud. Independent adviser and facilitator.",
+      "Founder, MOTIF 54. Co-founder, CopperCloud. Strategy and Finance Lead, Kafwego Resources (Zambia), 2025–present. Independent adviser and facilitator.",
   },
   { label: "Contracting entity", value: "CXB Ventures LLC (California, USA)" },
   { label: "Location", value: "San Francisco Bay Area, California, USA" },
@@ -62,69 +62,68 @@ type Assignment = {
   dates: string | null;
 };
 
-// ASSIGNMENTS — clients are anonymised to descriptors at Sid's instruction.
-// Keep them that way unless he confirms a client may be named; a descriptor can
-// always be replaced by a name, but a name cannot be taken back once indexed.
+// ASSIGNMENTS — most recent first.
 //
-// Dates are outstanding for every row. They are a column a bid lead reads for
-// recency and duration, so they render as visible placeholders rather than being
-// estimated. Fill them in as "Mon YYYY – Mon YYYY", most recent row first.
+// Public-sector clients are named with Sid's consent. Commercial clients are
+// anonymised to descriptors: a descriptor can be replaced by a name later, but a
+// name cannot be withdrawn once indexed. Do not name a commercial client without
+// checking with him first.
 const assignments: Assignment[] = [
   {
-    client: "Continental intergovernmental organisation",
+    client: "Mineral exploration company",
+    jurisdiction: "Zambia",
+    sector: "Critical minerals and mining",
+    role: "Mandate to secure project funding",
+    dates: "July 2026",
+  },
+  {
+    client: "African Union and European Union",
     jurisdiction: "Multi-country (Africa)",
     sector: "Venture capital and private capital formation",
     role: "Design of a diaspora investment marketplace",
-    dates: null,
-  },
-  {
-    client: "Donor-funded enterprise development programme",
-    jurisdiction: "Multi-country (Africa)",
-    sector: "Enterprise development",
-    role: "Programme to train 100,000 entrepreneurs",
-    dates: null,
+    dates: "Nov 2021 - Dec 2024",
   },
   {
     client: "South East Asian energy company",
     jurisdiction: "United States",
     sector: "Energy and power",
     role: "Cross-border strategy; design and establishment of a venture fund",
-    dates: null,
+    dates: "2021 - 2023",
   },
   {
     client: "US media technology company",
     jurisdiction: "United States",
     sector: "Technology and intellectual property",
     role: "Innovation strategy and IP commercialisation analysis",
-    dates: null,
+    dates: "2021 - 2022",
+  },
+  {
+    client: "United States Department of State",
+    jurisdiction: "Multi-country (Africa)",
+    sector: "Enterprise development",
+    role: "Partnership to train 100,000 African entrepreneurs",
+    dates: "2018 - 2020",
   },
   {
     client: null,
     jurisdiction: "Tanzania",
     sector: "Institutional decision-making and governance",
     role: "Forensic investigation into financial irregularities, and remediation",
-    dates: null,
+    dates: "2014",
   },
   {
     client: "US-headquartered organisation",
     jurisdiction: "Tanzania",
     sector: "Government and corporate relations",
     role: "In-country representation to government and corporates",
-    dates: null,
-  },
-  {
-    client: "Mineral exploration company",
-    jurisdiction: "Zambia",
-    sector: "Critical minerals and mining",
-    role: "Mandate to secure project funding",
-    dates: null,
+    dates: "2010 - 2014",
   },
   {
     client: null,
     jurisdiction: "United Kingdom",
     sector: "Energy and power",
     role: "Energy project development and fundraising",
-    dates: null,
+    dates: "Sept 2008 - Aug 2009",
   },
 ];
 
@@ -166,8 +165,8 @@ const languages = [
   "Swahili — conversational",
 ];
 
-// Drawn from /about. The degree designation and years are not stated anywhere
-// on the site, so they are left for Sid rather than guessed at.
+// Degrees and years supplied by Sid; the professional history is drawn from
+// /about. Nothing here is inferred.
 const qualifications: { entity: string; detail: string; pending?: string }[] = [
   {
     entity: "University of Sheffield",
@@ -196,7 +195,7 @@ export default function Page() {
             >
               <dt className={labelClass}>{row.label}</dt>
               <dd className="text-[var(--color-ink)]">
-                {row.value ?? <Pending>availability to be confirmed</Pending>}
+                {row.value ?? <Pending>to be confirmed</Pending>}
               </dd>
             </div>
           ))}
