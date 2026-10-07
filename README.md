@@ -1,12 +1,14 @@
-- 👋 Hi, I’m @sidmofya
-- 👀 I’m interested in world building
-- 🌱 I’m writing on memory as architecture 
-- 💞️ I’m looking to collaborate on world building, fiction writing, creative works 
-- 📫 How to reach me on x @sidmofya
-- 😄 Pronouns: he/him
-- ⚡ Fun fact: apparently, I have a funny laugh
+# Sid Mofya
 
-<!---
-sidmofya/sidmofya is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
+I work at the intersection of minerals, energy, compute and capital.
+
+- **Founder, [MOTIF 54](https://motif54.com)**: helping allocators and operators frame long-cycle decisions before capital deployment.
+- **Co-founder, CopperCloud**: compute infrastructure for Africa's AI economy.
+- **Strategy and Finance Lead, Kafwego Resources (Zambia)**: strategy and capital formation for mineral resource development.
+- **Independent adviser and facilitator** across technology, investment and institutional decision-making.
+
+[Partner Room](https://partnerroom.sidmofya.com) · [Speaking](https://sidmofya.com/speaking) · [Capability](https://sidmofya.com/capability) · [Now](https://sidmofya.com/now) · [About](https://sidmofya.com/about)
+
+I also write about memory as architecture and build [KwaZuri](https://sidmofya.com/kwazuri), a living African storyworld spanning fiction, music, technology, ritual and play. I welcome collaboration on worldbuilding, fiction and creative work.
+
+[sidmofya.com](https://sidmofya.com) · [LinkedIn](https://www.linkedin.com/in/sidmofya) · [Email](mailto:sid@sidmofya.com)
