@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import Section from "@/components/Section";
 import LatitudeRule from "@/components/LatitudeRule";
+import ScrollReveal from "@/components/reactbits/ScrollReveal";
+import SplitText from "@/components/reactbits/SplitText";
 import { bodiesOfWork } from "@/lib/bodies-of-work";
 import { featuredTestimonial, venues } from "@/lib/speaking";
 import { siteConfig } from "@/lib/site";
@@ -52,6 +54,7 @@ function doorVisual(name: string) {
     return (
       <div
         aria-hidden="true"
+        data-motif="bars"
         className="h-full min-h-[9rem] border border-[var(--color-rule)] bg-[var(--color-bg-elev)] p-6 flex flex-col justify-end gap-2"
       >
         {[92, 68, 44, 24].map((width) => (
@@ -79,6 +82,7 @@ function doorVisual(name: string) {
       <svg
         viewBox="0 0 120 120"
         aria-hidden="true"
+        data-motif="rings"
         className="h-24 w-24 text-[var(--color-copper)]"
       >
         {[10, 22, 34, 46].map((r, i) => (
@@ -114,20 +118,37 @@ export default function Home() {
       <section className="px-6 md:px-10 pt-20 md:pt-32 pb-16 md:pb-24">
         <div className="mx-auto max-w-[72rem]">
           <div className="max-w-3xl">
-            <p className="eyebrow mb-6">Sid Mofya</p>
-            <h1 className="h-hero text-[var(--color-ink)]">
-              Capital. Infrastructure. Story.
-            </h1>
-            <p className="lede mt-8 max-w-2xl text-[var(--color-ink)]">
+            <p className="eyebrow mb-6" data-reveal>
+              Sid Mofya
+            </p>
+            {/* One word at a time: the three things the site is about. */}
+            <SplitText
+              tag="h1"
+              text="Capital. Infrastructure. Story."
+              className="h-hero text-[var(--color-ink)]"
+              splitType="words"
+              mask
+              delay={170}
+              startDelay={0.1}
+            />
+            <p
+              className="lede mt-8 max-w-2xl text-[var(--color-ink)]"
+              data-reveal
+              data-reveal-delay="0.5"
+            >
               Sid Mofya is a Zambian builder and writer based in Silicon Valley,
               working across capital, infrastructure and story.
             </p>
-            <p className="mt-8">
+            <p className="mt-8" data-reveal data-reveal-delay="0.6">
               <Link href="#working-with-sid" className="link-copper font-medium">
                 Partner Room and executive briefings are booking for Q4 →
               </Link>
             </p>
-            <p className="mt-10 text-[0.8125rem] uppercase tracking-[0.18em] text-[var(--color-ink-muted)]">
+            <p
+              className="mt-10 text-[0.8125rem] uppercase tracking-[0.18em] text-[var(--color-ink-muted)]"
+              data-reveal
+              data-reveal-delay="0.7"
+            >
               Build · Publish · Imagine
             </p>
           </div>
@@ -140,9 +161,15 @@ export default function Home() {
           {bodiesOfWork.map((work, index) => (
             <article
               key={work.name}
-              className="border-t border-[var(--color-rule)] py-12 md:py-16 grid gap-8 md:grid-cols-[1fr_22rem] md:gap-16 md:items-center"
+              className="relative py-12 md:py-16 grid gap-8 md:grid-cols-[1fr_22rem] md:gap-16 md:items-center"
             >
-              <div>
+              {/* The rule above each door, as an element so it can be drawn. */}
+              <span
+                aria-hidden="true"
+                data-draw
+                className="absolute inset-x-0 top-0 h-px bg-[var(--color-rule)]"
+              />
+              <div data-reveal>
                 <p className="eyebrow mb-5">
                   {String(index + 1).padStart(2, "0")} / {work.mode}
                 </p>
@@ -173,7 +200,9 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="order-first md:order-last">{doorVisual(work.name)}</div>
+              <div className="order-first md:order-last" data-reveal>
+                {doorVisual(work.name)}
+              </div>
             </article>
           ))}
         </div>
@@ -186,10 +215,10 @@ export default function Home() {
         className="scroll-mt-20 !py-14 md:!py-20"
       >
         <div className="grid gap-10 md:grid-cols-[18rem_1fr] md:gap-16">
-          <div>
+          <div data-reveal>
             <p className="eyebrow">Working with Sid</p>
           </div>
-          <div>
+          <div data-reveal-children>
             {liveOffers.map((offer) => (
               <div
                 key={offer.name}
@@ -225,11 +254,14 @@ export default function Home() {
       {/* Rooms held: the proof, lifted from /speaking so both read one source. */}
       <Section divider>
         <div className="grid gap-10 md:grid-cols-[18rem_1fr] md:gap-16">
-          <div>
+          <div data-reveal>
             <p className="eyebrow mb-5">Rooms held</p>
           </div>
           <div>
-            <div className="text-[0.8125rem] tracking-wider text-[var(--color-ink-muted)]">
+            <div
+              className="text-[0.8125rem] tracking-wider text-[var(--color-ink-muted)]"
+              data-reveal
+            >
               {venues.map((venue, i) => (
                 <span key={venue}>
                   {i > 0 && (
@@ -242,10 +274,14 @@ export default function Home() {
               ))}
             </div>
 
-            <figure className="mt-8 border border-[var(--color-rule)] bg-[var(--color-bg-elev)] p-7 md:p-8">
-              <blockquote className="text-[var(--color-ink)]">
+            <figure
+              className="mt-8 border border-[var(--color-rule)] bg-[var(--color-bg-elev)] p-7 md:p-8"
+              data-reveal
+            >
+              {/* The quote comes into focus at reading pace as it is scrolled. */}
+              <ScrollReveal as="blockquote" className="text-[var(--color-ink)]">
                 {featuredTestimonial.quote}
-              </blockquote>
+              </ScrollReveal>
               <figcaption className="mt-5 border-t border-[var(--color-rule)] pt-4 text-[0.9375rem] text-[var(--color-ink-muted)]">
                 <span className="text-[var(--color-ink)]">{featuredTestimonial.name}</span>,{" "}
                 {featuredTestimonial.title}
@@ -259,16 +295,18 @@ export default function Home() {
         <div className="grid gap-10 md:grid-cols-[20rem_1fr] md:gap-16">
           <div>
             <h2 className="eyebrow mb-5">About</h2>
-            <Image
-              src="/sid-mofya.jpg"
-              alt="Sid Mofya"
-              width={640}
-              height={800}
-              sizes="(min-width: 768px) 20rem, 100vw"
-              className="w-full max-w-xs aspect-[4/5] object-cover object-top"
-            />
+            <div data-unveil className="max-w-xs">
+              <Image
+                src="/sid-mofya.jpg"
+                alt="Sid Mofya"
+                width={640}
+                height={800}
+                sizes="(min-width: 768px) 20rem, 100vw"
+                className="w-full aspect-[4/5] object-cover object-top"
+              />
+            </div>
           </div>
-          <div className="prose-narrow text-[var(--color-ink)]">
+          <div className="prose-narrow text-[var(--color-ink)]" data-reveal>
             <p>
               Sid Mofya is a Zambian builder, writer and former venture executive
               based in Silicon Valley. He works across capital, infrastructure and

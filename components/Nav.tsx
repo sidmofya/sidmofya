@@ -112,10 +112,12 @@ export default function Nav() {
           </svg>
         </button>
       </nav>
+      <span aria-hidden="true" className="scroll-progress" />
 
       {open && (
         <div
           id="mobile-nav"
+          data-lenis-prevent
           className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-[var(--color-bg)] border-t border-[var(--color-rule)] px-6 py-8 overflow-y-auto"
         >
           <div className="flex flex-col">

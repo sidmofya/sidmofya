@@ -9,6 +9,8 @@ type CodexPlateProps = {
   width: number;
   height: number;
   priority?: boolean;
+  /** Wipe the plate into view on scroll. Leave off for the first plate on a page. */
+  unveil?: boolean;
 };
 
 /**
@@ -22,6 +24,7 @@ export default function CodexPlate({
   width,
   height,
   priority = false,
+  unveil = false,
 }: CodexPlateProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
@@ -40,6 +43,7 @@ export default function CodexPlate({
         type="button"
         onClick={() => setOpen(true)}
         className="codex-plate"
+        {...(unveil ? { "data-unveil": "" } : {})}
         aria-label={`Enlarge: ${alt}`}
       >
         <Image
@@ -60,6 +64,7 @@ export default function CodexPlate({
           if (event.target === dialogRef.current) setOpen(false);
         }}
         className="codex-lightbox"
+        data-lenis-prevent
       >
         <div className="flex h-full w-full flex-col">
           <div className="flex justify-end p-4">

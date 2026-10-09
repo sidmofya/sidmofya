@@ -4,7 +4,7 @@
  */
 export default function LatitudeRule({ className = "" }: { className?: string }) {
   return (
-    <div className={`latitude ${className}`} aria-hidden="true">
+    <div className={`latitude ${className}`} aria-hidden="true" data-draw-var="">
       <span>23° S</span>
     </div>
   );

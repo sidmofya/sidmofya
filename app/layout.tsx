@@ -32,7 +32,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
+    // The motion script in app/(main)/layout.tsx sets data-motion on <html>
+    // before hydration, so React is told not to flag that one attribute.
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${inter.variable}`}
+      suppressHydrationWarning
+    >
       <body>{children}</body>
     </html>
   );

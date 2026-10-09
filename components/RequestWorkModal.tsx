@@ -42,6 +42,7 @@ export default function RequestWorkModal({
   return (
     <dialog
       ref={dialogRef}
+      data-lenis-prevent
       onClose={onClose}
       onClick={(event) => {
         // Clicking the backdrop (the dialog element itself) dismisses.

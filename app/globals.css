@@ -303,3 +303,105 @@ button.codex-plate {
 .codex-lightbox::backdrop {
   background: color-mix(in oklab, var(--color-ink) 92%, transparent);
 }
+
+/*
+ * Motion. Every hidden-until-animated state below is gated on
+ * html[data-motion], which an inline script sets before first paint only when
+ * the visitor has not asked for reduced motion. Without it (no JavaScript,
+ * reduced motion, or the failsafe firing) the page renders complete and still.
+ * The animations themselves live in components/motion/MotionProvider.tsx.
+ */
+html.lenis {
+  scroll-behavior: auto;
+}
+
+html[data-motion] [data-reveal],
+html[data-motion] [data-reveal-children] > * {
+  opacity: 0;
+}
+
+html[data-motion] [data-split] {
+  visibility: hidden;
+}
+
+/* Room for descenders inside a headline mask. */
+.split-word-mask,
+.split-line-mask {
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
+}
+
+[data-draw] {
+  transform-origin: left center;
+}
+
+html[data-motion] [data-draw] {
+  transform: scaleX(0);
+}
+
+html[data-motion] [data-draw-var] {
+  --draw: 0;
+}
+
+[data-unveil] {
+  overflow: hidden;
+}
+
+html[data-motion] [data-unveil] {
+  clip-path: inset(0 0 100% 0);
+}
+
+html[data-motion] [data-words] .word {
+  opacity: 0.18;
+}
+
+html[data-motion] [data-motif="bars"] > span {
+  transform: scaleX(0);
+}
+
+[data-motif="bars"] > span {
+  transform-origin: left center;
+}
+
+html[data-motion] [data-motif="rings"] circle {
+  opacity: 0;
+}
+
+/* Reading progress: a copper hairline along the bottom edge of the header. */
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 1px;
+  background: var(--color-copper);
+  transform: scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+/* The three doors draw downward from the top of the hero. */
+.doors::before,
+.doors::after,
+.doors > span {
+  transform: scaleY(var(--draw, 1));
+  transform-origin: center top;
+}
+
+/* The latitude line travels left to right, passing through its label. */
+.latitude::before,
+.latitude::after {
+  transform-origin: left center;
+}
+
+.latitude::before {
+  transform: scaleX(clamp(0, calc(var(--draw, 1) * 5), 1));
+}
+
+.latitude > span {
+  opacity: clamp(0, calc((var(--draw, 1) - 0.15) * 8), 1);
+}
+
+.latitude::after {
+  transform: scaleX(clamp(0, calc((var(--draw, 1) - 0.25) * 1.3334), 1));
+}
