@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Section from "@/components/Section";
+import SplitText from "@/components/reactbits/SplitText";
 import { bodiesOfWork } from "@/lib/bodies-of-work";
 import { now } from "@/lib/now";
 
@@ -46,8 +47,20 @@ export default function Page() {
             />
           </div>
           <div>
-            <h1 className="h-hero text-[var(--color-ink)]">Sid Mofya</h1>
-            <div className="prose-narrow mt-8 text-[var(--color-ink)]">
+            <SplitText
+              tag="h1"
+              text="Sid Mofya"
+              className="h-hero text-[var(--color-ink)]"
+              splitType="words"
+              mask
+              delay={150}
+              startDelay={0.1}
+            />
+            <div
+              className="prose-narrow mt-8 text-[var(--color-ink)]"
+              data-reveal
+              data-reveal-delay="0.4"
+            >
               <p>
                 Sid Mofya is a Zambian builder, writer and former venture executive
                 based in Silicon Valley. He works across capital, infrastructure and
@@ -69,11 +82,14 @@ export default function Page() {
       </Section>
 
       <Section divider>
-        <h2 className="eyebrow mb-10">The work</h2>
+        <h2 className="eyebrow mb-10" data-reveal>
+          The work
+        </h2>
         <div>
           {bodiesOfWork.map((work) => (
             <article
               key={work.name}
+              data-reveal
               className="border-t border-[var(--color-rule)] py-9 md:py-12 grid gap-4 md:grid-cols-[10rem_1fr_auto] md:gap-12 md:items-baseline"
             >
               <p className="text-[0.8125rem] uppercase tracking-[0.14em] text-[var(--color-ink-muted)]">
@@ -107,8 +123,10 @@ export default function Page() {
 
       <Section divider>
         <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16">
-          <h2 className="eyebrow">Background</h2>
-          <dl className="max-w-2xl">
+          <h2 className="eyebrow" data-reveal>
+            Background
+          </h2>
+          <dl className="max-w-2xl" data-reveal-children>
             {background.map((entry) => (
               <div
                 key={entry.org}
@@ -126,8 +144,10 @@ export default function Page() {
 
       <Section divider className="!pb-24 md:!pb-32">
         <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16">
-          <h2 className="eyebrow">Now</h2>
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          <h2 className="eyebrow" data-reveal>
+            Now
+          </h2>
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4" data-reveal-children>
             {now.map((group) => (
               <div key={group.heading}>
                 <h3 className="text-[0.8125rem] uppercase tracking-[0.14em] text-[var(--color-ink-muted)]">

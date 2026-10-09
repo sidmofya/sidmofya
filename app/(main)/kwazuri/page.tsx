@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import CodexPlate from "@/components/CodexPlate";
 import KwaZuriSignupForm from "@/components/KwaZuriSignupForm";
+import SplitText from "@/components/reactbits/SplitText";
 
 const description =
   "KwaZuri is a living African storyworld spanning fiction, music, technology, ritual and play.";
@@ -25,13 +26,35 @@ export default function Page() {
       <section className="px-6 md:px-10 pt-16 md:pt-24 pb-10 md:pb-16">
         <div className="mx-auto max-w-[72rem]">
           <div className="max-w-2xl">
-            <p className="eyebrow mb-6">KwaZuri</p>
-            <h1 className="h-hero text-[var(--kz-charcoal)]">A world is forming.</h1>
-            <p className="lede mt-7 text-[var(--kz-ink)]">
+            <p className="eyebrow mb-6" data-reveal>
+              KwaZuri
+            </p>
+            {/* The headline does what it says: letters resolve out of a blur. */}
+            <SplitText
+              tag="h1"
+              text="A world is forming."
+              className="h-hero text-[var(--kz-charcoal)]"
+              splitType="chars"
+              delay={55}
+              startDelay={0.1}
+              duration={1.4}
+              ease="power2.out"
+              from={{ opacity: 0, filter: "blur(14px)" }}
+              to={{ opacity: 1, filter: "blur(0px)" }}
+            />
+            <p
+              className="lede mt-7 text-[var(--kz-ink)]"
+              data-reveal
+              data-reveal-delay="0.9"
+            >
               A living African storyworld spanning fiction, music, technology, ritual
               and play.
             </p>
-            <p className="mt-12 text-[0.8125rem] uppercase tracking-[0.18em] text-[var(--kz-muted)]">
+            <p
+              className="mt-12 text-[0.8125rem] uppercase tracking-[0.18em] text-[var(--kz-muted)]"
+              data-reveal
+              data-reveal-delay="1.1"
+            >
               Enter the Living Codex ↓
             </p>
           </div>
@@ -41,7 +64,7 @@ export default function Page() {
       {/* PLACE */}
       <section className="px-6 md:px-10 pb-20 md:pb-28">
         <div className="mx-auto max-w-[72rem]">
-          <div className="mb-8 flex flex-wrap items-baseline gap-x-8 gap-y-2">
+          <div className="mb-8 flex flex-wrap items-baseline gap-x-8 gap-y-2" data-reveal>
             <p className="eyebrow">Place</p>
             <h2 className="h-card text-[var(--kz-charcoal)]">M&rsquo;vua Basin</h2>
           </div>
@@ -62,8 +85,8 @@ export default function Page() {
       {/* CRAFT */}
       <section className="px-6 md:px-10 pb-20 md:pb-28">
         <div className="mx-auto max-w-[72rem]">
-          <hr className="rule mb-12" />
-          <div className="mb-8 flex flex-wrap items-baseline gap-x-8 gap-y-2">
+          <hr className="rule mb-12" data-draw />
+          <div className="mb-8 flex flex-wrap items-baseline gap-x-8 gap-y-2" data-reveal>
             <p className="eyebrow">Craft</p>
             <h2 className="h-card text-[var(--kz-charcoal)]">Ekundela</h2>
           </div>
@@ -72,6 +95,7 @@ export default function Page() {
             alt="A codex field leaf for the Ekundela, a single-string instrument: anatomy notes on its curved neck, raffia binding, woven lattice, carved bridge and calabash resonator, with a player seated beside them."
             width={1448}
             height={1086}
+            unveil
           />
         </div>
       </section>
@@ -79,8 +103,8 @@ export default function Page() {
       {/* PEOPLE */}
       <section className="px-6 md:px-10 pb-24 md:pb-32">
         <div className="mx-auto max-w-[72rem]">
-          <hr className="rule mb-12" />
-          <div className="mb-8 flex flex-wrap items-baseline gap-x-8 gap-y-2">
+          <hr className="rule mb-12" data-draw />
+          <div className="mb-8 flex flex-wrap items-baseline gap-x-8 gap-y-2" data-reveal>
             <p className="eyebrow">People</p>
             <h2 className="h-card text-[var(--kz-charcoal)]">Repair is remembrance.</h2>
           </div>
@@ -89,6 +113,7 @@ export default function Page() {
             alt="A codex leaf on Ekundela restoration: an elder guides a young apprentice's hands over the instrument, surrounded by studies of the bridge, the hands in dialogue, and the retuning sequence."
             width={1448}
             height={1086}
+            unveil
           />
         </div>
       </section>
@@ -97,8 +122,10 @@ export default function Page() {
       <section className="px-6 md:px-10 pt-8 pb-28 md:pt-20 md:pb-40">
         <div className="mx-auto max-w-[72rem]">
           <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16">
-            <p className="eyebrow">The gates aren&rsquo;t open yet</p>
-            <div>
+            <p className="eyebrow" data-reveal>
+              The gates aren&rsquo;t open yet
+            </p>
+            <div data-reveal>
               <h2 className="h-section text-[var(--kz-charcoal)]">
                 Be there when they are.
               </h2>

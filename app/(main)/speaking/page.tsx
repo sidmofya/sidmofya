@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Section from "@/components/Section";
 import CTAButton from "@/components/CTAButton";
 import SpeakingInquiryForm from "@/components/SpeakingInquiryForm";
+import SplitText from "@/components/reactbits/SplitText";
 import { testimonials, venues } from "@/lib/speaking";
 
 const description =
@@ -41,6 +42,17 @@ const stackLayers = [
   { name: "Trust", note: "needs narrative" },
   { name: "Narrative", note: "needs coordination" },
   { name: "Coordination and agency", note: "holds the stack together" },
+];
+
+// The same chain as a sentence. Kept as separate lines so each one can come
+// into focus as its layer is laid down while the reader scrolls.
+const thesisLines = [
+  "AI needs energy.",
+  "Energy needs minerals.",
+  "Minerals need capital.",
+  "Capital needs trust.",
+  "Trust needs narrative.",
+  "And none of it works without coordination and agency.",
 ];
 
 const outcomes = [
@@ -92,21 +104,43 @@ export default function Page() {
     <>
       {/* Hero: copy + headshot, the disqualifier up front, two clear next steps. */}
       <Section className="relative !pt-24 md:!pt-28 !pb-12 md:!pb-16">
-        <div className="doors" aria-hidden="true">
+        <div className="doors" aria-hidden="true" data-draw-var="">
           <span />
         </div>
         <div className="relative grid items-center gap-12 md:grid-cols-[1.05fr_0.95fr] md:gap-16">
           <div className="max-w-xl">
-            <div className="eyebrow mb-5">Speaking &amp; Executive Briefings</div>
-            <h1 className="h-hero text-[var(--color-ink)]">The Sovereign Stack</h1>
-            <p className="lede mt-6 text-[var(--color-ink)]">
+            <div className="eyebrow mb-5" data-reveal>
+              Speaking &amp; Executive Briefings
+            </div>
+            <SplitText
+              tag="h1"
+              text="The Sovereign Stack"
+              className="h-hero text-[var(--color-ink)]"
+              splitType="words"
+              mask
+              delay={150}
+              startDelay={0.1}
+            />
+            <p
+              className="lede mt-6 text-[var(--color-ink)]"
+              data-reveal
+              data-reveal-delay="0.45"
+            >
               How AI, energy, minerals, capital, and culture are rewriting power.
             </p>
-            <p className="mt-6 max-w-md text-[var(--color-ink-muted)]">
+            <p
+              className="mt-6 max-w-md text-[var(--color-ink-muted)]"
+              data-reveal
+              data-reveal-delay="0.5"
+            >
               Not a future-of-Africa talk or an AI keynote. A strategic briefing for rooms where
               decisions about capital, risk, partnerships, and positioning are live.
             </p>
-            <div className="mt-9 flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <div
+              className="mt-9 flex flex-col sm:flex-row gap-3 sm:gap-4"
+              data-reveal
+              data-reveal-delay="0.55"
+            >
               <CTAButton href="#request-a-briefing">Request a briefing</CTAButton>
               <CTAButton href="#see-a-talk" variant="secondary">
                 Watch a talk
@@ -128,7 +162,11 @@ export default function Page() {
 
       {/* Credibility strip: instant authority before the argument. */}
       <Section className="!pt-0 !pb-12 md:!pb-16">
-        <div className="text-[0.8125rem] tracking-wider text-[var(--color-ink-muted)]">
+        <div
+          className="text-[0.8125rem] tracking-wider text-[var(--color-ink-muted)]"
+          data-reveal
+          data-reveal-delay="0.6"
+        >
           <span className="uppercase text-[var(--color-copper)]">Previous rooms</span>
           <span className="mx-3 text-[var(--color-rule)]" aria-hidden="true">
             :
@@ -148,12 +186,18 @@ export default function Page() {
 
       {/* Thesis = the stack. Statement, then the layers, then the supporting line. */}
       <Section divider className="bg-[var(--color-bg-elev)] !py-16 md:!py-24">
-        <div className="grid gap-12 md:grid-cols-[1fr_minmax(0,26rem)] md:gap-16 md:items-start">
+        <div
+          data-stack
+          className="grid gap-12 md:grid-cols-[1fr_minmax(0,26rem)] md:gap-16 md:items-start"
+        >
           <div className="max-w-xl">
             <div className="eyebrow mb-4">The thesis</div>
             <p className="h-section text-[var(--color-ink)]">
-              AI needs energy. Energy needs minerals. Minerals need capital. Capital needs trust.
-              Trust needs narrative. And none of it works without coordination and agency.
+              {thesisLines.map((line) => (
+                <span key={line} data-stack-line>
+                  {line}{" "}
+                </span>
+              ))}
             </p>
             <p className="mt-6 text-[var(--color-ink-muted)]">
               The Sovereign Stack helps leaders see these forces as one connected system, not
@@ -165,6 +209,7 @@ export default function Page() {
             {stackLayers.map((layer, i) => (
               <li
                 key={layer.name}
+                data-stack-layer
                 className="flex items-baseline gap-4 px-5 py-3.5 border-t border-[var(--color-rule)] first:border-t-0"
               >
                 <span className="text-[0.75rem] tabular-nums text-[var(--color-copper)] w-5 shrink-0">
@@ -182,7 +227,7 @@ export default function Page() {
 
       {/* See a talk: the proof block. Highest-value moment on the page. */}
       <Section id="see-a-talk" divider className="scroll-mt-20 !py-16 md:!py-24">
-        <div className="max-w-2xl mb-10 md:mb-12">
+        <div className="max-w-2xl mb-10 md:mb-12" data-reveal>
           <div className="eyebrow mb-3">See a talk</div>
           <h2 className="h-section text-[var(--color-ink)]">From the stage</h2>
           <p className="mt-5 text-[var(--color-ink-muted)]">
@@ -190,7 +235,7 @@ export default function Page() {
             Symposium.
           </p>
         </div>
-        <figure className="max-w-4xl">
+        <figure className="max-w-4xl" data-reveal>
           <div className="relative aspect-video w-full overflow-hidden border border-[var(--color-rule)] bg-black">
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${ADIS_VIDEO_ID}?rel=0`}
@@ -209,14 +254,14 @@ export default function Page() {
 
       {/* Audience outcomes: forwardable line, then outcomes as cards. */}
       <Section divider className="bg-[var(--color-bg-elev)] !py-16 md:!py-24">
-        <div className="max-w-2xl mb-10 md:mb-12">
+        <div className="max-w-2xl mb-10 md:mb-12" data-reveal>
           <div className="eyebrow mb-3">Audience outcomes</div>
           <p className="h-card text-[var(--color-ink)]">
             Your team leaves with a single working lens for allocation, partnership, and positioning
             decisions.
           </p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2" data-reveal-children>
           {outcomes.map((outcome, i) => (
             <div
               key={outcome}
@@ -234,10 +279,10 @@ export default function Page() {
       {/* Best for: a fast self-qualification scan as chips. */}
       <Section divider className="!py-16 md:!py-24">
         <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16">
-          <div>
+          <div data-reveal>
             <h2 className="h-section text-[var(--color-ink)]">Best for</h2>
           </div>
-          <ul className="flex flex-wrap gap-2.5 self-start">
+          <ul className="flex flex-wrap gap-2.5 self-start" data-reveal>
             {bestFor.map((item) => (
               <li
                 key={item}
@@ -253,7 +298,7 @@ export default function Page() {
       {/* Why Sid: bio + credential panel, then testimonials as cards. */}
       <Section divider className="bg-[var(--color-bg-elev)] !py-16 md:!py-24">
         <div className="grid gap-10 md:grid-cols-[1fr_17rem] md:gap-16">
-          <div>
+          <div data-reveal>
             <h2 className="h-section text-[var(--color-ink)]">Why Sid</h2>
             <div className="prose-narrow mt-6 text-[var(--color-ink)]">
               <p>
@@ -276,7 +321,7 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="md:border-l md:border-[var(--color-rule)] md:pl-8">
+          <div className="md:border-l md:border-[var(--color-rule)] md:pl-8" data-reveal>
             <div className="eyebrow mb-4">Credentials</div>
             <ul className="space-y-3">
               {credentials.map((c) => (
@@ -289,7 +334,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="mt-12 grid gap-4 md:mt-16 md:grid-cols-2">
+        <div className="mt-12 grid gap-4 md:mt-16 md:grid-cols-2" data-reveal-children>
           {testimonials.map((t) => (
             <figure
               key={t.name}
@@ -306,10 +351,10 @@ export default function Page() {
 
       {/* Available formats: cards, with the moderator role surfaced as the differentiator. */}
       <Section divider className="!py-16 md:!py-24">
-        <div className="max-w-2xl mb-10 md:mb-12">
+        <div className="max-w-2xl mb-10 md:mb-12" data-reveal>
           <h2 className="h-section text-[var(--color-ink)]">Available formats</h2>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-reveal-children>
           {formats.map((format) => (
             <div
               key={format}
@@ -319,7 +364,10 @@ export default function Page() {
             </div>
           ))}
         </div>
-        <div className="mt-4 border border-[var(--color-copper)]/50 bg-[var(--color-bg-elev)] p-7 md:p-8">
+        <div
+          className="mt-4 border border-[var(--color-copper)]/50 bg-[var(--color-bg-elev)] p-7 md:p-8"
+          data-reveal
+        >
           <div className="eyebrow mb-2">Differentiator</div>
           <div className="font-display text-xl text-[var(--color-ink)]">
             Strategic moderator and conversation architect
@@ -334,13 +382,13 @@ export default function Page() {
       {/* Boards and ICs: the boardroom line item promoted to a named offer. */}
       <Section divider className="bg-[var(--color-bg-elev)] !py-16 md:!py-24">
         <div className="grid gap-10 md:grid-cols-[18rem_1fr] md:gap-16">
-          <div>
+          <div data-reveal>
             <div className="eyebrow mb-3">The room, not the stage</div>
             <h2 className="h-section text-[var(--color-ink)]">
               Boards and investment committees
             </h2>
           </div>
-          <div className="prose-narrow text-[var(--color-ink)]">
+          <div className="prose-narrow text-[var(--color-ink)]" data-reveal>
             <p>
               Some rooms are not looking for a talk. They have a live question — an
               allocation, a partnership, a strategy that has stopped moving — and the
@@ -354,7 +402,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="mt-12 grid gap-4 md:mt-16 sm:grid-cols-3">
+        <div className="mt-12 grid gap-4 md:mt-16 sm:grid-cols-3" data-reveal-children>
           {boardSteps.map((step) => (
             <div
               key={step.number}
@@ -382,7 +430,7 @@ export default function Page() {
 
       {/* Closing CTA: one contrasting band, the decision made easy. */}
       <Section className="bg-[var(--color-ink)] !py-20 md:!py-28">
-        <div className="max-w-2xl">
+        <div className="max-w-2xl" data-reveal>
           <h2 className="h-section text-[var(--color-bg)]">Bring the real decision.</h2>
           <p className="mt-5 lede text-[color-mix(in_oklab,var(--color-bg)_78%,transparent)]">
             If you are convening a board, investor group, executive team, founder network, or
@@ -401,7 +449,7 @@ export default function Page() {
       {/* Speaking-specific inquiry, coherent with this page's proposition. */}
       <Section id="request-a-briefing" divider className="scroll-mt-20 !py-16 md:!py-24">
         <div className="grid gap-10 md:grid-cols-[18rem_1fr] md:gap-16">
-          <div>
+          <div data-reveal>
             <div className="eyebrow mb-3">Request a briefing</div>
             <h2 className="h-section text-[var(--color-ink)]">Start here.</h2>
             <p className="mt-5 text-[var(--color-ink-muted)]">

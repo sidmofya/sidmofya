@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Section from "@/components/Section";
 import LatitudeRule from "@/components/LatitudeRule";
 import SelectedWork, { type Work } from "@/components/SelectedWork";
+import SplitText from "@/components/reactbits/SplitText";
 import { siteConfig } from "@/lib/site";
 
 const description =
@@ -52,11 +53,23 @@ export default function Page() {
     <>
       <Section className="!pt-20 md:!pt-28 !pb-14 md:!pb-20">
         <div className="max-w-3xl">
-          <p className="eyebrow mb-6">23° South</p>
-          <h1 className="h-hero text-[var(--color-ink)]">
-            A latitude from which to see the world.
-          </h1>
-          <p className="lede mt-8 text-[var(--color-ink)]">
+          <p className="eyebrow mb-6" data-reveal>
+            23° South
+          </p>
+          <SplitText
+            tag="h1"
+            text="A latitude from which to see the world."
+            className="h-hero text-[var(--color-ink)]"
+            splitType="lines"
+            mask
+            delay={140}
+            startDelay={0.1}
+          />
+          <p
+            className="lede mt-8 text-[var(--color-ink)]"
+            data-reveal
+            data-reveal-delay="0.45"
+          >
             Essays, frameworks and field notes on capital, sovereignty, technology,
             culture and the structures shaping what comes next.
           </p>
@@ -65,6 +78,8 @@ export default function Page() {
 
         <nav
           aria-label="On this page"
+          data-reveal
+          data-reveal-delay="0.7"
           className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.8125rem] uppercase tracking-[0.14em]"
         >
           {[
@@ -91,8 +106,10 @@ export default function Page() {
 
       <Section id="premise" divider className="scroll-mt-20">
         <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16">
-          <h2 className="eyebrow">A latitude</h2>
-          <div className="prose-narrow text-[var(--color-ink)]">
+          <h2 className="eyebrow" data-reveal>
+            A latitude
+          </h2>
+          <div className="prose-narrow text-[var(--color-ink)]" data-reveal>
             <p>The world looks different depending on where you stand.</p>
             <p>
               23° South views the world from a specific latitude and examines the
@@ -109,8 +126,10 @@ export default function Page() {
 
       <Section id="sovereign-tea" divider className="scroll-mt-20">
         <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16">
-          <h2 className="eyebrow">The newsletter</h2>
-          <div>
+          <h2 className="eyebrow" data-reveal>
+            The newsletter
+          </h2>
+          <div data-reveal>
             <p className="h-section text-[var(--color-ink)]">Sovereign Tea</p>
             <p className="lede mt-4 text-[var(--color-ink)]">
               Dispatches from the long view.
@@ -135,8 +154,12 @@ export default function Page() {
       </Section>
 
       <Section id="selected-works" divider className="scroll-mt-20 !pb-24 md:!pb-32">
-        <h2 className="eyebrow mb-10">Selected writing &amp; frameworks</h2>
-        <SelectedWork works={works} />
+        <h2 className="eyebrow mb-10" data-reveal>
+          Selected writing &amp; frameworks
+        </h2>
+        <div data-reveal>
+          <SelectedWork works={works} />
+        </div>
       </Section>
     </>
   );

@@ -29,7 +29,7 @@ export default function Page() {
   return (
     <>
       <Section className="!pt-20 md:!pt-28 !pb-8">
-        <div className="max-w-3xl">
+        <div className="max-w-3xl" data-reveal>
           <h1 className="h-hero text-[var(--color-ink)]">Now</h1>
           <p className="lede mt-6 text-[var(--color-ink)]">
             What&rsquo;s live right now. Last update{" "}
@@ -43,6 +43,7 @@ export default function Page() {
           {nowEntries.map((entry) => (
             <article
               key={entry.title}
+              data-reveal
               className="border-t border-[var(--color-rule)] py-9 md:py-11"
             >
               <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
