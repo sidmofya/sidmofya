@@ -22,6 +22,9 @@ export const metadata: Metadata = {
   },
 };
 
+// Built by scripts/generate_capability_statement.py from data/profile.json.
+const capabilityStatementHref = "/downloads/sid-mofya-capability-statement.pdf";
+
 const background = [
   { org: "MOTIF 54", role: "Founder" },
   { org: "Draper Venture Network", role: "Executive Director" },
@@ -77,6 +80,17 @@ export default function Page() {
                 Fellow and trained as a chemical engineer.
               </p>
             </div>
+            <p className="mt-8" data-reveal data-reveal-delay="0.5">
+              <a
+                href={capabilityStatementHref}
+                download
+                className="link-copper font-medium whitespace-nowrap"
+              >
+                Download capability statement
+                <span className="sr-only"> (PDF)</span>{" "}
+                <span aria-hidden="true">↓</span>
+              </a>
+            </p>
           </div>
         </div>
       </Section>

@@ -11,7 +11,6 @@ type NavItem = { label: string; href: string; external?: boolean };
 const navItems: NavItem[] = [
   { label: "Partner Room", href: siteConfig.partnerRoomUrl, external: true },
   { label: "Speaking", href: "/speaking" },
-  { label: "Capability", href: "/capability" },
   { label: "Now", href: "/now" },
   { label: "About", href: "/about" },
   { label: "MOTIF 54", href: siteConfig.motif54Url, external: true },

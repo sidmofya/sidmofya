@@ -18,6 +18,8 @@ const nextConfig: NextConfig = {
       { source: "/sovereigngeometry", destination: "/23-south", permanent: true },
       { source: "/reinvention", destination: "/contact", permanent: true },
       { source: "/ai-music-rights", destination: "/contact", permanent: true },
+      // The capability statement is now a PDF, downloadable from /about.
+      { source: "/capability", destination: "/about", permanent: true },
     ];
   },
 };

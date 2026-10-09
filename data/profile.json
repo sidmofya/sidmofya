@@ -1,5 +1,5 @@
 {
-  "_comment": "Single source of truth for /capability and the generated CV. The page imports it; scripts/generate_cv.py reads it. Edit here, not in either consumer, so the two cannot drift. Employment entries carrying `capabilitySummary` also render on /capability; the rest appear only on the CV.",
+  "_comment": "Single source of truth for the capability statement PDF (scripts/generate_capability_statement.py, published to public/downloads/ and linked from /about) and the generated CV (scripts/generate_cv.py). Edit here, not in either generator, then rerun `npm run build:capability` and `npm run build:cv` so the two cannot drift. Employment entries carrying `capabilitySummary` also appear in the capability statement; the rest appear only on the CV.",
   "name": "Sid Mofya",
   "location": "San Francisco Bay Area, California, USA",
   "contractingEntity": "CXB Ventures LLC (California, USA)",

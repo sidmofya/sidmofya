@@ -1,10 +1,11 @@
 """Build Sid Mofya's one-page CV.
 
-data/profile.json is the source of truth and is shared with /capability, so the
-page and this document cannot drift.
+data/profile.json is the source of truth and is shared with the capability
+statement (scripts/generate_capability_statement.py), so the two documents
+cannot drift.
 
 The output goes to output/cv/, never to public/. The CV names employers and
-carries fuller detail than the public page; it is sent on request rather than
+carries fuller detail than the public statement; it is sent on request rather than
 published. Do not add a copy step into public/ without a deliberate decision to
 make it public.
 """
@@ -162,7 +163,7 @@ def build(profile: dict) -> Path:
     pdf.drawString(
         MARGIN,
         MARGIN - 4,
-        "Full assignment record, sectors and jurisdictions: sidmofya.com/capability",
+        "Full assignment record, sectors and jurisdictions: capability statement at sidmofya.com/about",
     )
 
     # The CV is deliberately one page. Adding entries to data/profile.json will
