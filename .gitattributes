@@ -1,3 +1,2 @@
-# Preserve the generated Partner Room PDFs byte-for-byte across platforms.
-output/pdf/how-venture-rooms-decide.pdf binary
-public/downloads/how-venture-rooms-decide.pdf binary
+# Preserve generated PDFs byte-for-byte across platforms.
+*.pdf binary
