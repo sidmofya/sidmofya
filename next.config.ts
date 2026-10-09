@@ -6,7 +6,19 @@ const testDistDir = process.env.NEXT_TEST_DIST_DIR;
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   outputFileTracingRoot: path.resolve(process.cwd()),
-  ...(testDistDir ? { distDir: testDistDir } : {}),
+  ...(testDistDir
+    ? {
+        distDir: testDistDir,
+        // The test suite builds repeatedly into throwaway dist directories. webpack's
+        // persistent filesystem cache can poison one of them: a corrupt cache pack makes
+        // every later build fail while hashing, until the directory is deleted by hand.
+        // These builds are disposable, so they never keep a cache to go stale.
+        webpack: (config: { cache?: unknown }) => {
+          config.cache = false;
+          return config;
+        },
+      }
+    : {}),
   async redirects() {
     // The old services architecture. Kept as permanent redirects rather than
     // deletions, since these URLs may be indexed or externally linked.
