@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Swap this single field when a better ADIS cut is ready (currently a placeholder Short shown 16:9).
+// One-minute portrait ADIS Luminaire clip; keep the framing and copy aligned with any replacement.
 const ADIS_VIDEO_ID = "uUJo_7UiFzA";
 
 // Headshot lives in public/. Delivered separately; reference is stable.
@@ -143,7 +143,7 @@ export default function Page() {
             >
               <CTAButton href="#request-a-briefing">Request a briefing</CTAButton>
               <CTAButton href="#see-a-talk" variant="secondary">
-                Watch a talk
+                Watch a short clip
               </CTAButton>
             </div>
           </div>
@@ -225,21 +225,21 @@ export default function Page() {
         </div>
       </Section>
 
-      {/* See a talk: the proof block. Highest-value moment on the page. */}
+      {/* Short video: retain the existing anchor for inbound links. */}
       <Section id="see-a-talk" divider className="scroll-mt-20 !py-16 md:!py-24">
         <div className="max-w-2xl mb-10 md:mb-12" data-reveal>
-          <div className="eyebrow mb-3">See a talk</div>
-          <h2 className="h-section text-[var(--color-ink)]">From the stage</h2>
+          <div className="eyebrow mb-3">Short clip</div>
+          <h2 className="h-section text-[var(--color-ink)]">ADIS Luminaire video</h2>
           <p className="mt-5 text-[var(--color-ink-muted)]">
-            A strategic briefing for an investor audience at the African Diaspora Investment
-            Symposium.
+            A one-minute video marking Sid&apos;s recognition as a Diaspora Luminaire Award
+            recipient at the African Diaspora Investment Symposium 2026.
           </p>
         </div>
-        <figure className="max-w-4xl" data-reveal>
-          <div className="relative aspect-video w-full overflow-hidden border border-[var(--color-rule)] bg-black">
+        <figure className="w-full max-w-xs" data-reveal>
+          <div className="relative aspect-[9/16] w-full overflow-hidden border border-[var(--color-rule)] bg-black">
             <iframe
-              src={`https://www.youtube-nocookie.com/embed/${ADIS_VIDEO_ID}?rel=0`}
-              title="Sid Mofya speaking at the African Diaspora Investment Symposium"
+              src={`https://www.youtube-nocookie.com/embed/${ADIS_VIDEO_ID}?rel=0&playsinline=1`}
+              title="Sid Mofya: ADIS 2026 Diaspora Luminaire video (1-minute clip)"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
               loading="lazy"
@@ -247,7 +247,7 @@ export default function Page() {
             />
           </div>
           <figcaption className="mt-3 text-[0.8125rem] text-[var(--color-ink-muted)]">
-            African Diaspora Investment Symposium
+            African Diaspora Investment Symposium 2026 · 1-minute clip
           </figcaption>
         </figure>
       </Section>
@@ -440,7 +440,7 @@ export default function Page() {
           <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
             <CTAButton href="#request-a-briefing">Request a briefing</CTAButton>
             <CTAButton href="#see-a-talk" variant="secondary">
-              Watch a talk
+              Watch a short clip
             </CTAButton>
           </div>
         </div>
