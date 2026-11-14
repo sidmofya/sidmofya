@@ -1,3 +1,4 @@
+import { mainSiteShareImage } from "@/lib/site";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
     description,
     url: "/about",
     type: "profile",
-    images: ["/sid-mofya.jpg"],
+    images: [mainSiteShareImage],
   },
 };
 

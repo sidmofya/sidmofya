@@ -3,7 +3,7 @@ import Section from "@/components/Section";
 import LatitudeRule from "@/components/LatitudeRule";
 import SelectedWork, { type Work } from "@/components/SelectedWork";
 import SplitText from "@/components/reactbits/SplitText";
-import { siteConfig } from "@/lib/site";
+import { mainSiteShareImage, siteConfig } from "@/lib/site";
 
 const description =
   "23° South is Sid Mofya's publishing home for essays, frameworks and field notes on capital, sovereignty, technology, culture and the structures shaping what comes next.";
@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     description,
     url: "/23-south",
     type: "website",
+    images: [mainSiteShareImage],
   },
 };
 

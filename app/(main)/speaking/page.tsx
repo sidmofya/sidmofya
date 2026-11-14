@@ -1,3 +1,4 @@
+import { mainSiteShareImage } from "@/lib/site";
 import type { Metadata } from "next";
 import Section from "@/components/Section";
 import CTAButton from "@/components/CTAButton";
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     description,
     url: "/speaking",
     type: "website",
-    images: ["/sid-mofya.jpg"],
+    images: [mainSiteShareImage],
   },
 };
 

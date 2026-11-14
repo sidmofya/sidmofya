@@ -207,7 +207,13 @@ Only needed if a Netlify project has to be recreated.
    notifications.
 7. Submit a real test entry through each form on the production domain.
 
-## Known gaps
+## Browser and sharing assets
 
-- The main site has no favicon and no dedicated social-sharing image; shared
-  links use the portrait photo. Partner Room has its own generated image.
+The main site uses `public/sid-mofya-icon.svg` for browser tabs and
+`public/sid-mofya-social.png` for Open Graph and Twitter cards. KwaZuri
+keeps its own artwork. The Partner Room uses its existing generated image
+at `/partner-room/opengraph-image`.
+
+On each deploy preview, inspect the homepage metadata and request the asset
+paths on that preview host. Confirm the main preview advertises the Sid Mofya
+card and icon, and the Partner Room preview advertises its own card.

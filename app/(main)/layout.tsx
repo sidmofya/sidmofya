@@ -1,8 +1,26 @@
+import type { Metadata } from "next";
+import { mainSiteShareImage } from "@/lib/site";
 import Analytics from "@/components/Analytics";
 import Footer from "@/components/Footer";
 import MotionProvider from "@/components/motion/MotionProvider";
 import Nav from "@/components/Nav";
 import PartnerRoomLayout from "@/app/partner-room/layout";
+
+// The dedicated Partner Room deployment also serves pages from this route group.
+export const metadata: Metadata =
+  process.env.SITE_VARIANT === "partner-room"
+    ? {}
+    : {
+        icons: {
+          icon: { url: "/sid-mofya-icon.svg", type: "image/svg+xml", sizes: "any" },
+        },
+        openGraph: {
+          type: "website",
+          images: [mainSiteShareImage],
+        },
+        // Next.js fills the card's title, description and image from Open Graph.
+        twitter: { card: "summary_large_image" },
+      };
 
 /**
  * Runs before first paint. Switches on the hidden-until-animated styles in
