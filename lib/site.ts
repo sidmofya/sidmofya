@@ -13,6 +13,13 @@ export const siteConfig = {
   kwazuriSignupTag: "kwazuri_interest",
 } as const;
 
+export const mainSiteShareImage = {
+  url: "/sid-mofya-social.png",
+  width: 1200,
+  height: 630,
+  alt: "Sid Mofya | Capital, Infrastructure & Story",
+} as const;
+
 export function currentYear() {
   return new Date().getFullYear();
 }

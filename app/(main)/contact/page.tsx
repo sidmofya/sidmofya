@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Section from "@/components/Section";
 import ContactForm from "@/components/ContactForm";
-import { siteConfig } from "@/lib/site";
+import { mainSiteShareImage, siteConfig } from "@/lib/site";
 
 const description =
   "Find the right door: MOTIF 54 for capital and projects, speaking and executive briefings, 23° South for writing and frameworks, or KwaZuri.";
@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     description,
     url: "/contact",
     type: "website",
+    images: [mainSiteShareImage],
   },
 };
 

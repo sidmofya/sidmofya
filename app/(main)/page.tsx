@@ -6,7 +6,7 @@ import ScrollReveal from "@/components/reactbits/ScrollReveal";
 import SplitText from "@/components/reactbits/SplitText";
 import { bodiesOfWork } from "@/lib/bodies-of-work";
 import { featuredTestimonial, venues } from "@/lib/speaking";
-import { siteConfig } from "@/lib/site";
+import { mainSiteShareImage, siteConfig } from "@/lib/site";
 import PartnerRoomPage from "@/app/partner-room/page";
 import { metadata as partnerRoomMetadata } from "@/app/partner-room/layout";
 
@@ -38,7 +38,7 @@ const homeMetadata = {
       "A Zambian builder and writer working across capital, infrastructure and story.",
     url: "/",
     type: "website",
-    images: ["/sid-mofya.jpg"],
+    images: [mainSiteShareImage],
   },
 };
 

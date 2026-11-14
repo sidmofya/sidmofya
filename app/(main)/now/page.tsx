@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Section from "@/components/Section";
 import { nowEntries, nowLastUpdated } from "@/lib/now-entries";
-import { siteConfig } from "@/lib/site";
+import { mainSiteShareImage, siteConfig } from "@/lib/site";
 
 const description =
   "What Sid Mofya is working on right now, across Partner Room, executive briefings, MOTIF 54, CopperCloud, KwaZuri and 23° South.";
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     description,
     url: "/now",
     type: "website",
-    images: ["/sid-mofya.jpg"],
+    images: [mainSiteShareImage],
   },
 };
 
