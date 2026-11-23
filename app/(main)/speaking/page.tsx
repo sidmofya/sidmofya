@@ -25,7 +25,7 @@ const offers = [
   {
     format: "Keynote or executive briefing",
     title: "The Sovereign Stack",
-    question: "Where does value accrue in the next industrial era?",
+    question: "Follow the physical foundations of the AI economy.",
     body: "Follow the physical foundations of AI, from energy and minerals to compute and capital. See where constraints, investment opportunities and geopolitical risks converge.",
     audience: "For investors, capital allocators and industrial leaders.",
   },
@@ -54,12 +54,12 @@ export default function Page() {
           <div className="max-w-2xl">
             <div className="eyebrow mb-5">Speaking &amp; Executive Briefings</div>
             <h1 className="h-hero text-[var(--color-ink)]">
-              See what is changing. Decide what matters.
+              Where does value accrue in the next industrial era?
             </h1>
             <p className="lede mt-6 text-[var(--color-ink)]">
-              AI is reshaping the industrial economy and the work of leadership.
-              I help investors, boards and leadership teams see where value is
-              shifting, what is becoming scarce, and what it means for their decisions.
+              AI, energy, minerals and capital are reshaping the global economy.
+              I help investors, boards and leadership teams see where these forces
+              converge, what is becoming scarce, and what it means for their decisions.
             </p>
             <p className="mt-5 text-sm text-[var(--color-ink-muted)]">
               Keynotes · Executive briefings · Private decision rooms
