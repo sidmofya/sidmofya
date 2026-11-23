@@ -28,21 +28,29 @@ export type NowEntry = {
   note?: string;
 };
 
-export const nowLastUpdated = "September 2026";
+export const nowLastUpdated = "November 2026";
 
 export const nowEntries: NowEntry[] = [
   {
-    title: "Partner Room",
-    status: "Booking rooms for Q4",
-    body: "One founder, five venture investors, one decision room. The founder presents, the investors question, then the founder goes silent and listens to the deliberation that normally happens after they leave. I convene the room and facilitate it.",
-    href: siteConfig.partnerRoomUrl,
-    linkLabel: "Partner Room",
+    title: "What AI Is Made Of",
+    status: "Open research",
+    body: "An interactive exploration of the physical infrastructure behind AI, starting with a model of a one-gigawatt data centre. Take it apart, follow the copper, and examine the research and assumptions behind the numbers.",
+    href: "https://ai.sidmofya.com",
+    linkLabel: "Explore the model",
+    external: true,
+  },
+  {
+    title: "CopperCloud",
+    status: "Development and pilots",
+    body: "Developing verifiable compute infrastructure for Africa, starting in Zambia. The work spans software for governing and verifying workloads, and a Growth Campus concept bringing new power generation, modular compute and productive enterprise together. Co-founded with Mabvuto Kaela.",
+    href: "https://coppercloud.ai",
+    linkLabel: "CopperCloud",
     external: true,
   },
   {
     title: "Executive briefings and boardrooms",
-    status: "Booking into Q4 and Q1",
-    body: "The Sovereign Stack briefing, and facilitation for boards and investment committees working a live allocation or partnership question. Most of this work is private rooms rather than stages.",
+    status: "Booking into 2027",
+    body: "The Sovereign Stack briefing on how AI, energy, minerals and capital are rewriting power. I speak to investors and leadership teams, and facilitate private rooms where an allocation, partnership or strategy question is live.",
     href: "/speaking",
     linkLabel: "Speaking",
   },
@@ -55,27 +63,11 @@ export const nowEntries: NowEntry[] = [
     external: true,
   },
   {
-    title: "CopperCloud",
-    status: "Building",
-    body: "Compute infrastructure for Africa's AI economy, built so that the claims a buyer makes about where and how their workload ran can be independently verified. Co-founded with Mabvuto Kaela.",
-    href: "https://coppercloud.ai",
-    linkLabel: "CopperCloud",
-    external: true,
-  },
-  {
     title: "KwaZuri",
     status: "Slow build",
     body: "An African storyworld. Xamaris, a planet where music is a mined resource, and the people who remember what it sounded like before the extraction. Fiction, music and design, moving at the pace the rest of the work allows.",
     href: "/kwazuri",
     linkLabel: "KwaZuri",
     note: "Getting its own home at kwazuri.com",
-  },
-  {
-    title: "23° South",
-    status: "Publishing monthly",
-    body: "Writing on matter, energy, capital, technology and culture, including Sovereign Tea. Seeing the changing world from a different latitude.",
-    href: "/23-south",
-    linkLabel: "23° South",
-    note: "Getting its own home at 23degreessouth.com",
   },
 ];
