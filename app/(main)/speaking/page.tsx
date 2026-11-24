@@ -125,9 +125,12 @@ export default function Page() {
               and cooling to chips and copper. Take it apart and inspect the
               research and assumptions behind the numbers.
             </p>
-            <div className="mt-6">
+            <div className="mt-6 flex flex-wrap gap-3">
               <CTAButton href="https://ai.sidmofya.com" variant="secondary" newTab>
                 Explore the model
+              </CTAButton>
+              <CTAButton href="https://ai.sidmofya.com/copper" variant="secondary" newTab>
+                From Copper to Compute
               </CTAButton>
             </div>
           </div>
