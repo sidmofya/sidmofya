@@ -9,7 +9,7 @@ import PartnerRoomPage from "@/app/partner-room/page";
 import { metadata as partnerRoomMetadata } from "@/app/partner-room/layout";
 
 const description =
-  "Sid Mofya is a Zambian builder and former venture executive working across capital, energy, minerals and technology, with a particular interest in Africa's place in the next industrial economy.";
+  "Sid Mofya is a Zambian builder and strategist based in Silicon Valley, working across capital, energy, minerals and technology, with a particular interest in Africa's place in the next industrial economy.";
 
 const homeMetadata = {
   title: "Sid Mofya | Capital, Infrastructure & Story",
@@ -182,7 +182,7 @@ export default function Home() {
           <div>
             <h2 className="h-section text-[var(--color-ink)]">About</h2>
             <p className="mt-5 text-[var(--color-ink-muted)]">
-              I am a Zambian builder and writer based in Silicon Valley. I trained as
+              I am a Zambian builder and strategist based in Silicon Valley. I trained as
               a chemical engineer and have worked across industrial operations,
               global venture capital and emerging markets.
             </p>
