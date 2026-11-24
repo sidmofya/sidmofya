@@ -83,6 +83,25 @@ after(async () => {
   );
 });
 
+test("main site presents current work without promoting retired offers", async () => {
+  const response = await fetch(mainBaseUrl);
+  const html = visibleMarkup(await response.text());
+  assert.equal(response.status, 200);
+  assert.match(html, /How the next economy gets built/);
+  assert.match(html, /What AI Is Made Of/);
+  assert.match(html, /From Copper to Compute/);
+  assert.match(html, /href="https:\/\/ai\.sidmofya\.com\/copper"/);
+  assert.match(html, /CopperCloud/);
+  assert.match(html, /KwaZuri/);
+  assert.match(html, /id="working-with-sid"/);
+  assert.doesNotMatch(html, /Partner Room|partnerroom\.sidmofya\.com|23° South/);
+  for (const route of ["/about", "/contact", "/now", "/speaking"]) {
+    const page = await fetch(mainBaseUrl + route);
+    assert.equal(page.status, 200);
+    assert.doesNotMatch(visibleMarkup(await page.text()), /Partner Room|partnerroom\.sidmofya\.com|23° South/);
+  }
+});
+
 test("ordinary production redirects the framework route without rendering a form", async () => {
   const response = await fetch(
     `${mainBaseUrl}/decision-architecture-framework?utm_source=shared-link&utm_campaign=framework`,

@@ -6,10 +6,9 @@ import { siteConfig } from "@/lib/site";
 
 type NavItem = { label: string; href: string; external?: boolean };
 
-// Offers first, then the map. 23° South and KwaZuri stay live and reachable
-// from /now and the footer; they no longer compete with the offers up here.
+// The personal site leads with current work and speaking.
 const navItems: NavItem[] = [
-  { label: "Partner Room", href: siteConfig.partnerRoomUrl, external: true },
+  { label: "Work", href: "/#work" },
   { label: "Speaking", href: "/speaking" },
   { label: "Now", href: "/now" },
   { label: "About", href: "/about" },
@@ -19,11 +18,12 @@ const navItems: NavItem[] = [
 const linkBase =
   "uppercase tracking-[0.12em] text-[0.8125rem] text-[var(--color-ink)] hover:text-[var(--color-copper)] transition-colors";
 
-function NavLink({ item, className = "" }: { item: NavItem; className?: string }) {
+function NavLink({ item, className = "", onClick }: { item: NavItem; className?: string; onClick?: () => void }) {
   if (item.external) {
     return (
       <a
         href={item.href}
+        onClick={onClick}
         target="_blank"
         rel="noopener noreferrer"
         className={`${linkBase} ${className}`}
@@ -35,7 +35,7 @@ function NavLink({ item, className = "" }: { item: NavItem; className?: string }
   }
 
   return (
-    <Link href={item.href} className={`${linkBase} ${className}`}>
+    <Link href={item.href} onClick={onClick} className={`${linkBase} ${className}`}>
       {item.label}
     </Link>
   );
@@ -124,6 +124,7 @@ export default function Nav() {
               <NavLink
                 key={item.label}
                 item={item}
+                onClick={() => setOpen(false)}
                 className="py-4 border-b border-[var(--color-rule)] !text-base"
               />
             ))}

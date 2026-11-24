@@ -5,7 +5,7 @@ import { nowEntries, nowLastUpdated } from "@/lib/now-entries";
 import { mainSiteShareImage, siteConfig } from "@/lib/site";
 
 const description =
-  "What Sid Mofya is working on right now, across Partner Room, executive briefings, MOTIF 54, CopperCloud, KwaZuri and 23° South.";
+  "What Sid Mofya is working on right now, across original AI research, CopperCloud, executive briefings, MOTIF 54 and KwaZuri.";
 
 export const metadata: Metadata = {
   title: "Now | Sid Mofya",

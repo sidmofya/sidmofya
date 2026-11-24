@@ -5,6 +5,9 @@
 export const siteConfig = {
   url: "https://sidmofya.com",
   motif54Url: "https://motif54.com",
+  copperCloudUrl: "https://coppercloud.ai",
+  aiResearchUrl: "https://ai.sidmofya.com",
+  copperResearchUrl: "https://ai.sidmofya.com/copper",
   partnerRoomUrl: "https://partnerroom.sidmofya.com",
   linkedinUrl: "https://www.linkedin.com/in/sidmofya",
   sovereignTeaUrl:
