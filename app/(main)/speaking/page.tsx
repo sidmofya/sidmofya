@@ -125,12 +125,33 @@ export default function Page() {
               and cooling to chips and copper. Take it apart and inspect the
               research and assumptions behind the numbers.
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-6">
               <CTAButton href="https://ai.sidmofya.com" variant="secondary" newTab>
                 Explore the model
               </CTAButton>
+            </div>
+          </div>
+        </article>
+        <article className="mt-4 grid border border-[var(--color-rule)] bg-[var(--color-bg)] md:grid-cols-[0.7fr_1.3fr]">
+          <div className="flex min-h-44 flex-col justify-center border-b border-[var(--color-rule)] p-7 md:border-b-0 md:border-r md:p-9">
+            <p className="eyebrow">Anatomy of a supply chain</p>
+            <p className="mt-3 font-display text-6xl leading-none tracking-tight text-[var(--color-copper)] md:text-7xl">
+              Cu
+            </p>
+            <p className="mt-4 text-sm text-[var(--color-ink-muted)]">
+              From the mine to the AI data centre.
+            </p>
+          </div>
+          <div className="p-7 md:p-9">
+            <h3 className="h-card text-[var(--color-ink)]">From Copper to Compute</h3>
+            <p className="mt-4 max-w-lg text-[var(--color-ink-muted)]">
+              Follow copper from the rock it comes from to the machines that
+              power AI. Explore the materials, energy and industrial processes
+              behind the copper in a one-gigawatt AI data centre.
+            </p>
+            <div className="mt-6">
               <CTAButton href="https://ai.sidmofya.com/copper" variant="secondary" newTab>
-                From Copper to Compute
+                Explore the copper journey
               </CTAButton>
             </div>
           </div>
