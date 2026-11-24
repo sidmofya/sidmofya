@@ -3,7 +3,6 @@ import Link from "next/link";
 import Section from "@/components/Section";
 import CTAButton from "@/components/CTAButton";
 import { bodiesOfWork } from "@/lib/bodies-of-work";
-import { featuredTestimonial, venues } from "@/lib/speaking";
 import { mainSiteShareImage, siteConfig } from "@/lib/site";
 import PartnerRoomPage from "@/app/partner-room/page";
 import { metadata as partnerRoomMetadata } from "@/app/partner-room/layout";
@@ -176,30 +175,19 @@ export default function Home() {
         ))}
       </Section>
 
-      {/* 06 / About and independent evidence */}
+      {/* 06 / About */}
       <Section divider className="!py-14 md:!py-20">
-        <div className="grid gap-8 md:grid-cols-2 md:gap-12">
-          <div>
-            <h2 className="h-section text-[var(--color-ink)]">About</h2>
-            <p className="mt-5 text-[var(--color-ink-muted)]">
-              I am a Zambian builder and strategist based in Silicon Valley. I trained as
-              a chemical engineer and have worked across industrial operations,
-              global venture capital and emerging markets.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
-              <Link href="/about" className="link-copper font-medium">More about me</Link>
-              <Link href="/now" className="link-copper font-medium">What I am working on now</Link>
-            </div>
-            <h3 className="eyebrow mt-8 mb-3">Previous rooms</h3>
-            <p className="text-sm leading-relaxed text-[var(--color-ink-muted)]">{venues.join(" · ")}</p>
+        <div className="max-w-2xl">
+          <h2 className="h-section text-[var(--color-ink)]">About</h2>
+          <p className="mt-5 text-[var(--color-ink-muted)]">
+            I am a Zambian builder and strategist based in Silicon Valley. I trained as
+            a chemical engineer and have worked across industrial operations,
+            global venture capital and emerging markets.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
+            <Link href="/about" className="link-copper font-medium">More about me</Link>
+            <Link href="/now" className="link-copper font-medium">What I am working on now</Link>
           </div>
-          <figure className="flex flex-col border border-[var(--color-rule)] bg-[var(--color-bg-elev)] p-7 md:p-9">
-            <blockquote className="text-[var(--color-ink)]">{featuredTestimonial.quote}</blockquote>
-            <figcaption className="mt-auto pt-5 text-sm text-[var(--color-ink-muted)]">
-              <span className="font-medium text-[var(--color-ink)]">{featuredTestimonial.name}</span>
-              {", "}{featuredTestimonial.title}
-            </figcaption>
-          </figure>
         </div>
       </Section>
     </>
