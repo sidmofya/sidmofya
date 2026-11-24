@@ -107,7 +107,7 @@ export default function Page() {
       {/* 03 / Demonstrate the work. Preserve the old inbound video anchor. */}
       <Section divider id="see-a-talk" className="!py-14 md:!py-20 bg-[var(--color-bg-elev)] scroll-mt-20">
         <div className="eyebrow mb-4">Original research</div>
-        <h2 className="h-section text-[var(--color-ink)]">See how I think</h2>
+        <h2 className="h-section text-[var(--color-ink)]">Explore my Work</h2>
         <article className="mt-8 grid border border-[var(--color-rule)] bg-[var(--color-bg)] md:grid-cols-[0.7fr_1.3fr]">
           <div className="flex min-h-44 flex-col justify-center border-b border-[var(--color-rule)] p-7 md:border-b-0 md:border-r md:p-9">
             <p className="eyebrow">Anatomy of an AI data centre</p>
@@ -140,10 +140,10 @@ export default function Page() {
           <div>
             <h2 className="h-section text-[var(--color-ink)]">Why me</h2>
             <p className="mt-5 text-[var(--color-ink-muted)]">
-              Trained as a chemical engineer, I have worked across industrial
-              operations, venture capital and emerging markets. Today I work on
-              capital strategy, energy, minerals and compute infrastructure
-              through MOTIF 54 and CopperCloud.
+              My industrial operating experience as a technologist at Shell, my global
+              venture capital experience at Draper Venture Network and my active
+              infrastructure work with CopperCloud offer a unique vantage point
+              for understanding how our world is changing.
             </p>
             <p className="mt-4 text-[var(--color-ink-muted)]">
               Founder, MOTIF 54. Former Executive Director, Draper Venture
