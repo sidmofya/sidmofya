@@ -1,13 +1,12 @@
-import { mainSiteShareImage } from "@/lib/site";
 import type { Metadata } from "next";
+import { mainSiteShareImage } from "@/lib/site";
 import Section from "@/components/Section";
 import CTAButton from "@/components/CTAButton";
 import SpeakingInquiryForm from "@/components/SpeakingInquiryForm";
-import SplitText from "@/components/reactbits/SplitText";
 import { testimonials, venues } from "@/lib/speaking";
 
 const description =
-  "Sid Mofya briefs boards, investors, founders, and leadership teams on The Sovereign Stack: how AI, energy, minerals, capital, and culture are rewriting power, risk, and opportunity.";
+  "Keynotes, executive briefings and private decision rooms with Sid Mofya on AI, energy, minerals, capital and what becomes valuable as intelligence grows abundant.";
 
 export const metadata: Metadata = {
   title: "Speaking & Executive Briefings | Sid Mofya",
@@ -22,439 +21,176 @@ export const metadata: Metadata = {
   },
 };
 
-// One-minute portrait ADIS Luminaire clip; keep the framing and copy aligned with any replacement.
-const ADIS_VIDEO_ID = "uUJo_7UiFzA";
-
-// Headshot lives in public/. Delivered separately; reference is stable.
-const HEADSHOT_SRC = "/sid-mofya.jpg";
-
-const credentials = [
-  "Founder, MOTIF 54",
-  "Former Executive Director, Draper Venture Network",
-  "Kauffman Fellow",
-];
-
-// Sid's thesis chain, rendered as the literal stack. Reconstructs the sentence top to bottom.
-const stackLayers = [
-  { name: "AI", note: "needs energy" },
-  { name: "Energy", note: "needs minerals" },
-  { name: "Minerals", note: "needs capital" },
-  { name: "Capital", note: "needs trust" },
-  { name: "Trust", note: "needs narrative" },
-  { name: "Narrative", note: "needs coordination" },
-  { name: "Coordination and agency", note: "holds the stack together" },
-];
-
-// The same chain as a sentence. Kept as separate lines so each one can come
-// into focus as its layer is laid down while the reader scrolls.
-const thesisLines = [
-  "AI needs energy.",
-  "Energy needs minerals.",
-  "Minerals need capital.",
-  "Capital needs trust.",
-  "Trust needs narrative.",
-  "And none of it works without coordination and agency.",
-];
-
-const outcomes = [
-  "See why AI is also an energy, minerals, capital, and sovereignty story.",
-  "Understand Africa's role in the next infrastructure and resource cycle.",
-  "Identify where technology, capital, energy, and trust are likely to misalign.",
-  "Use the Sovereign Stack as a practical lens for strategy, allocation, partnership, and positioning decisions.",
-];
-
-const bestFor = [
-  "Boards and executive teams",
-  "Investors and family offices",
-  "Venture networks and corporate development teams",
-  "Energy, mining, and infrastructure leaders",
-  "AI infrastructure and digital infrastructure operators",
-  "Africa-focused capital allocators",
-  "Leadership offsites and private strategic rooms",
-];
-
-const formats = [
-  "Keynote",
-  "Executive briefing",
-  "Boardroom session",
-  "Investor roundtable",
-  "Leadership offsite",
-];
-
-// The boardroom format, broken out as its own offer. Deliberately no price here.
-const boardSteps = [
+const offers = [
   {
-    number: "01",
-    label: "Before",
-    body: "A short discovery with the chair or convenor, plus the papers. I arrive knowing what is actually contested.",
+    format: "Keynote or executive briefing",
+    title: "The Sovereign Stack",
+    question: "Follow the physical foundations of the AI economy.",
+    body: "Follow the physical foundations of AI, from energy and minerals to compute and capital. See where constraints, investment opportunities and geopolitical risks converge.",
+    audience: "For investors, capital allocators and industrial leaders.",
   },
   {
-    number: "02",
-    label: "The room",
-    body: "I hold the session, surface the disagreement underneath the polite version, and push the conversation toward judgment.",
+    format: "Keynote or executive briefing",
+    title: "The Next Scarcity",
+    question: "What becomes valuable when intelligence becomes abundant?",
+    body: "As AI changes the cost of producing and processing information, judgment, trust and coordination matter in new ways. Explore what leaders should cultivate when intelligence is no longer the only scarce resource.",
+    audience: "For boards, founders and leadership teams.",
   },
   {
-    number: "03",
-    label: "After",
-    body: "A written synthesis: what was decided, what remains open, what has to be true for the open items to close.",
+    format: "Private facilitation",
+    title: "The Decision Room",
+    question: "What is the question your leadership team has not resolved?",
+    body: "Bring a live allocation, partnership or strategy question. I design and facilitate the conversation, surface the real disagreement, and leave the room with a written synthesis of decisions and open questions.",
+    audience: "For boards, investment committees and private gatherings.",
   },
 ];
 
 export default function Page() {
   return (
     <>
-      {/* Hero: copy + headshot, the disqualifier up front, two clear next steps. */}
-      <Section className="relative !pt-24 md:!pt-28 !pb-12 md:!pb-16">
-        <div className="doors" aria-hidden="true" data-draw-var="">
-          <span />
-        </div>
-        <div className="relative grid items-center gap-12 md:grid-cols-[1.05fr_0.95fr] md:gap-16">
-          <div className="max-w-xl">
-            <div className="eyebrow mb-5" data-reveal>
-              Speaking &amp; Executive Briefings
+      {/* 01 / The proposition */}
+      <Section className="!pt-24 md:!pt-28 !pb-14 md:!pb-20">
+        <div className="grid items-center gap-10 md:grid-cols-[1.35fr_0.65fr] md:gap-16">
+          <div className="max-w-2xl">
+            <div className="eyebrow mb-5">Speaking &amp; Executive Briefings</div>
+            <h1 className="h-hero text-[var(--color-ink)]">
+              Where does value accrue in the next industrial era?
+            </h1>
+            <p className="lede mt-6 text-[var(--color-ink)]">
+              AI, energy, minerals and capital are reshaping the global economy.
+              I help investors, boards and leadership teams see where these forces
+              converge, what is becoming scarce, and what it means for their decisions.
+            </p>
+            <p className="mt-5 text-sm text-[var(--color-ink-muted)]">
+              Keynotes · Executive briefings · Private decision rooms
+            </p>
+            <div className="mt-8">
+              <CTAButton href="#request-a-briefing">Discuss your next gathering</CTAButton>
             </div>
-            <SplitText
-              tag="h1"
-              text="The Sovereign Stack"
-              className="h-hero text-[var(--color-ink)]"
-              splitType="words"
-              mask
-              delay={150}
-              startDelay={0.1}
+          </div>
+          <figure className="mx-auto w-full max-w-[19rem] md:max-w-none">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/sid-mofya.jpg"
+              alt="Sid Mofya"
+              className="w-full aspect-[4/5] object-cover object-top"
+              fetchPriority="high"
             />
-            <p
-              className="lede mt-6 text-[var(--color-ink)]"
-              data-reveal
-              data-reveal-delay="0.45"
+          </figure>
+        </div>
+      </Section>
+
+      {/* 02 / What to book */}
+      <Section divider id="what-to-book" className="!py-14 md:!py-20 scroll-mt-20">
+        <h2 className="h-section text-[var(--color-ink)]">What to book</h2>
+        <div className="mt-8 grid gap-4 lg:grid-cols-3">
+          {offers.map((offer, index) => (
+            <article
+              key={offer.title}
+              className={`flex flex-col border p-6 md:p-7 ${index === 0 ? "border-[var(--color-copper)]" : "border-[var(--color-rule)]"}`}
             >
-              How AI, energy, minerals, capital, and culture are rewriting power.
+              <p className="eyebrow mb-4">{offer.format}</p>
+              <h3 className="h-card text-[var(--color-ink)]">{offer.title}</h3>
+              <p className="mt-4 font-medium text-[var(--color-ink)]">{offer.question}</p>
+              <p className="mt-3 text-[var(--color-ink-muted)]">{offer.body}</p>
+              <p className="mt-auto pt-6 text-sm text-[var(--color-ink-muted)]">
+                {offer.audience}
+              </p>
+            </article>
+          ))}
+        </div>
+        <div className="mt-7">
+          <CTAButton href="#request-a-briefing">Discuss your next gathering</CTAButton>
+        </div>
+      </Section>
+
+      {/* 03 / Demonstrate the work. Preserve the old inbound video anchor. */}
+      <Section divider id="see-a-talk" className="!py-14 md:!py-20 bg-[var(--color-bg-elev)] scroll-mt-20">
+        <div className="eyebrow mb-4">Original research</div>
+        <h2 className="h-section text-[var(--color-ink)]">Explore my Work</h2>
+        <article className="mt-8 grid border border-[var(--color-rule)] bg-[var(--color-bg)] md:grid-cols-[0.7fr_1.3fr]">
+          <div className="flex min-h-44 flex-col justify-center border-b border-[var(--color-rule)] p-7 md:border-b-0 md:border-r md:p-9">
+            <p className="eyebrow">Anatomy of an AI data centre</p>
+            <p className="mt-3 font-display text-6xl leading-none tracking-tight text-[var(--color-copper)] md:text-7xl">
+              1 GW
             </p>
-            <p
-              className="mt-6 max-w-md text-[var(--color-ink-muted)]"
-              data-reveal
-              data-reveal-delay="0.5"
-            >
-              Not a future-of-Africa talk or an AI keynote. A strategic briefing for rooms where
-              decisions about capital, risk, partnerships, and positioning are live.
+            <p className="mt-4 text-sm text-[var(--color-ink-muted)]">
+              A reference model, not an operating facility.
             </p>
-            <div
-              className="mt-9 flex flex-col sm:flex-row gap-3 sm:gap-4"
-              data-reveal
-              data-reveal-delay="0.55"
-            >
-              <CTAButton href="#request-a-briefing">Request a briefing</CTAButton>
-              <CTAButton href="#see-a-talk" variant="secondary">
-                Watch a short clip
+          </div>
+          <div className="p-7 md:p-9">
+            <h3 className="h-card text-[var(--color-ink)]">What AI Is Made Of</h3>
+            <p className="mt-4 max-w-lg text-[var(--color-ink-muted)]">
+              An interactive model of a one-gigawatt AI data centre, from power
+              and cooling to chips and copper. Take it apart and inspect the
+              research and assumptions behind the numbers.
+            </p>
+            <div className="mt-6">
+              <CTAButton href="https://ai.sidmofya.com" variant="secondary" newTab>
+                Explore the model
               </CTAButton>
             </div>
           </div>
-
-          <div className="relative mx-auto w-full max-w-sm md:max-w-none">
-            {/* Background recolored to --color-bg so the subject floats on the page. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={HEADSHOT_SRC}
-              alt="Sid Mofya"
-              className="w-full aspect-[4/5] object-cover object-top"
-            />
-          </div>
-        </div>
+        </article>
       </Section>
 
-      {/* Credibility strip: instant authority before the argument. */}
-      <Section className="!pt-0 !pb-12 md:!pb-16">
-        <div
-          className="text-[0.8125rem] tracking-wider text-[var(--color-ink-muted)]"
-          data-reveal
-          data-reveal-delay="0.6"
-        >
-          <span className="uppercase text-[var(--color-copper)]">Previous rooms</span>
-          <span className="mx-3 text-[var(--color-rule)]" aria-hidden="true">
-            :
-          </span>
-          {venues.map((v, i) => (
-            <span key={v}>
-              {i > 0 && (
-                <span className="mx-2 text-[var(--color-rule)]" aria-hidden="true">
-                  |
-                </span>
-              )}
-              {v}
-            </span>
-          ))}
-        </div>
-      </Section>
-
-      {/* Thesis = the stack. Statement, then the layers, then the supporting line. */}
-      <Section divider className="bg-[var(--color-bg-elev)] !py-16 md:!py-24">
-        <div
-          data-stack
-          className="grid gap-12 md:grid-cols-[1fr_minmax(0,26rem)] md:gap-16 md:items-start"
-        >
-          <div className="max-w-xl">
-            <div className="eyebrow mb-4">The thesis</div>
-            <p className="h-section text-[var(--color-ink)]">
-              {thesisLines.map((line) => (
-                <span key={line} data-stack-line>
-                  {line}{" "}
-                </span>
-              ))}
+      {/* 04 / Selected experience and independent voices */}
+      <Section divider className="!py-14 md:!py-20">
+        <div className="grid gap-8 md:grid-cols-[1fr_1fr] md:gap-12">
+          <div>
+            <h2 className="h-section text-[var(--color-ink)]">Why me</h2>
+            <p className="mt-5 text-[var(--color-ink-muted)]">
+              My industrial operating experience as a technologist at Shell, my global
+              venture capital experience at Draper Venture Network and my active
+              infrastructure work with CopperCloud offer a unique vantage point
+              for understanding how our world is changing.
             </p>
-            <p className="mt-6 text-[var(--color-ink-muted)]">
-              The Sovereign Stack helps leaders see these forces as one connected system, not
-              separate trends.
+            <p className="mt-4 text-[var(--color-ink-muted)]">
+              Founder, MOTIF 54. Former Executive Director, Draper Venture
+              Network. Kauffman Fellow.
             </p>
           </div>
-
-          <ol className="border border-[var(--color-rule)] bg-[var(--color-bg)]">
-            {stackLayers.map((layer, i) => (
-              <li
-                key={layer.name}
-                data-stack-layer
-                className="flex items-baseline gap-4 px-5 py-3.5 border-t border-[var(--color-rule)] first:border-t-0"
-              >
-                <span className="text-[0.75rem] tabular-nums text-[var(--color-copper)] w-5 shrink-0">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="font-display text-lg text-[var(--color-ink)]">{layer.name}</span>
-                <span className="ml-auto text-[0.9375rem] text-[var(--color-ink-muted)]">
-                  {layer.note}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </Section>
-
-      {/* Short video: retain the existing anchor for inbound links. */}
-      <Section id="see-a-talk" divider className="scroll-mt-20 !py-16 md:!py-24">
-        <div className="max-w-2xl mb-10 md:mb-12" data-reveal>
-          <div className="eyebrow mb-3">Short clip</div>
-          <h2 className="h-section text-[var(--color-ink)]">ADIS Luminaire video</h2>
-          <p className="mt-5 text-[var(--color-ink-muted)]">
-            A one-minute video marking Sid&apos;s recognition as a Diaspora Luminaire Award
-            recipient at the African Diaspora Investment Symposium 2026.
-          </p>
-        </div>
-        <figure className="w-full max-w-xs" data-reveal>
-          <div className="relative aspect-[9/16] w-full overflow-hidden border border-[var(--color-rule)] bg-black">
-            <iframe
-              src={`https://www.youtube-nocookie.com/embed/${ADIS_VIDEO_ID}?rel=0&playsinline=1`}
-              title="Sid Mofya: ADIS 2026 Diaspora Luminaire video (1-minute clip)"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              loading="lazy"
-              className="absolute inset-0 h-full w-full"
-            />
-          </div>
-          <figcaption className="mt-3 text-[0.8125rem] text-[var(--color-ink-muted)]">
-            African Diaspora Investment Symposium 2026 · 1-minute clip
-          </figcaption>
-        </figure>
-      </Section>
-
-      {/* Audience outcomes: forwardable line, then outcomes as cards. */}
-      <Section divider className="bg-[var(--color-bg-elev)] !py-16 md:!py-24">
-        <div className="max-w-2xl mb-10 md:mb-12" data-reveal>
-          <div className="eyebrow mb-3">Audience outcomes</div>
-          <p className="h-card text-[var(--color-ink)]">
-            Your team leaves with a single working lens for allocation, partnership, and positioning
-            decisions.
-          </p>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2" data-reveal-children>
-          {outcomes.map((outcome, i) => (
-            <div
-              key={outcome}
-              className="flex gap-4 border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 md:p-7"
+          <div className="border-t border-[var(--color-rule)] pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
+            <h3 className="eyebrow mb-4">Previous rooms</h3>
+            <p className="text-[var(--color-ink)] leading-relaxed">
+              {venues.join(" · ")}
+            </p>
+            <a
+              href="https://www.youtube.com/watch?v=uUJo_7UiFzA"
+              className="mt-5 inline-block text-sm underline underline-offset-4 text-[var(--color-ink-muted)]"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <span className="font-display text-xl tabular-nums text-[var(--color-copper)]">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span className="text-[var(--color-ink)]">{outcome}</span>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* Best for: a fast self-qualification scan as chips. */}
-      <Section divider className="!py-16 md:!py-24">
-        <div className="grid gap-8 md:grid-cols-[18rem_1fr] md:gap-16">
-          <div data-reveal>
-            <h2 className="h-section text-[var(--color-ink)]">Best for</h2>
-          </div>
-          <ul className="flex flex-wrap gap-2.5 self-start" data-reveal>
-            {bestFor.map((item) => (
-              <li
-                key={item}
-                className="border border-[var(--color-rule)] px-3.5 py-2 text-[0.9375rem] text-[var(--color-ink)] transition-colors hover:border-[var(--color-copper)] hover:text-[var(--color-copper)]"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Section>
-
-      {/* Why Sid: bio + credential panel, then testimonials as cards. */}
-      <Section divider className="bg-[var(--color-bg-elev)] !py-16 md:!py-24">
-        <div className="grid gap-10 md:grid-cols-[1fr_17rem] md:gap-16">
-          <div data-reveal>
-            <h2 className="h-section text-[var(--color-ink)]">Why Sid</h2>
-            <div className="prose-narrow mt-6 text-[var(--color-ink)]">
-              <p>
-                Sid Mofya is a capital and strategy operator working at the intersection of venture,
-                energy, resources, technology, and emerging markets. His work focuses on capital
-                formation, investment strategy, critical minerals, energy, compute infrastructure,
-                and building bridges between global investors and frontier markets.
-              </p>
-              <p>
-                He has spoken, hosted, and facilitated conversations for investors, founders,
-                policymakers, and technology leaders at events including MIT, the African Diaspora
-                Investment Symposium, Draper Venture Network LP Day, investment forums in Zambia and
-                the DRC, and Mobile World Congress (4YFN).
-              </p>
-              <p>
-                His work helps leaders understand how shifts in AI, energy, minerals, capital, and
-                geopolitics interact, and what those shifts mean for investment strategy, risk,
-                opportunity, and long-term positioning.
-              </p>
-            </div>
-          </div>
-
-          <div className="md:border-l md:border-[var(--color-rule)] md:pl-8" data-reveal>
-            <div className="eyebrow mb-4">Credentials</div>
-            <ul className="space-y-3">
-              {credentials.map((c) => (
-                <li key={c} className="flex items-start gap-3 text-[0.9375rem] text-[var(--color-ink)]">
-                  <span className="mt-1 text-[var(--color-copper)]">·</span>
-                  <span>{c}</span>
-                </li>
-              ))}
-            </ul>
+              ADIS 2026 Diaspora Luminaire recognition video
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
           </div>
         </div>
-
-        <div className="mt-12 grid gap-4 md:mt-16 md:grid-cols-2" data-reveal-children>
-          {testimonials.map((t) => (
+        <div className="mt-9 grid gap-4 md:grid-cols-2">
+          {testimonials.slice(0, 2).map((testimonial) => (
             <figure
-              key={t.name}
-              className="flex flex-col border border-[var(--color-rule)] bg-[var(--color-bg)] p-7 md:p-8"
+              key={testimonial.name}
+              className="flex flex-col border border-[var(--color-rule)] bg-[var(--color-bg-elev)] p-6 md:p-7"
             >
-              <blockquote className="text-[var(--color-ink)]">{t.quote}</blockquote>
-              <figcaption className="mt-5 border-t border-[var(--color-rule)] pt-4 text-[0.9375rem] text-[var(--color-ink-muted)]">
-                <span className="text-[var(--color-ink)]">{t.name}</span>, {t.title}
+              <blockquote className="text-[var(--color-ink)]">{testimonial.quote}</blockquote>
+              <figcaption className="mt-auto pt-5 text-sm text-[var(--color-ink-muted)]">
+                <span className="font-medium text-[var(--color-ink)]">{testimonial.name}</span>
+                {", "}{testimonial.title}
               </figcaption>
             </figure>
           ))}
         </div>
       </Section>
 
-      {/* Available formats: cards, with the moderator role surfaced as the differentiator. */}
-      <Section divider className="!py-16 md:!py-24">
-        <div className="max-w-2xl mb-10 md:mb-12" data-reveal>
-          <h2 className="h-section text-[var(--color-ink)]">Available formats</h2>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-reveal-children>
-          {formats.map((format) => (
-            <div
-              key={format}
-              className="border border-[var(--color-rule)] bg-[var(--color-bg-elev)] p-6 text-[var(--color-ink)]"
-            >
-              {format}
-            </div>
-          ))}
-        </div>
-        <div
-          className="mt-4 border border-[var(--color-copper)]/50 bg-[var(--color-bg-elev)] p-7 md:p-8"
-          data-reveal
-        >
-          <div className="eyebrow mb-2">Differentiator</div>
-          <div className="font-display text-xl text-[var(--color-ink)]">
-            Strategic moderator and conversation architect
-          </div>
-          <p className="mt-3 max-w-2xl text-[var(--color-ink-muted)]">
-            Sid can hold a demanding room as moderator, shaping the conversation in real time and
-            making the substance land for the audience.
-          </p>
-        </div>
-      </Section>
-
-      {/* Boards and ICs: the boardroom line item promoted to a named offer. */}
-      <Section divider className="bg-[var(--color-bg-elev)] !py-16 md:!py-24">
-        <div className="grid gap-10 md:grid-cols-[18rem_1fr] md:gap-16">
-          <div data-reveal>
-            <div className="eyebrow mb-3">The room, not the stage</div>
-            <h2 className="h-section text-[var(--color-ink)]">
-              Boards and investment committees
-            </h2>
-          </div>
-          <div className="prose-narrow text-[var(--color-ink)]" data-reveal>
-            <p>
-              Some rooms are not looking for a talk. They have a live question — an
-              allocation, a partnership, a strategy that has stopped moving — and the
-              people in the room cannot lead the conversation and participate in it at
-              the same time.
-            </p>
-            <p>
-              I convene and facilitate that session, and I write up what the room
-              decided and what it left unresolved.
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-12 grid gap-4 md:mt-16 sm:grid-cols-3" data-reveal-children>
-          {boardSteps.map((step) => (
-            <div
-              key={step.number}
-              className="border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 md:p-7"
-            >
-              <div className="flex items-baseline gap-3">
-                <span className="font-display text-xl tabular-nums text-[var(--color-copper)]">
-                  {step.number}
-                </span>
-                <span className="eyebrow">{step.label}</span>
-              </div>
-              <p className="mt-4 text-[var(--color-ink)]">{step.body}</p>
-            </div>
-          ))}
-        </div>
-
-        <p className="mt-10 max-w-2xl text-[var(--color-ink-muted)]">
-          Best for boards, investment committees, family offices and leadership teams
-          with a decision in front of them.
-        </p>
-        <div className="mt-8">
-          <CTAButton href="#request-a-briefing">Request a briefing</CTAButton>
-        </div>
-      </Section>
-
-      {/* Closing CTA: one contrasting band, the decision made easy. */}
-      <Section className="bg-[var(--color-ink)] !py-20 md:!py-28">
-        <div className="max-w-2xl" data-reveal>
-          <h2 className="h-section text-[var(--color-bg)]">Bring the real decision.</h2>
-          <p className="mt-5 lede text-[color-mix(in_oklab,var(--color-bg)_78%,transparent)]">
-            If you are convening a board, investor group, executive team, founder network, or
-            private room around AI infrastructure, energy security, critical minerals, Africa
-            investment, private capital, or geopolitical risk, start here.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
-            <CTAButton href="#request-a-briefing">Request a briefing</CTAButton>
-            <CTAButton href="#see-a-talk" variant="secondary">
-              Watch a short clip
-            </CTAButton>
-          </div>
-        </div>
-      </Section>
-
-      {/* Speaking-specific inquiry, coherent with this page's proposition. */}
-      <Section id="request-a-briefing" divider className="scroll-mt-20 !py-16 md:!py-24">
-        <div className="grid gap-10 md:grid-cols-[18rem_1fr] md:gap-16">
-          <div data-reveal>
-            <div className="eyebrow mb-3">Request a briefing</div>
-            <h2 className="h-section text-[var(--color-ink)]">Start here.</h2>
-            <p className="mt-5 text-[var(--color-ink-muted)]">
-              Tell me about the room and what is live in it.
+      {/* 05 / One inquiry, with explicit offer selection */}
+      <Section divider id="request-a-briefing" className="!py-14 md:!py-20 scroll-mt-20">
+        <div className="grid gap-8 md:grid-cols-[0.85fr_1.15fr] md:gap-16">
+          <div>
+            <div className="eyebrow mb-4">Inquiries</div>
+            <h2 className="h-section text-[var(--color-ink)]">Bring the real question.</h2>
+            <p className="mt-5 max-w-sm text-[var(--color-ink-muted)]">
+              Tell me who will be in the room, what is at stake, and what you
+              want the conversation to accomplish.
             </p>
           </div>
           <SpeakingInquiryForm />

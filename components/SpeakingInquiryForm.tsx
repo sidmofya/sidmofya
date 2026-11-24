@@ -36,62 +36,59 @@ export default function SpeakingInquiryForm() {
       <input type="hidden" name="form-name" value={FORM_NAME} />
       <Honeypot />
 
-      <Field id="sp-name" name="name" label="Name" required />
-      <Field id="sp-email" name="email" label="Email" type="email" required />
+      <div className="grid gap-5 sm:grid-cols-2">
+        <Field id="sp-name" name="name" label="Name" required />
+        <Field id="sp-email" name="email" label="Email" type="email" required />
+      </div>
       <Field id="sp-org" name="organization" label="Organization" required />
-      <Field id="sp-role" name="role" label="Role" optional />
-      <Field id="sp-event" name="event-type" label="Type of room or event" required />
-      <Field id="sp-audience" name="audience" label="Audience" optional />
+
+      <div>
+        <label htmlFor="sp-offer" className={labelBase}>What are you interested in?</label>
+        <select id="sp-offer" name="offer" className={inputBase} defaultValue="" required>
+          <option value="" disabled>Select</option>
+          <option>The Sovereign Stack</option>
+          <option>The Next Scarcity</option>
+          <option>The Decision Room</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+
+      <Field
+        id="sp-event"
+        name="event-type"
+        label="Type of gathering"
+        optional
+      />
       <Field
         id="sp-decision"
         name="decision"
-        label="What decision or question is live?"
+        label="Who will be in the room, and what should the conversation accomplish?"
         rows={4}
+        required
       />
 
-      <div>
-        <label htmlFor="sp-budget-status" className={labelBase}>
-          Has this been budgeted, or are you still scoping it?
-        </label>
-        <select
-          id="sp-budget-status"
-          name="budget-status"
-          className={inputBase}
-          defaultValue=""
-        >
-          <option value="" disabled>
-            Select
-          </option>
-          <option>Budgeted</option>
-          <option>Still scoping</option>
-          <option>Not sure</option>
-        </select>
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label htmlFor="sp-timing" className={labelBase}>Timing</label>
+          <select id="sp-timing" name="timing" className={inputBase} defaultValue="">
+            <option value="">Select (optional)</option>
+            <option>Date confirmed</option>
+            <option>Within 3 months</option>
+            <option>3–6 months out</option>
+            <option>More than 6 months away</option>
+            <option>Exploring</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="sp-budget-status" className={labelBase}>Budget status</label>
+          <select id="sp-budget-status" name="budget-status" className={inputBase} defaultValue="">
+            <option value="">Select (optional)</option>
+            <option>Budgeted</option>
+            <option>Still scoping</option>
+            <option>Not sure</option>
+          </select>
+        </div>
       </div>
-
-      <Field
-        id="sp-prior-facilitator"
-        name="prior-facilitator"
-        label="Have you brought in an outside facilitator or speaker for a room like this before?"
-        optional
-      />
-
-      <div>
-        <label htmlFor="sp-timing" className={labelBase}>
-          Timing
-        </label>
-        <select id="sp-timing" name="timing" className={inputBase} defaultValue="">
-          <option value="" disabled>
-            Select
-          </option>
-          <option>Date confirmed</option>
-          <option>Within 3 months</option>
-          <option>3–6 months out</option>
-          <option>More than 6 months away</option>
-          <option>Exploring</option>
-        </select>
-      </div>
-
-      <Field id="sp-else" name="anything-else" label="Anything else?" rows={3} optional />
 
       {status === "error" && <FormStatus tone="error">Please try again.</FormStatus>}
 
@@ -100,7 +97,7 @@ export default function SpeakingInquiryForm() {
         className="btn btn-primary disabled:opacity-60"
         disabled={status === "submitting"}
       >
-        {status === "submitting" ? "Sending…" : "Request a briefing"}
+        {status === "submitting" ? "Sending…" : "Send inquiry"}
       </button>
     </form>
   );
