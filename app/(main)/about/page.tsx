@@ -5,7 +5,6 @@ import Link from "next/link";
 import Section from "@/components/Section";
 import SplitText from "@/components/reactbits/SplitText";
 import { bodiesOfWork } from "@/lib/bodies-of-work";
-import { now } from "@/lib/now";
 
 const description =
   "Sid Mofya is a Zambian builder, writer and former venture executive based in Silicon Valley. He works across capital, infrastructure and story.";
@@ -71,9 +70,10 @@ export default function Page() {
                 story.
               </p>
               <p>
-                He is the founder of MOTIF 54 and creator of KwaZuri. His work spans
-                African energy, critical minerals, AI infrastructure, venture capital,
-                institutional decision-making and cultural worldbuilding.
+                He is the founder of MOTIF 54, co-founder of CopperCloud and creator
+                of KwaZuri. His work spans African energy, critical minerals, AI
+                infrastructure, venture capital, institutional decision-making and
+                cultural worldbuilding.
               </p>
               <p>
                 Previously, he served as Executive Director of the Draper Venture
@@ -162,21 +162,13 @@ export default function Page() {
           <h2 className="eyebrow" data-reveal>
             Now
           </h2>
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4" data-reveal-children>
-            {now.map((group) => (
-              <div key={group.heading}>
-                <h3 className="text-[0.8125rem] uppercase tracking-[0.14em] text-[var(--color-ink-muted)]">
-                  {group.heading}
-                </h3>
-                <ul className="mt-4 space-y-2">
-                  {group.items.map((item) => (
-                    <li key={item} className="text-[var(--color-ink)]">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          <div>
+            <p className="text-[var(--color-ink-muted)]">
+              A current snapshot of my research, ventures, creative work and speaking.
+            </p>
+            <p className="mt-4">
+              <Link href="/now" className="link-copper font-medium">See what I am working on now</Link>
+            </p>
           </div>
         </div>
       </Section>

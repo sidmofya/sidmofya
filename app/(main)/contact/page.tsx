@@ -5,7 +5,7 @@ import ContactForm from "@/components/ContactForm";
 import { mainSiteShareImage, siteConfig } from "@/lib/site";
 
 const description =
-  "Find the right door: MOTIF 54 for capital and projects, speaking and executive briefings, 23° South for writing and frameworks, or KwaZuri.";
+  "Get in touch about speaking and executive briefings, capital and industrial partnerships, CopperCloud, original research or KwaZuri.";
 
 export const metadata: Metadata = {
   title: "Contact | Sid Mofya",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 const doors = [
   {
-    label: "Capital, projects and Partner Room",
+    label: "Capital and industrial partnerships",
     cta: "MOTIF 54",
     href: siteConfig.motif54Url,
     external: true,
@@ -32,7 +32,7 @@ const doors = [
     cta: "Speaking",
     href: "/speaking",
   },
-  { label: "Writing and frameworks", cta: "23° South", href: "/23-south" },
+  { label: "Energy and compute infrastructure", cta: "CopperCloud", href: siteConfig.copperCloudUrl, external: true },
   { label: "KwaZuri", cta: "KwaZuri", href: "/kwazuri" },
 ];
 

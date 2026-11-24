@@ -6,5 +6,5 @@ export const now: { heading: string; items: string[] }[] = [
   { heading: "Building", items: ["CopperCloud", "Kafwego Resources"] },
   { heading: "Publishing", items: ["Sovereign Geometry", "Sovereign Tea"] },
   { heading: "Imagining", items: ["KwaZuri"] },
-  { heading: "Convening", items: ["Partner Room"] },
+  { heading: "Convening", items: ["Executive briefings and boardrooms"] },
 ];
